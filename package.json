@@ -1,0 +1,22 @@
+{
+  "name": "kidcoin",
+  "version": "1.0.0",
+  "description": "KidCoin is a marketplace platform for kids to purchase items at a cafeteria or any other store.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KidCoin-Final-Project/KidCoin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KidCoin-Final-Project/KidCoin/issues"
+  },
+  "homepage": "https://github.com/KidCoin-Final-Project/KidCoin#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
