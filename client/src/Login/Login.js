@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {auth} from "../utils/firebase";
 // import './App.css';
 
 class Login extends Component {
@@ -12,7 +13,7 @@ class Login extends Component {
 
     this.handlePassChange = this.handlePassChange.bind(this);
     this.handleUserChange = this.handleUserChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.dismissError = this.dismissError.bind(this);
   }
 
@@ -20,18 +21,33 @@ class Login extends Component {
     this.setState({ error: '' });
   }
 
-  handleSubmit(evt) {
+  handleLogin(evt) {
     evt.preventDefault();
 
+    if(this.validateFields(evt)) {
+      return this.setState({ error: this.validateFields(evt) });
+    }
+
+    return auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
+      return this.setState({ error: "Error signing in with password and email!" })
+    });
+
+    // TODO : Redirect to home page after login
+  }
+
+  //TODO : Need to add more validations
+  validateFields(evt) {
+    let currError;
+
     if (!this.state.username) {
-      return this.setState({ error: 'Username is required' });
+      currError = 'Username is required';
     }
 
     if (!this.state.password) {
-      return this.setState({ error: 'Password is required' });
+      currError = currError ? currError + ' and password is required' : 'Password is required';
     }
 
-    return this.setState({ error: '' });
+    return currError;
   }
 
   handleUserChange(evt) {
@@ -49,7 +65,7 @@ class Login extends Component {
   render() {
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleLogin}>
           {
             this.state.error &&
             <h3>
@@ -57,12 +73,12 @@ class Login extends Component {
               {this.state.error}
             </h3>
           }
-          
+
           <input type="text" value={this.state.username} placeholder="Username/Email" onChange={this.handleUserChange} />
 
           <input type="password" value={this.state.password} placeholder="Password" onChange={this.handlePassChange} />
 
-          <input type="submit" value="Log In" data-test="submit" />
+          <input type="submit" value="Log In"/>
         </form>
       </div>
     );
