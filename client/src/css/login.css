@@ -1,0 +1,88 @@
+#body {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+#login-outer {
+    width: 70%;
+    direction: rtl;
+}
+
+#login-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 37vh;
+    flex-direction: column;
+}
+
+.login-input {
+    color: white;
+    border: none;
+    width: fit-content;
+    border-bottom: 2px white solid;
+    background-color: transparent;
+}
+
+#login-submit-button {
+    border-bottom: 2px solid white;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 25vh;
+    border-radius: 10px;
+    border-bottom: 2px solid white;
+    border-radius: 20px;
+    align-self: center;
+}
+
+#signup-outer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    height: 100vh;
+}
+
+#first-time-span {
+    color: #00be92;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+
+.signup-button {
+    border-color: #00be92;
+    background-color: white;
+    margin-bottom: 2vh;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 25vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+/*placeholders*/
+::-webkit-input-placeholder { /* Edge */
+    color: white;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
