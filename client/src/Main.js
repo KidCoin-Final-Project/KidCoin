@@ -6,21 +6,22 @@ import {
 } from "react-router-dom";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+ import TopNavBar from "./Components/top-navbar"
  
 class Main extends Component {
   render() {
     return (
         <HashRouter>
+          <TopNavBar/>
+
+
+            
+            {/* <NavLink to="/Login">Login</NavLink>
+            <NavLink to="/Register">Register</NavLink> */}
             <div>
-            <ul className="header">
-                <li><NavLink to="/Login">Login</NavLink></li>
-                <li><NavLink to="/Register">Register</NavLink></li>
-            </ul>
-            <div className="content">
                 <Route exact path="/" component={Login}/>
                 <Route path="/Login" component={Login}/>
                 <Route path="/Register" component={Register}/>
-            </div>
             </div>
         </HashRouter>
     );
