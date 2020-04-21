@@ -21,7 +21,7 @@ class Register extends Component {
   render() {
     return (
       <div className="Register">
-        <form onSubmit={this.handleRegister}>
+        {/* <form onSubmit={this.handleRegister}>
           {
             this.state.error &&
             <h3>
@@ -40,7 +40,7 @@ class Register extends Component {
 
 
           <input type="submit" value="Log In"/>
-        </form>
+        </form> */}
       </div>
     );
   }

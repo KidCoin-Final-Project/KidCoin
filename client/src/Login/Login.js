@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {auth} from "../utils/firebase";
-// import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../css/login.css';
 
 class Login extends Component {
   constructor() {
@@ -29,6 +30,7 @@ class Login extends Component {
     }
 
     return auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
+      console.log("Error signing in with password and email!");
       return this.setState({ error: "Error signing in with password and email!" })
     });
 
@@ -47,6 +49,7 @@ class Login extends Component {
       currError = currError ? currError + ' and password is required' : 'Password is required';
     }
 
+    console.log(currError);
     return currError;
   }
 
@@ -64,22 +67,22 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <form onSubmit={this.handleLogin}>
-          {
-            this.state.error &&
-            <h3>
-              <button onClick={this.dismissError}>✖</button>
-              {this.state.error}
-            </h3>
-          }
-
-          <input type="text" value={this.state.username} placeholder="Username/Email" onChange={this.handleUserChange} />
-
-          <input type="password" value={this.state.password} placeholder="Password" onChange={this.handlePassChange} />
-
-          <input type="submit" value="Log In"/>
-        </form>
+      <div id="body">
+        <div id="login-outer">
+            <form id="login-form" onSubmit={this.handleLogin}>
+                <input className="login-input" placeholder="אימייל/שם משתמש" type="text" value={this.state.username} onChange={this.handleUserChange}/>
+                <input className="login-input" placeholder="סיסמא" type="password" value={this.state.password} onChange={this.handlePassChange}/>
+                <input className="btn btn-light" id="login-submit-button" type="submit" value="כניסה לחשבון"/>
+            </form>
+        </div>
+        <div id="signup-outer">
+            <span id="first-time-span">
+              פעם ראשונה פה? הרשמ/י
+            </span>
+            <button className="btn btn-light signup-button"><span>ילד/ה</span></button>
+            <button className="btn btn-light signup-button"><span>הורה</span></button>
+            <button className="btn btn-light signup-button"><span>בעל/ת עסק</span></button>
+        </div>
       </div>
     );
   }
