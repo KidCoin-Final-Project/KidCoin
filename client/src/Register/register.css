@@ -1,0 +1,114 @@
+#body-register {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+
+.register-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 37vh;
+    flex-direction: column;
+}
+
+.register-input {
+    color: white;
+    border: none;
+    width: fit-content;
+    border-bottom: 2px white solid;
+    background-color: transparent;
+}
+
+.non-active{
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
+
+.gray-form{
+    border-radius: 6px;
+    background-color: #80808082;
+    border-bottom: 2px gray solid;
+    color: rgba(52, 52, 52, 0.86) !important;
+}
+
+.gray-button {
+    background-color: #80808082;
+    /*color: rgba(52, 52, 52, 0.86) !important;*/
+    color: rgba(255, 255, 255, 0.86) !important;
+    border: none !important;
+}
+
+#register-submit-button {
+    border-bottom: 2px solid white;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 25vh;
+    border-radius: 10px;
+    border-bottom: 2px solid white;
+    border-radius: 20px;
+    align-self: center;
+}
+
+#signup-outer-register-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-content: space-around;
+    /*flex-direction: column;*/
+    width: 100%;
+    background-color: #00be92;
+    /*height: 100vh;*/
+}
+
+.first-time-span-register-page {
+    color: white;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+    direction: rtl;
+}
+
+
+.register-outer {
+    width: 60%;
+    direction: rtl;
+}
+
+.signup-button {
+    border-color: #00be92;
+    background-color: white;
+    margin-bottom: 2vh;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 17vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+/*placeholders*/
+::-webkit-input-placeholder { /* Edge */
+    color: white;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
