@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import "../css/top-navbar.css";
+import "../Top-Navbar/top-navbar.css";
 
 class TopNavBar extends Component {
 
     render() {
         return (
-          <div id="body">
+          <div id="body-top-navbar">
             <div id="top-navbar">
             <div>
                 <a className="fa fa-envelope navbar-fav"></a>
