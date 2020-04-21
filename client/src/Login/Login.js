@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 import {auth} from "../utils/firebase";
 import 'bootstrap/dist/css/bootstrap.css';
-import '../css/login.css';
+import '../Login/login.css';
 
 class Login extends Component {
   constructor() {
@@ -67,7 +68,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div id="body">
+      <div id="body-login">
         <div id="login-outer">
             <form id="login-form" onSubmit={this.handleLogin}>
                 <input className="login-input" placeholder="אימייל/שם משתמש" type="text" value={this.state.username} onChange={this.handleUserChange}/>
@@ -75,13 +76,13 @@ class Login extends Component {
                 <input className="btn btn-light" id="login-submit-button" type="submit" value="כניסה לחשבון"/>
             </form>
         </div>
-        <div id="signup-outer">
-            <span id="first-time-span">
+        <div id="signup-outer-login-page">
+            <span id="first-time-span-login-page">
               פעם ראשונה פה? הרשמ/י
             </span>
-            <button className="btn btn-light signup-button"><span>ילד/ה</span></button>
-            <button className="btn btn-light signup-button"><span>הורה</span></button>
-            <button className="btn btn-light signup-button"><span>בעל/ת עסק</span></button>
+            <button className="btn btn-light signup-login-page-button"><NavLink to="/Register"><span>ילד/ה</span></NavLink></button>
+            <button className="btn btn-light signup-login-page-button"><span>הורה</span></button>
+            <button className="btn btn-light signup-login-page-button"><span>בעל/ת עסק</span></button>
         </div>
       </div>
     );

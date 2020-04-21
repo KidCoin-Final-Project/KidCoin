@@ -1,4 +1,4 @@
-#body {
+#body-login {
     color: white;
     overflow-y: hidden;
     background-color: #00be92;
@@ -47,7 +47,7 @@
     align-self: center;
 }
 
-#signup-outer {
+#signup-outer-login-page {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -56,13 +56,13 @@
     height: 100vh;
 }
 
-#first-time-span {
+#first-time-span-login-page {
     color: #00be92;
     margin-bottom: 3vh;
     margin-top: 2vh;
 }
 
-.signup-button {
+.signup-login-page-button {
     border-color: #00be92;
     background-color: white;
     margin-bottom: 2vh;

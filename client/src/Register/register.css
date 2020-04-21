@@ -1,4 +1,4 @@
-#body {
+#body-register {
     color: white;
     overflow-y: hidden;
     background-color: #00be92;
@@ -10,16 +10,12 @@
     align-items: center;
 }
 
-.hide-element{
-    display: none;
-}
-
 #logo-img {
     height: 10vh;
 }
 
 
-.login-form {
+.register-form {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -27,7 +23,7 @@
     flex-direction: column;
 }
 
-.login-input {
+.register-input {
     color: white;
     border: none;
     width: fit-content;
@@ -56,7 +52,7 @@
     border: none !important;
 }
 
-#login-submit-button {
+#register-submit-button {
     border-bottom: 2px solid white;
     color: #00be92;
     font-weight: bold;
@@ -68,7 +64,7 @@
     align-self: center;
 }
 
-#signup-outer {
+#signup-outer-register-page {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -79,7 +75,7 @@
     /*height: 100vh;*/
 }
 
-.first-time-span {
+.first-time-span-register-page {
     color: white;
     margin-bottom: 3vh;
     margin-top: 2vh;
@@ -87,7 +83,7 @@
 }
 
 
-.login-outer {
+.register-outer {
     width: 60%;
     direction: rtl;
 }
