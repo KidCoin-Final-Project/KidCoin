@@ -1,0 +1,141 @@
+#body {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+#remain-cash-and-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#signup-outer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    height: 100vh;
+}
+
+#last-activity-span {
+    color: #b1beb1;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+
+.option-button {
+    background-color: #00be92;
+    border-color: white;
+    margin-bottom: 2vh;
+    color: white;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 30vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.selected-button {
+    border-color: #00be92;
+    background-color: white;
+    margin-bottom: 2vh;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 30vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+#remain-cash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+#cash {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#amount {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.activity {
+    display: flex;
+    flex-direction: column;
+    border-bottom: grey 2px solid;
+    color: black;
+    width: 80%;
+    margin-bottom: 2vh;
+}
+
+
+.cost {
+    color: #00be92;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+
+.more-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+
+#search-kiosk-outer {
+    background-color: #00be92;
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#near-kiosk-span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#outer-products-list {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: fit-content;
+    justify-content: space-around;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.product-image {
+    height: 15vh;
+}
+
+.product-name {
+    font-weight: bold;
+}
