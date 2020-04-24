@@ -1,0 +1,155 @@
+#body {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+#remain-cash-and-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#signup-outer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    height: 100vh;
+}
+
+#last-activity-span {
+    color: #b1beb1;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+
+.option-button {
+    background-color: #00be92;
+    border-color: white;
+    margin-bottom: 2vh;
+    color: white;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 30vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.selected-button {
+    border-color: #00be92;
+    background-color: white;
+    margin-bottom: 2vh;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 30vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+#remain-cash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+#cash {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#amount {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.activity {
+    display: flex;
+    flex-direction: column;
+    border-bottom: grey 2px solid;
+    color: black;
+    width: 80%;
+    margin-bottom: 2vh;
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cost {
+    color: #00be92;
+    text-decoration: underline;
+    font-size: 1em;
+}
+
+.product-name {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.more-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+#search-kiosk-outer {
+    background-color: #00be92;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#near-kiosk-span {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+#search-outer {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px white solid;
+    align-items: center;
+}
+
+#search-input {
+    color: white;
+    direction: rtl;
+    border: none;
+    width: fit-content;
+    margin: 0 1vh;
+    background-color: transparent;
+}
+
+/*placeholders*/
+::-webkit-input-placeholder { /* Edge */
+    color: white;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
