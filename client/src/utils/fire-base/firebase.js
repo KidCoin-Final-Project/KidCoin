@@ -13,6 +13,6 @@ const firebaseConfig = {
     measurementId: "G-BS6BSCRD25"
   }
 
-firebase.initializeApp(firebaseConfig);
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  export const auth = firebase.auth();
+  export const firestore = firebase.firestore();
