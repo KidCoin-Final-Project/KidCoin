@@ -6,19 +6,20 @@ import {
 } from "react-router-dom";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
- import TopNavBar from "./Components/Top-Navbar/top-navbar"
+import TopNavBar from "./Components/Top-Navbar/top-navbar"
+import KidHome from "./Pages/kid-page/kid-page";
  
 class Main extends Component {
   render() {
     return (
         <HashRouter>
           <TopNavBar/>
-            {/* <NavLink to="/Login">Login</NavLink>
-            <NavLink to="/Register">Register</NavLink> */}
             <div>
                 <Route exact path="/" component={Login}/>
-                <Route path="/Login" component={Login}/>
-                <Route path="/Register" component={Register}/>
+                <Route exact path="/Login" component={Login}/>
+                <Route exact path="/Register" component={Register}/>
+                <Route exact path="/KidPage" component={KidHome}/>
+                
             </div>
         </HashRouter>
     );
