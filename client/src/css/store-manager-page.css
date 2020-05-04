@@ -1,0 +1,104 @@
+#body {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+#remain-cash-and-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 68%;
+}
+
+.option-button {
+    background-color: #00be92;
+    border-color: white;
+    margin-bottom: 2vh;
+    color: white;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 30vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.food-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-style: solid;
+    border-width: 2px;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+    height: 124px;
+    border-color:  #00be92;;
+}
+
+#remain-cash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+#remain-Transactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+.cash {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#amount {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+#Transactions {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+#outer-products-list {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: fit-content;
+    justify-content: space-around;
+}
+
+.product-image {
+    height: 6vh;
+    padding-left: 37px;
+    padding-right: 37px;
+    /*margin-top: 30px;*/
+}
+
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-name {
+    font-size: 1em;
+    font-weight: bold;
+}
