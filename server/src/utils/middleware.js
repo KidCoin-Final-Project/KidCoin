@@ -1,4 +1,4 @@
-const auth = require('../utils/dbConnection').auth
+const auth = require('./firebase-admin').auth
 
 module.exports = {
 
