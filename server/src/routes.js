@@ -6,5 +6,7 @@ router.use(middleware.authenticate)
 
 router.use('/product', require('./api/productAPI'))
 
+router.use('/child', require('./api/childAPI'))
+
 module.exports = router;
 
