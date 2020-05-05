@@ -1,4 +1,4 @@
-const db = require('../utils/dbConnection')
+const db = require('../utils/firebase-admin')
 
 module.exports = {
     getAll: function(){

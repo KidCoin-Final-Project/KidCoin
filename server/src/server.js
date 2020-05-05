@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const routes = require('./routes')
+const cors = require('cors')
 
-var cors = require('cors')
+app.use(bodyParser.json())
 app.use(cors())
 
 app.use('/',routes)
+
 //start server on port: 8080
 var server = app.listen(8080, function () {
 
