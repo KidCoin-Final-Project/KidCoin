@@ -9,10 +9,4 @@ router.get('/:childID', function (req, res) {
     });
 });
 
-router.get('transaction/:childID', function (req, res) {
-    transactionSRV.getChildTransactions(req.params.childID).then(child => {
-        return res.send(child);
-    });
-});
-
 module.exports = router;
