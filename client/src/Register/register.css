@@ -31,6 +31,14 @@
     background-color: transparent;
 }
 
+.register-input-error {
+    color: white;
+    border: none;
+    width: fit-content;
+    border-bottom: 2px red solid;
+    background-color: transparent;
+}
+
 .non-active{
     pointer-events: none;
     cursor: default;
