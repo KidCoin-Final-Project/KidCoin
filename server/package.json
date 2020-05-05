@@ -2,7 +2,7 @@
   "name": "kidcoin",
   "version": "1.0.0",
   "description": "KidCoin is a marketplace platform for kids to purchase items at a cafeteria or any other store.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js"
@@ -21,7 +21,10 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-unless": "^0.5.0",
     "firebase": "^7.14.0",
-    "firebase-admin": "^8.10.0"
+    "firebase-admin": "^8.10.0",
+    "nodemon": "^2.0.3",
+    "unless": "^0.1.1"
   }
 }
