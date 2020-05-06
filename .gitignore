@@ -1,4 +1,5 @@
 /server/node_modules
+/server/package-lock.json
 
 /server/config/firebase-service-account.json    
 
@@ -11,6 +12,7 @@
 
 # production
 /client/build
+
 
 # misc
 .DS_Store
