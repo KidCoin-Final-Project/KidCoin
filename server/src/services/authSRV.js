@@ -1,4 +1,8 @@
 const firebase = require('../utils/firebase-admin');
+const userDAL = require('../dal/userDAL')
+const childDAL = require('../dal/childDAL')
+const parentDAL = require('../dal/childDAL')
+const ownerDAL = require('../dal/childDAL')
 
 module.exports = {
     signup: async function (req, res) {
@@ -14,36 +18,25 @@ module.exports = {
         if (!email || !password) {
             return res.send(500);
         }
-        try{        
+        try {
             const user = await firebase.auth.createUser({
                 email: email,
                 password: password
             });
             console.log(user);
             if (user) {
-                firebase.database.collection('user').doc(user.uid).set({
-                    firstName: firstName,
-                    lastName: lastName,
-                    phoneNumber: phoneNumber,
-                    type: type
-                });
-                if(type == 'child'){
-                    firebase.database.collection(type).doc(user.uid).set({
-                        balance: 0
-                    });
-                } else if(type == 'parent'){
-                    firebase.database.collection(type).doc(user.uid).set({
-                        childrens: []
-                    });
-                } else if(type == 'owner'){
-                    firebase.database.collection(type).doc(user.uid).set({
-                        store: ''
-                    });
+                await userDAL.addUser(firstName, lastName, phoneNumber, type);
+                if (type == 'child') {
+                    await childDAL.addChild(type, user.uid);
+                } else if (type == 'parent') {
+                    await parentDAL.addParent(type, user.uid);
+                } else if (type == 'owner') {
+                    await ownerDAL.addOwner(type, user.uid);
                 }
             }
             return res.send(user);
-        } catch(e){
-            return res.send(e); 
+        } catch (e) {
+            return res.send(e);
         }
     }
 }
