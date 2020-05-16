@@ -10,8 +10,8 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     },
-    addChild: function (type, userId) {
-        return db.collection(type).doc(userId).set({
+    addChild: function (userId) {
+        return db.collection('child').doc(userId).create({
             balance: 0
         });
     }

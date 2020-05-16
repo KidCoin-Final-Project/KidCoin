@@ -2,8 +2,8 @@ const db = require('../utils/firebase-admin').database
 
 module.exports = {
 
-    requestMoneyFromParent: function (firstName, lastName, phoneNumber, type) {
-        return db.collection('user').doc(user.uid).set({
+    addUser: function (uid, firstName, lastName, phoneNumber, type) {
+        return db.collection('user').doc(uid).create({
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,

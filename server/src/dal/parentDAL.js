@@ -1,8 +1,8 @@
 const db = require('../utils/firebase-admin').database
 
 module.exports = {
-    addParent: function (type, userId) {
-        return db.collection(type).doc(userId).set({
+    addParent: function (userId) {
+        return db.collection('parent').doc(userId).set({
             childrens: []
         });
     }
