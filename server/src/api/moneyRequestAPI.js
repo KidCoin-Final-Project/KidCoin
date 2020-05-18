@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const moneyTransferSRV = require('../services/moneyTransferSRV')
+const moneyTransferSRV = require('../services/moneyRequestSRV')
 
 router.post('/childRequest', function (req, res) {
-    moneyTransferSRV.requestMoneyFromParent(req, res);
+    moneyTransferSRV.newRequest(req, res);
 });
 
 module.exports = router;

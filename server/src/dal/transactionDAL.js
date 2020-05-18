@@ -1,22 +1,29 @@
-const db = require('../utils/firebase-admin')
-
+const db = require('../misc/firebase-admin')
+const daysToMsMultiplier = 1000*60*60*24;
 module.exports = {
 
-    getChildTransactions: function (childId) {
+    getChildTransactions: function (childId, msBack) {
+        var now = new Date().getTime();
         return db.database.collection('transaction')
-            .where('child_id', '==', db.database.collection('child').doc(childId))
+            .where('child', '==', db.database.collection('child').doc(childId))
+            .orderBy('date')
+            .startAt(now - msBack)
             .get()
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
     },
 
-    getStoreTransactions: function (storeId) {
+    getStoreTransactions: function (storeId, msBack) {
         return db.database.collection('transaction')
-            .where('store_id', '==', db.database.collection('store').doc(storeId))
+            .where('store', '==', db.database.collection('store').doc(storeId))
+            .orderBy('date')
+            .startAt(now - msBack)
             .get()
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
     }
+
+    newTransaction: function (childId, storeId, itemId, ammount)
 }

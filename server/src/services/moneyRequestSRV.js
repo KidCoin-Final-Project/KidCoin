@@ -1,8 +1,8 @@
 
-const moneyTransferDAL = require('../dal/moneyTransferDAL')
+const moneyTransferDAL = require('../dal/moneyRequestDAL')
 
 module.exports = {
-    requestMoneyFromParent: async function (req, res) {
+    newRequest: async function (req, res) {
         const {
             childId,
             amount

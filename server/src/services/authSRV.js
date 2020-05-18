@@ -1,4 +1,4 @@
-const firebase = require('../utils/firebase-admin');
+const firebase = require('../misc/firebase-admin');
 const userDAL = require('../dal/userDAL')
 const childDAL = require('../dal/childDAL')
 const parentDAL = require('../dal/parentDAL')
