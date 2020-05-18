@@ -47,5 +47,9 @@ module.exports = {
         } catch (e) {
             return res.send(e);
         }
+    },
+    userByToken: function(req, res){
+        var token = req.headers.authtoken;
+        firebase.auth.verifyIdToken(token).then()
     }
 }
