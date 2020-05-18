@@ -7,3 +7,4 @@ var defaultApp = admin.initializeApp({
 
 exports.database = admin.firestore();
 exports.auth = admin.auth();
+exports.serviceAccount = serviceAccount;

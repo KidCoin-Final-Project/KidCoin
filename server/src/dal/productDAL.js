@@ -2,7 +2,7 @@ const db = require('../utils/firebase-admin')
 
 module.exports = {
     getAll: function(){
-        db.database.collection('users').get().then(doc =>{
+        db.database.collection('product').get().then(doc =>{
             return doc;
         })
         .catch(err => {
@@ -10,7 +10,7 @@ module.exports = {
         })
     },
     getByID: function(ID){
-        return db.database.collection('users').doc(ID).get().then(doc =>{
+        return db.database.collection('product').doc(ID).get().then(doc =>{
             return doc;
         })
         .catch(err => {

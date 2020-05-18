@@ -3,6 +3,7 @@ const userDAL = require('../dal/userDAL')
 const childDAL = require('../dal/childDAL')
 const parentDAL = require('../dal/parentDAL')
 const ownerDAL = require('../dal/ownerDAL')
+const utils = require('../utils/utils')
 
 module.exports = {
     signup: async function (req, res) {
@@ -39,7 +40,7 @@ module.exports = {
                 firebase.auth.deleteUser(user.uid)
                 return res.send(e);
             }
-            var token = await firebase.auth.createCustomToken(user.uid).then((token) => {return token;});
+            var token = await utils.getIdToken(user.uid);
             return res.send({
                 'uid': user.uid,
                 'token': token
@@ -50,6 +51,40 @@ module.exports = {
     },
     userByToken: function(req, res){
         var token = req.headers.authtoken;
-        firebase.auth.verifyIdToken(token).then()
+        firebase.auth.verifyIdToken(token).then(async (decodedToken) => {
+            var user;
+            await userDAL.getByUid(decodedToken.uid).then(doc => {
+                user = doc
+            });
+            var userInfo = {
+                'uid' : decodedToken.uid,
+                'type' : user.type,
+                'firstName' : user.firstName,
+                'lastName' : user.lastName,
+                'phoneNumber' : user.phoneNumber
+            };
+            if(user.type == 'child'){
+                var child;
+                await childDAL.getByID(userInfo.uid).then(doc =>{
+                    child = doc;
+                });
+                userInfo.balance = child.balance;
+                userInfo.parent = child.parent;
+            } else if(user.type == 'parent'){
+                var parent;
+                await parentDAL.getByID(userInfo.uid).then(doc =>{
+                    parent = doc;
+                });
+                userInfo.childrens = parent.childrens;
+            } else if(user.type == 'owner'){
+                var owner;
+                await ownerDAL.getByID(userInfo.uid).then(doc =>{
+                    owner = doc;
+                });
+                userInfo.store = owner.store;
+            }
+            res.send(userInfo);
+        })
     }
 }
+

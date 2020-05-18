@@ -25,6 +25,8 @@
     "firebase": "^7.14.0",
     "firebase-admin": "^8.10.0",
     "nodemon": "^2.0.3",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "unless": "^0.1.1"
   }
 }

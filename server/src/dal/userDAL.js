@@ -9,5 +9,8 @@ module.exports = {
             phoneNumber: phoneNumber,
             type: type
         });
+    },
+    getByUid : function (uid) {
+        return db.collection('users').doc(uid).get();
     }
 }
