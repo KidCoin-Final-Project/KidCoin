@@ -1,4 +1,4 @@
-const db = require('../utils/firebase-admin').database
+const db = require('../misc/firebase-admin').database
 
 module.exports = {
 
@@ -9,5 +9,14 @@ module.exports = {
             phoneNumber: phoneNumber,
             type: type
         });
+    },
+    getByUid : function (uid) {
+        return db.collection('user').doc(uid).get().then(function(doc) {
+            if (doc.exists) {
+                return doc.data();
+            } else {
+                console.log("No such document!");
+            }
+        })
     }
 }
