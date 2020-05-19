@@ -1,9 +1,9 @@
-const firebase = require('../utils/firebase-admin');
+const firebase = require('../misc/firebase-admin');
 const userDAL = require('../dal/userDAL')
 const childDAL = require('../dal/childDAL')
 const parentDAL = require('../dal/parentDAL')
 const ownerDAL = require('../dal/ownerDAL')
-const utils = require('../utils/utils')
+const utils = require('../misc/utils')
 
 module.exports = {
     signup: async function (req, res) {
