@@ -11,6 +11,12 @@ module.exports = {
         });
     },
     getByUid : function (uid) {
-        return db.collection('users').doc(uid).get();
+        return db.collection('user').doc(uid).get().then(function(doc) {
+            if (doc.exists) {
+                return doc.data();
+            } else {
+                console.log("No such document!");
+            }
+        })
     }
 }

@@ -40,7 +40,7 @@ module.exports = {
                 firebase.auth.deleteUser(user.uid)
                 return res.send(e);
             }
-            var token = await utils.getIdToken(user.uid);
+            var token = await firebase.auth.createCustomToken(user.uid).then((token) => {return token;});
             return res.send({
                 'uid': user.uid,
                 'token': token
@@ -52,10 +52,7 @@ module.exports = {
     userByToken: function(req, res){
         var token = req.headers.authtoken;
         firebase.auth.verifyIdToken(token).then(async (decodedToken) => {
-            var user;
-            await userDAL.getByUid(decodedToken.uid).then(doc => {
-                user = doc
-            });
+            var user = await userDAL.getByUid(decodedToken.uid);
             var userInfo = {
                 'uid' : decodedToken.uid,
                 'type' : user.type,
@@ -64,27 +61,30 @@ module.exports = {
                 'phoneNumber' : user.phoneNumber
             };
             if(user.type == 'child'){
-                var child;
-                await childDAL.getByID(userInfo.uid).then(doc =>{
-                    child = doc;
-                });
+                var child = await childDAL.getByID(userInfo.uid)
                 userInfo.balance = child.balance;
                 userInfo.parent = child.parent;
             } else if(user.type == 'parent'){
-                var parent;
-                await parentDAL.getByID(userInfo.uid).then(doc =>{
-                    parent = doc;
-                });
+                var parent = await parentDAL.getByID(userInfo.uid);
                 userInfo.childrens = parent.childrens;
             } else if(user.type == 'owner'){
-                var owner;
-                await ownerDAL.getByID(userInfo.uid).then(doc =>{
-                    owner = doc;
-                });
+                var owner = await ownerDAL.getByID(userInfo.uid);
                 userInfo.store = owner.store;
             }
             res.send(userInfo);
         })
+    },
+    deleteAllUsers: function(){
+                firebase.auth.listUsers(1000)
+    .then(function(listUsersResult) {
+      listUsersResult.users.forEach(function(userRecord) {
+        console.log('user', userRecord.toJSON());
+        firebase.auth.deleteUser(userRecord.uid)
+  .then(function() {
+    console.log('Successfully deleted user');
+  })
+      });
+      });
     }
 }
 
