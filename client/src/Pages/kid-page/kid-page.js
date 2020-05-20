@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.css"
 import "../kid-page/kid-page.css"
 
@@ -21,11 +22,20 @@ class KidHome extends Component {
     }
 
     getLastActivitiesDataFromServer() {
+        // const response = await axios.get(
+        //     'http://localhost:8080/child/:' + this.props.location.state.uid,
+        //     { headers: { 'token': this.props.location.state.token } }
+        //   );
+      
+        //   return await response.data;
+
+        // /child/:childID
         return [
                 {activity: {
                     product: {
                         name: 'במבה נוגט',
-                        price: '1'
+                        price: '1',
+                        id: 1
                     },
                     moreDetails: {
                         date: '3.3.20',
@@ -35,7 +45,8 @@ class KidHome extends Component {
                 {activity: {
                     product: {
                         name: 'במבה',
-                        price: '8'
+                        price: '8',
+                        id: 2
                     },
                     moreDetails: {
                         date: '3.4.20',
@@ -51,7 +62,7 @@ class KidHome extends Component {
 
     mapLastActivities(lastActivities){
         return lastActivities.map((activity) =>
-        <div className="activity">
+        <div className="activity" key={activity.activity.product.id} >
             <div className="product">
                 <span className="cost">{activity.activity.product.price}$</span>
                 <span className="product-name">{activity.activity.product.name}</span>
@@ -66,11 +77,11 @@ class KidHome extends Component {
 
     render() {
         return (
-            <div id="body">
-                <div id="remain-cash-and-options">
-                    <div id="remain-cash">
-                        <div id="cash">
-                            <span id="amount">{this.state.remainCash}</span>
+            <div id="body-kid-page">
+                <div id="remain-cash-and-options-kid-page">
+                    <div id="remain-cash-kid-page">
+                        <div id="cash-kid-page">
+                            <span id="amount-kid-page">{this.state.remainCash}</span>
                             <span id="coin">$</span>
                         </div>
                         <span>היתרה שלי</span>
@@ -85,35 +96,7 @@ class KidHome extends Component {
                         פעילות אחרונה
         </span>
                     {this.state.lastActivitiesDOM}
-                    {/* <div className="activity">
-                        <div className="product">
-                            <span className="cost">1$</span>
-                            <span className="product-name">במבה נוגט</span>
-                        </div>
-                        <div className="more-details">
-                            <span>3.3.20</span>
-                            <span>רכישה בקיוסק הוד השרון</span>
-                        </div>
-                    </div>
-                    <div className="activity">
-                        <div className="product">
-                            <span className="cost">1$</span>
-                            <span className="product-name">במבה נוגט</span>
-                        </div>
-                        <div className="more-details">
-                            <span>3.3.20</span>
-                            <span>רכישה בקיוסק הוד השרון</span>
-                        </div>
-                    </div>
-                    <div className="activity">
-                        <div className="product">
-                            <span className="cost">1$</span>
-                            <span className="product-name">במבה נוגט</span>
-                        </div>
-                        <div className="more-details">
-                            <span>3.3.20</span>
-                            <span>רכישה בקיוסק הוד השרון</span>
-                        </div> */}
+                    
                 </div>
             </div>
         );
