@@ -1,4 +1,4 @@
-const db = require('../utils/firebase-admin')
+const db = require('../misc/firebase-admin')
 
 module.exports = {
 
