@@ -87,6 +87,7 @@
 .fuck{
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
 }
 
 
@@ -102,6 +103,9 @@
     margin-left: 1vh;
     width: 16vh;
     border-style: solid;
+    display: flex;
+    flex-direction: row;
+
 }
 
 
