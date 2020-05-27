@@ -9,5 +9,19 @@ module.exports = {
             phoneNumber: phoneNumber,
             type: type
         });
-    }
+    },
+    getByID: function (userId) {
+        return db.collection('user')
+            .doc(userId)
+            .get()
+            .then(doc => {
+                if(doc.exists){
+                    return doc.data()
+                }
+                return undefined;
+            })
+            .catch(err => {
+                throw new Error('something bad happened: ' + err);
+            })
+    },
 }

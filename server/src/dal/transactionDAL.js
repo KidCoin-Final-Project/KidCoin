@@ -24,6 +24,4 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     }
-
-    newTransaction: function (childId, storeId, itemId, ammount)
 }
