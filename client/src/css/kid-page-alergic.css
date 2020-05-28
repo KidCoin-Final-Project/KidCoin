@@ -80,7 +80,7 @@
     display: flex;
     /*align-items: center;*/
     flex-direction: column;
-    /*width: 100%;*/
+    width: 100%;
     background-color: white;
 }
 
@@ -103,9 +103,21 @@
     margin-left: 1vh;
     width: 16vh;
     border-style: solid;
-    display: flex;
     flex-direction: row;
+}
 
+.add-button{
+    background-color: #00be92;
+    border-color: #00be92;
+    margin-bottom: 2vh;
+    color: white;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    border-radius: 20px;
+    align-self: flex-end;
+    /* margin-left: 1vh; */
+    width: 16vh;
+    border-style: solid;
 }
 
 
