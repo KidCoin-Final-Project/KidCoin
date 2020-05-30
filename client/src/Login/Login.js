@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Login/login.css';
-import { auth } from "../utils/fire-base/firebase"
+import Auth from "../utils/fire-base/firebase"
+import { userContext } from "../utils/fire-base/userContext";
 
 
 
@@ -12,7 +13,7 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      error: '',
+      error: ''
     };
 
     this.handlePassChange = this.handlePassChange.bind(this);
@@ -25,19 +26,22 @@ class Login extends Component {
     this.setState({ error: '' });
   }
 
-  handleLogin(evt) {
+  async handleLogin(evt) {
     evt.preventDefault();
 
     if (this.validateFields(evt)) {
       return this.setState({ error: this.validateFields(evt) });
     }
 
-    return auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
+    const res = await Auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
       console.log("אירעה שגיאה במהלך כניסה לחשבון באמצעות מספר פלאפון וסיסמא : " + error);
       return this.setState({ error: "אירעה שגיאה במהלך כניסה לחשבון באמצעות מספר פלאפון וסיסמא : " + error })
     });
 
-    // TODO : Redirect to home page after login
+    if (this.state.error === '') {
+      this.props.history.push("/");
+    }
+
   }
 
   //TODO : Need to add more validations
@@ -82,15 +86,15 @@ class Login extends Component {
           <span id="first-time-span-login-page">
             פעם ראשונה פה? הרשמ/י
             </span>
-          <NavLink to={{ pathname: "Register", state: { isKid: true, isFromLoginPage: true } }}>
+          <NavLink to={{ pathname: "Register", state: { isKid: true, isFromLoginPage: true, isOwner: false } }}>
             <button className="btn btn-light signup-login-page-button">
               <span>ילד/ה</span></button></NavLink>
 
-          <NavLink to={{ pathname: "Register", state: { isKid: false, isFromLoginPage: true } }}>
+          <NavLink to={{ pathname: "Register", state: { isKid: false, isFromLoginPage: true, isOwner: false } }}>
             <button className="btn btn-light signup-login-page-button">
               <span>הורה</span></button></NavLink>
 
-          <NavLink to={{ pathname: "Register", state: { isKid: false, isFromLoginPage: true } }}>
+          <NavLink to={{ pathname: "Register", state: { isKid: false, isFromLoginPage: true, isOwner: true } }}>
             <button className="btn btn-light signup-login-page-button">
               <span>בעל/ת עסק</span></button></NavLink>
         </div>

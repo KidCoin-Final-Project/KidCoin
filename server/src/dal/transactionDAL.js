@@ -1,5 +1,6 @@
 const db = require('../misc/firebase-admin')
 const daysToMsMultiplier = 1000*60*60*24;
+
 module.exports = {
 
     getChildTransactions: function (childId, msBack) {

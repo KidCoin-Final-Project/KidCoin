@@ -11,11 +11,16 @@ router.use('/auth', require('./api/authAPI'))
 
 router.use('/moneyRequest', require('./api/moneyRequestAPI'))
 
+router.use('/store', require('./api/storeAPI'))
+
 router.use('/product', require('./api/productAPI'))
 
 router.use('/child', require('./api/childAPI'))
 
 router.use('/transaction', require('./api/transactionAPI'))
+
+router.use('/parent', require('./api/parentAPI'))
+
 
 module.exports = router;
 

@@ -1,0 +1,218 @@
+#body-near {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+#remain-cash-and-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#signup-outer-near-kiosk {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    height: 100vh;
+}
+
+#near-kiosk-span {
+    color: white;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+
+.selected-button {
+    border-color: #00be92;
+    background-color: white;
+    color: #00be92;
+    font-weight: bold;
+    border-radius: 30px;
+    font-size: 30px;
+}
+
+#remain-cash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+#cash {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#amount {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.activity {
+    display: flex;
+    flex-direction: column;
+    border-bottom: grey 2px solid;
+    color: black;
+    width: 80%;
+    margin-bottom: 2vh;
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cost {
+    color: #00be92;
+    text-decoration: underline;
+    font-size: 1em;
+}
+
+.product-name {
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.more-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+#search-kiosk-outer {
+    background-color: #00be92;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.close-modal-button-separate {
+    position: absolute;
+    left: auto;
+    top: 20px;
+    right: 20px;
+    bottom: auto;
+    display: none;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background-image: url('../../../public/images/x-close.png');
+    background-position: 80% 50%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    cursor: pointer;
+}
+
+.modal-inner {
+    position: static;
+    left: 0%;
+    top: auto;
+    right: 0%;
+    bottom: 0%;
+    overflow: hidden;
+    /*max-width: 400px;*/
+    margin-right: auto;
+    margin-left: auto;
+    padding: 68px 25px 30px;
+    float: none;
+    clear: none;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    border-radius: 3px;
+    background-color: transparent;
+    text-align: center;
+}
+
+#near-kiosk-span {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+#search-outer-near-kiosk {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px white solid;
+    align-items: center;
+}
+
+#search-input-near-kiosk {
+    color: white;
+    direction: rtl;
+    border: none;
+    width: fit-content;
+    margin: 0 1vh;
+    background-color: transparent;
+}
+
+.fa-search {
+    color: white !important;
+}
+
+.option-button {
+    background-color: #00be92;
+    border-color: white;
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    font-size: 30px;
+}
+
+.modal-wrapper {
+    display: none;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    z-index: 9999;
+    max-height: 887px;
+    min-height: 887px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 3px;
+    background-image: -o-linear-gradient(45deg, hsla(0, 0%, 100%, 0.8), #fff);
+    background-image: linear-gradient(45deg, hsla(0, 0%, 100%, 0.8), #fff);
+}
+
+/*placeholders*/
+::-webkit-input-placeholder { /* Edge */
+    color: white;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}

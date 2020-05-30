@@ -1,53 +1,54 @@
-import React, { Component } from "react";
+import React, { Component, useContext, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Register/register.css';
-import { auth } from "../utils/fire-base/firebase";
+import Auth from "../utils/fire-base/firebase";
+import axios from 'axios';
+import {userContext} from "../utils/fire-base/userContext";
 
 
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showParent: false,
-      showKid: false,
-      showFirstTime: true,
-      isValid: false
-    };
+function Register(props) {
+  
 
-    this.handleKidRegister = this.handleKidRegister.bind(this);
-    this.handleParentRegister = this.handleParentRegister.bind(this);
-    //this.tryRegisterToFireBase = this.tryRegisterToFireBase.bind(this);
-  }
+  const [showParent, setShowParent] = useState(false);
+  const [showKid, setShowKid] = useState(false);
+  const [showFirstTime, setShowFirstTime] = useState(true);
+  const [isValid, setIsValid] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
-  componentDidMount() {
-    if (this.props.location.state !== undefined) {
-      const givenState = this.props.location.state;
-      this.setState({
-        showFirstTime: !givenState.isFromLoginPage,
-        showParent: !givenState.isKid,
-        showKid: givenState.isKid
-      })
+
+  useEffect(() =>{
+    if (props.location.state !== undefined) {
+      const givenState = props.location.state;
+
+      setShowFirstTime(!givenState.isFromLoginPage);
+      setShowParent(!givenState.isKid);
+      setShowKid(givenState.isKid);
+      setIsOwner(givenState.isOwner);
     }
+  })
+
+  const HandleKidRegister = (evt) => {
+    setShowParent(false);
+    setShowKid(true);
+    setShowFirstTime(false);
   }
 
-  handleKidRegister(evt) {
-    this.setState({ showParent: false });
-    this.setState({ showKid: true });
-    this.setState({ showFirstTime: false });
+  const HandleParentRegister = (evt) => {
+    setShowParent(true);
+    setShowKid(false);
+    setShowFirstTime(false);
   }
 
-  handleParentRegister(evt) {
-    this.setState({ showParent: true });
-    this.setState({ showKid: false });
-    this.setState({ showFirstTime: false });
+  const HandleOwnerRegister = (evt) => {
+    setShowParent(true);
+    setShowKid(false);
+    setShowFirstTime(false);
+    setIsOwner(true);
   }
 
-  handlePhoneValidation(evt) {
-  }
-
-  validatePhoneField(values, errors) {
+  const ValidatePhoneField = (values, errors) => {
     if (!values.phoneNumber) {
       errors.phoneNumber = 'נחוץ';
     }
@@ -56,8 +57,8 @@ class Register extends Component {
     }
   }
 
-  validateParentPhoneField(values, errors) {
-    if (this.state.showKid) {
+  const ValidateParentPhoneField = (values, errors) => {
+    if (showKid) {
       if (!values.parentPhone) {
         errors.parentPhone = 'נחוץ';
       }
@@ -67,85 +68,95 @@ class Register extends Component {
     }
   }
 
-  validateNameField(values, errors) {
+  const ValidateNameField = (values, errors) => {
     if (!values.name) {
       errors.name = 'נחוץ';
     }
   }
 
-  validatePasswordField(values, errors) {
+  const ValidatePasswordField = (values, errors) => {
     if (!values.password) {
       errors.password = 'נחוץ';
     }
   }
 
-  validateEmailField(values, errors) {
+  const ValidateEmailField = (values, errors) => {
     if (!values.email) {
       errors.email = 'נחוץ';
     }
     // TODO : ADD EMAIL VALIDATION
   }
 
-  tryRegisterToFireBase(values) {
-    auth.createUserWithEmailAndPassword(values.email, values.password).catch(error => {
-      console.log(error);
-    }).then(user => {
-      if(user){
-        this.state.isKid ? this.props.history.push("/KidPage") : this.props.history.push("/KidPage"); 
-      }
-    })
-  }
+  const TryRegisterToFireBase = async (values, setUser) => {
+    const type = showKid ? 'child' : isOwner ? 'owner' : 'parent';
 
-  render() {
+    const response = await axios.post(
+      'http://localhost:8080/auth/signup',
+      { email: values.email,
+      type: type ,
+      phoneNumber: values.phoneNumber,
+      password: values.password,
+    firstName: values.name,
+  lastName: '' },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    const res = await response.data;
+    setUser(res.uid, Auth.signInWithCustomToken(res.token).then(tok => {return tok;}));
+    showKid ? props.history.push("/KidPage") : isOwner ? props.history.push("/OwnerPage") : props.history.push("/KidPage"); 
+  };
+  
     return (
       <div id="body-register">
-        {
-          this.state.showFirstTime &&
+         {
+          showFirstTime &&
           <span className="first-time-span-register-page">
             ?בתור מי תרצה/י להירשם
             </span>
           &&
           <div>
             <div id="signup-outer-register-page">
-              <button className="btn btn-light signup-button" onClick={this.handleKidRegister}><span>ילד/ה</span></button>
-              <button className="btn btn-light signup-button" onClick={this.handleParentRegister}>הורה</button>
-              <button className="btn btn-light signup-button" onClick={this.handleParentRegister}><span>בעל/ת עסק</span></button>
+              <button className="btn btn-light signup-button" onClick={HandleKidRegister}><span>ילד/ה</span></button>
+              <button className="btn btn-light signup-button" onClick={HandleParentRegister}>הורה</button>
+              <button className="btn btn-light signup-button" onClick={HandleOwnerRegister}><span>בעל/ת עסק</span></button>
             </div>
           </div>
         }
-        {
-          !this.state.showFirstTime &&
+              <userContext.Consumer>
+       { user => {
+         return (
+          !showFirstTime &&
           <div>
             <Formik
               initialValues={{ email: '', phoneNumber: '', parentPhone: '', password: '', name: '' }}
               validate={values => {
                 const errors = {};
                 
-                this.validateEmailField(values, errors);
+                ValidateEmailField(values, errors);
 
-                this.validatePhoneField(values, errors);
+                ValidatePhoneField(values, errors);
 
-                this.validateParentPhoneField(values, errors);
+                ValidateParentPhoneField(values, errors);
 
-                this.validatePasswordField(values, errors);
+                ValidatePasswordField(values, errors);
 
-                this.validateNameField(values, errors);
+                ValidateNameField(values, errors);
 
-                this.setState({ isValid: errors.length === undefined })
+                setIsValid(errors.length === undefined);
 
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                   setSubmitting(false);
-                  this.tryRegisterToFireBase(values);
-                }, 400);
+                  TryRegisterToFireBase(values, user.setUserFunc);
+                }, 1);
               }}
             >
               {({ isSubmitting }) => (
                 <div className="register-outer" id="kid-section">
                   <Form className="register-form">
-                    {this.state.showKid &&
+                    {showKid &&
                       <React.Fragment>
                         <Field className="register-input" type="phone" name="parentPhone" placeholder="מספר פלאפון של ההורה" />
                         <ErrorMessage name="parentPhone" component="div" />
@@ -164,17 +175,18 @@ class Register extends Component {
                     <Field className="register-input" type="password" name="password" placeholder="סיסמא" />
                     <ErrorMessage name="password" component="div" />
 
-                    <button className="btn btn-light register-submit-button" type="submit" disabled={!this.state.isValid}>הירשם</button>
+                    <button className="btn btn-light register-submit-button" type="submit" disabled={!isValid}>הירשם</button>
                   </Form>
                 </div>
               )}
             </Formik>
           </div>
-        }
+          )}}
+          </userContext.Consumer>
       </div>
 
+
     );
-  }
 }
 
 export default Register;
