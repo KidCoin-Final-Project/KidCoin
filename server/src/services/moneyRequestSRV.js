@@ -29,14 +29,19 @@ module.exports = {
         if(user.type == 'child'){
             moneyRequests = await moneyRequestsDAL.getAllByChildId(userID);
         } else if (user.type == 'parent'){
+            let childID = req.query.childID;
+            if(!childID){
+                return res.send(400, "missing params: childID");
+            }
             let parent = await parentDAL.getByID(userID);
-            parent.childrens.forEach(async function(child){
-                var moneyRequest = await moneyRequestsDAL.getAllByChildId(child.id)
-                moneyRequests =  moneyRequests.concat(moneyRequest)
-            });
+            for (let i = 0; i < parent.childrens.length; i++) {
+                if(parent.childrens[i].id == childID){
+                    moneyRequests = await moneyRequestsDAL.getAllByChildId(parent.childrens[i].id);
+                    return res.send(moneyRequests);
+                }
+            }
+            return res.send(400, "child not found");
         }
-        return res.send(moneyRequests)
-
     }
 
 }
