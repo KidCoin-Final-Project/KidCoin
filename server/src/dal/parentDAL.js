@@ -6,14 +6,13 @@ module.exports = {
         return db.collection('parent')
             .doc(userId)
             .get()
-            .then(doc =>{
+            .then(doc => {
                 return doc.data();
             })
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
     },
-
 
     addParent: function (userId) {
         return db.collection('parent').doc(userId).set({

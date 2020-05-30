@@ -38,10 +38,10 @@ class Login extends Component {
       return this.setState({ error: "אירעה שגיאה במהלך כניסה לחשבון באמצעות מספר פלאפון וסיסמא : " + error })
     });
 
-    if(this.state.error === ''){
+    if (this.state.error === '') {
       this.props.history.push("/");
     }
-    
+
   }
 
   //TODO : Need to add more validations
