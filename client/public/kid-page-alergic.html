@@ -55,9 +55,55 @@
 
 </div>
 <div class="signup-outer">
+
+
+
+    <div class="modal-wrapper" id="modal" >
+        <div class="close-modal-button-separate"
+             id="close-modal-button-separate"
+             onclick="closeModal('modal','close-modal-button-separate')"></div>
+        <div class="modal-inner">
+            <div style="margin: -5vh -25px 25px;
+    padding: 10px 40px 0px;
+    color: #13ffc4;
+    text-align: center;">
+                <h2 style="color: #00be92">הוספת תזונה</h2>
+                <div class="modal-detail">
+                    <div>
+                        <span style="color: black; font-size: 3vh;">קטגוריה:</span>
+                        <select id="category" name="category">
+                            <option value="volvo">אלרגיות</option>
+                            <option value="saab">תפריט</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <span style="color: black; font-size: 3vh;">שם הפריט:</span>
+                        <input class="register-input" placeholder="בוטנים / טבעוני" type="text">
+                    </div>
+
+                    <br/>
+                </div>
+
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div>
+                    <button class="btn btn-light option-button" style="display: block; width: 15vh;
+    height: 8vh; ">הוסיפי
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <div id="switch-button">
-        <button class="btn btn-light"><span>תזונה</span></button>
-        <button class="btn btn-light">עסקאות</button>
+        <button class="btn btn-light upper-btn"><span>תזונה</span></button>
+        <button class="btn btn-light upper-btn">עסקאות</button>
     </div>
 
     <span class="diet-span">אלרגיות</span>
@@ -67,7 +113,7 @@
             <button class="btn btn-light option-button"><span>חלב</span><span>x</span></button>
             <button class="btn btn-light option-button"><span>סויה</span><span>x</span></button>
         </div>
-        <button class="btn btn-light add-button"><span>הוספה</span><span>+</span></button>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
     </div>
 
     <span class="diet-span">תפריט</span>
@@ -75,7 +121,7 @@
         <div class="fuck">
             <button class="btn btn-light option-button"><span>טבעוני</span><span>x</span></button>
         </div>
-        <button class="btn btn-light add-button"><span>הוספה</span><span>+</span></button>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
     </div>
 
     <span class="diet-span">הגבלות שבועיות</span>
@@ -85,9 +131,25 @@
             <button class="btn btn-light option-button"><span>2 שתייה מתוקה</span><span>x</span></button>
             <button class="btn btn-light option-button"><span>אגוזים</span><span>x</span></button>
         </div>
-        <button class="btn btn-light add-button"><span>הוספה</span><span>+</span></button>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
     </div>,
 </div>
 
 </body>
+
+
+<script>
+    function openModal(idSelector, closeIdSelector) {
+        document.getElementById(idSelector).style.display = "block";
+        document.getElementById(idSelector).style.position = "fixed";
+        document.getElementById(closeIdSelector).style.display = "block";
+        document.getElementById(closeIdSelector).style.position = "fixed";
+    }
+
+    function closeModal(idSelector, closeIdSelector) {
+        document.getElementById(idSelector).style.display = "none";
+        document.getElementById(closeIdSelector).style.display = "none";
+    }
+</script>
+
 </html>

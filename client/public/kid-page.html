@@ -17,8 +17,8 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
-    <link href='../src/Components/Top-Navbar/top-navbar.css' rel='stylesheet'>
-    <link href='../src/Pages/kid-page/kid-page.css' rel='stylesheet'>
+    <link href='../src/css/top-navbar.css' rel='stylesheet'>
+    <link href='./kid-page.css' rel='stylesheet'>
 </head>
 <body id="body">
 <div id="top-navbar">
@@ -42,11 +42,55 @@
     </div>
 
     <button class="btn btn-light selected-button"><span>סריקת מוצר</span></button>
-    <button class="btn btn-light option-button"><span>בקשה להורה</span></button>
-    <button class="btn btn-light option-button"><span>חיפוש קיוסק קרוב</span></button>
+    <button class="btn btn-light option-button" onclick="openModal('modal', 'close-modal-button-separate')"><span>בקשה להורה</span></button>
+    <button class="btn btn-light option-button"><span>חיפוש קיוסק</span></button>
 </div>
+
 <div id="signup-outer">
-        <span id="last-activity-span">
+
+    <div class="modal-wrapper" id="modal" >
+        <div class="close-modal-button-separate"
+             id="close-modal-button-separate"
+             onclick="closeModal('modal','close-modal-button-separate')"></div>
+        <div class="modal-inner">
+            <div style="margin: -5vh -25px 25px;
+    padding: 10px 40px 0px;
+    color: #13ffc4;
+    text-align: center;">
+                <h2 style="color: #00be92">בקשה חדשה</h2>
+                <div class="modal-detail">
+                    <div>
+                        <span style="color: black; font-size: 3vh;">לכבוד:</span>
+                        <input class="register-input" placeholder="אמא / אבא / שניהם" type="text">
+                    </div>
+
+                    <div>
+                        <span style="color: black; font-size: 3vh;">מה הסכום המבוקש?</span>
+                        <input style="border: 5px solid #00be92; border-radius: 19px; height: 7vh; width: 8vh; margin-top: 27px;" type="text">
+                    </div>
+
+                    <div class="rateYo"></div>
+                    <br/>
+                    <span style="color: black; direction: rtl; font-size: 3vh;">פירוט:</span>
+                    <input style="border: 5px solid #00be92; height: 10vh; width: 30vh; border-radius: 19px;" type="text">
+                </div>
+
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div>
+                    <button class="btn btn-light option-button" style="display: block; width: 15vh;
+    height: 8vh; ">שלחי
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <span id="last-activity-span">
           פעילות אחרונה
         </span>
     <div class="activity">
@@ -81,4 +125,20 @@
     </div>
 </div>
 </body>
+
+
+<script>
+    function openModal(idSelector, closeIdSelector) {
+        document.getElementById(idSelector).style.display = "block";
+        document.getElementById(idSelector).style.position = "fixed";
+        document.getElementById(closeIdSelector).style.display = "block";
+        document.getElementById(closeIdSelector).style.position = "fixed";
+    }
+
+    function closeModal(idSelector, closeIdSelector) {
+        document.getElementById(idSelector).style.display = "none";
+        document.getElementById(closeIdSelector).style.display = "none";
+    }
+</script>
+
 </html>
