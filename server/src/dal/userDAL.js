@@ -11,6 +11,20 @@ module.exports = {
             type: type
         });
     },
+    getByID: function (userId) {
+        return db.collection('user')
+            .doc(userId)
+            .get()
+            .then(doc => {
+                if(doc.exists){
+                    return doc.data()
+                }
+                return undefined;
+            })
+            .catch(err => {
+                throw new Error('something bad happened: ' + err);
+            })
+    },
     getByUid: function (uid) {
         return db.collection('user').doc(uid).get().then(function (doc) {
             if (doc.exists) {
