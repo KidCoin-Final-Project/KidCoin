@@ -23,15 +23,15 @@ module.exports = {
         const {
             storeName,
             location,
-            owner,
+            ownerID,
             address
         } = req.body;
 
-        if (!storeName || !location || !owner || !address) {
+        if (!storeName || !location || !ownerID || !address) {
             return res.send(500);
         }
         try {
-            let request = await storeDAL.addStore(storeName, location, owner, address);
+            let request = await storeDAL.addStore(storeName, location, ownerID, address);
             return res.send(request);
         } catch (e) {
             return res.send(e);
