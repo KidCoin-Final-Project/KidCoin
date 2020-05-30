@@ -60,11 +60,11 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     },
-    addStore: function (storeName, location, owner, address) {
+    addStore: function (storeName, location, ownerID, address) {
         return db.collection('store').add({
             storeName: storeName,
             location: location,
-            owner: db.collection('owner').doc(owner),
+            owner: db.collection('owner').doc(ownerID),
             address: address
         });
     }
