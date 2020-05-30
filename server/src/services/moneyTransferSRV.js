@@ -1,5 +1,6 @@
 
 const moneyTransferDAL = require('../dal/moneyTransferDAL')
+//const sendEmailUtil = require('../utils/Email')
 
 module.exports = {
     requestMoneyFromParent: async function (req, res) {
@@ -13,6 +14,7 @@ module.exports = {
         }
         try {
             let request = await moneyTransferDAL.requestMoneyFromParent(childId, amount);
+            //sendEmailUtil.sendEmail()
             return res.send(request);
         } catch (e) {
             return res.send(e);

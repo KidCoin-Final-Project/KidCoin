@@ -26,7 +26,7 @@ module.exports = {
             console.log(user);
             try{
                 if (user) {
-                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, email);
                     if (type == 'child') {
                         await childDAL.addChild(user.uid);
                     } else if (type == 'parent') {
