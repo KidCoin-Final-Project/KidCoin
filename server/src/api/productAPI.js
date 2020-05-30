@@ -11,7 +11,6 @@ router.get('/', function (req, res) {
 router.get('/:productID', function (req, res) {
     var products = productsSRV.getByID(req.params.productID);
     res.send(products);
-
 });
 
 module.exports = router;

@@ -1,4 +1,6 @@
 const auth = require('./firebase-admin').auth
+const utils = require('../misc/utils')
+const usersDAL = require('../dal/userDAL')
 
 module.exports = {
 
@@ -21,6 +23,36 @@ module.exports = {
             return res.status(401).send({ error: 'unauthorized user!' });
             //should throw an error....
         }
+    },
+    isUserChild: function (req, res, next){
+        utils.getIdByToken(req.headers.authtoken).then(uid =>{
+            usersDAL.getByID(uid).then(user => {
+                if(user.type != 'child'){
+                    return res.status(401).send({ error: 'unauthorized user! user is not a child' });
+                }
+                next();
+            })
+        });
+    },
+    isUserParent: function (req, res, next){
+        utils.getIdByToken(req.headers.authtoken).then(uid =>{
+            usersDAL.getByID(uid).then(user => {
+                if(user.type != 'parent'){
+                    return res.status(401).send({ error: 'unauthorized user! user is not a parent' });
+                }
+                next();
+            })
+        });
+    },
+    isUserOwner: function (req, res, next){
+        utils.getIdByToken(req.headers.authtoken).then(uid =>{
+            usersDAL.getByID(uid).then(user => {
+                if(user.type != 'owner'){
+                    return res.status(401).send({ error: 'unauthorized user! user is not an owner' });
+                }
+                next();
+            })
+        });
     },
 
 
