@@ -3,28 +3,28 @@ const bodyParser = require('body-parser')
 const app = express();
 const routes = require('./routes')
 const cors = require('cors')
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(bodyParser.json())
 app.use(cors())
 
 
-const swaggerOptions = {
-    swaggerDefinition: {
+let options = {
+  swaggerDefinition: {
       info: {
-        title: "kidcoin API",
-        description: "kidcoin API Information"
-      }
-    },
-    // ['.routes/*.js']
-    apis: ['../routes.js']
-  };
-
-app.use('/',routes)
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+          description: 'This is the api for kidcoin',
+          title: 'KidCoin',
+          version: '1.0.0',
+      },
+      produces: [
+          "application/json",
+          "application/xml"
+      ]
+  },
+  basedir: __dirname, //app absolute path
+  files: ['./api/*.js'] //Path to the API handle folder
+};
+expressSwagger(options)
 
 //start server on port: 8080
 var server = app.listen(8080, function () {
