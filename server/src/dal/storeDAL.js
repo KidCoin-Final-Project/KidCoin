@@ -1,4 +1,4 @@
-const db = require('../utils/firebase-admin').database
+const db = require('../misc/firebase-admin').database
 const geoLib = require('geolib')
 
 module.exports = {
