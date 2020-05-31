@@ -17,10 +17,13 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
-    <link href='../src/css/top-navbar.css' rel='stylesheet'>
-    <link href='./kid-page.css' rel='stylesheet'>
+    <link href='../src/Components/Top-Navbar/top-navbar.css' rel='stylesheet'>
+    <link href='../src/css/kid-page-alergic.css' rel='stylesheet'>
 </head>
 <body id="body">
+
+
+
 <div id="top-navbar">
     <div>
         <a class="fa fa-envelope navbar-fav"></a>
@@ -31,22 +34,29 @@
     <div>
         <a class="fa fa-bars navbar-fav"></a>
     </div>
+
 </div>
 <div id="remain-cash-and-options">
     <div id="remain-cash">
         <div id="cash">
-            <span id="amount">16</span>
-            <span id="coin">$</span>
+            <img id="g" src="images/the-beautiful-girl-2.jpg">
         </div>
-        <span>היתרה שלי</span>
+        <div>
+            <span id="child-name-text">שקד מיוחדת </span>
+        </div>
+        <div>
+            <span class="product-name">יתרה:</span>
+            <span class="product-name">1.5</span>
+            <span class="product-name">ביטקוין</span>
+        </div>
+
     </div>
 
-    <button class="btn btn-light selected-button"><span>סריקת מוצר</span></button>
-    <button class="btn btn-light option-button" onclick="openModal('modal', 'close-modal-button-separate')"><span>בקשה להורה</span></button>
-    <button class="btn btn-light option-button"><span>חיפוש קיוסק</span></button>
-</div>
 
-<div id="signup-outer">
+</div>
+<div class="signup-outer">
+
+
 
     <div class="modal-wrapper" id="modal" >
         <div class="close-modal-button-separate"
@@ -57,29 +67,29 @@
     padding: 10px 40px 0px;
     color: #13ffc4;
     text-align: center;">
-                <h2 style="color: #00be92">בקשה חדשה</h2>
+                <h2 style="color: #00be92">הוספת תזונה</h2>
                 <div class="modal-detail">
                     <div>
-                        <span style="color: black; font-size: 3vh;">לכבוד:</span>
-                        <input class="register-input" placeholder="אמא / אבא / שניהם" type="text">
+                        <span style="color: black; font-size: 3vh;">קטגוריה:</span>
+                        <select id="category" name="category">
+                            <option value="volvo">אלרגיות</option>
+                            <option value="saab">תפריט</option>
+                        </select>
                     </div>
 
                     <div>
-                        <span style="color: black; font-size: 3vh;">מה הסכום המבוקש?</span>
-                        <input style="border: 5px solid #00be92; border-radius: 19px; height: 7vh; width: 8vh; margin-top: 27px;" type="text">
+                        <span style="color: black; font-size: 3vh;">שם הפריט:</span>
+                        <input class="register-input" placeholder="בוטנים / טבעוני" type="text">
                     </div>
 
-                    <div class="rateYo"></div>
                     <br/>
-                    <span style="color: black; direction: rtl; font-size: 3vh;">פירוט:</span>
-                    <input style="border: 5px solid #00be92; height: 10vh; width: 30vh; border-radius: 19px;" type="text">
                 </div>
 
             </div>
             <div style="display: flex; justify-content: center;">
                 <div>
                     <button class="btn btn-light option-button" style="display: block; width: 15vh;
-    height: 8vh; ">שלחי
+    height: 8vh; ">הוסיפי
                     </button>
                 </div>
             </div>
@@ -90,40 +100,41 @@
 
 
 
-    <span id="last-activity-span">
-          פעילות אחרונה
-        </span>
-    <div class="activity">
-        <div class="product">
-            <span class="cost">1$</span>
-            <span class="product-name">במבה נוגט</span>
-        </div>
-        <div class="more-details">
-            <span>3.3.20</span>
-            <span>רכישה בקיוסק הוד השרון</span>
-        </div>
+
+    <div id="switch-button">
+        <button class="btn btn-light upper-btn"><span>תזונה</span></button>
+        <button class="btn btn-light upper-btn">עסקאות</button>
     </div>
+
+    <span class="diet-span">אלרגיות</span>
     <div class="activity">
-        <div class="product">
-            <span class="cost">1$</span>
-            <span class="product-name">במבה נוגט</span>
+        <div class="fuck">
+            <button class="btn btn-light option-button"><span>בוטנים</span><span>x</span></button>
+            <button class="btn btn-light option-button"><span>חלב</span><span>x</span></button>
+            <button class="btn btn-light option-button"><span>סויה</span><span>x</span></button>
         </div>
-        <div class="more-details">
-            <span>3.3.20</span>
-            <span>רכישה בקיוסק הוד השרון</span>
-        </div>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
     </div>
+
+    <span class="diet-span">תפריט</span>
     <div class="activity">
-        <div class="product">
-            <span class="cost">1$</span>
-            <span class="product-name">במבה נוגט</span>
+        <div class="fuck">
+            <button class="btn btn-light option-button"><span>טבעוני</span><span>x</span></button>
         </div>
-        <div class="more-details">
-            <span>3.3.20</span>
-            <span>רכישה בקיוסק הוד השרון</span>
-        </div>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
     </div>
+
+    <span class="diet-span">הגבלות שבועיות</span>
+    <div class="activity">
+        <div class="fuck">
+            <button class="btn btn-light option-button"><span>חטיף אחד</span><span>x</span></button>
+            <button class="btn btn-light option-button"><span>2 שתייה מתוקה</span><span>x</span></button>
+            <button class="btn btn-light option-button"><span>אגוזים</span><span>x</span></button>
+        </div>
+        <button class="btn btn-light add-button"  onclick="openModal('modal', 'close-modal-button-separate')"><span>הוספה</span><span>+</span></button>
+    </div>,
 </div>
+
 </body>
 
 
