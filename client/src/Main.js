@@ -10,6 +10,7 @@ import KidHome from "./Pages/kid-page/kid-page";
 import NearKiosk from "./near-kiosk/near-kiosk";
 import OwnerHome from "./Pages/owner-page/owner-page";
 import Home from "./Pages/home/home";
+import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
 import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
@@ -26,15 +27,16 @@ class Main extends Component {
     };
 
     this.setUser = this.setUser.bind(this);
+    this.isLoggedIn = this.isLoggedIn.bind(this);
   }
 
   componentDidMount = async () => {
     Auth.onAuthStateChanged(async userAuth => {
       this.setState({ user: userAuth });
       if (userAuth) {
-        this.setUser(userAuth.uid, await userAuth.getIdToken().then(function (idToken) {
-          return idToken;
-        }));
+        userAuth.getIdToken().then((idToken) => {
+          this.setUser(userAuth.uid, idToken);  
+        });
       }
 
       if (this.state.uid !== '' && this.state.userToken !== '' && this.state.firstTime) {
@@ -54,9 +56,15 @@ class Main extends Component {
     this.setState({ uid: uid });
     if (token === undefined) {
       this.setState({ userToken: '' });
-      return
+      return;
     }
     this.setState({ userToken: token });
+  }
+
+  isLoggedIn(){
+    if (!(this.state.uid !== '' || this.state.userToken !== '')) {
+      this.location.href = "/";
+    }
   }
 
   render() {
@@ -64,6 +72,7 @@ class Main extends Component {
       uid: this.state.uid,
       userToken: this.state.userToken,
       setUserFunc: this.setUser,
+      isLoggedInFunc: this.isLoggedIn,
       userType: this.state.userType
     }
     return (
@@ -77,6 +86,7 @@ class Main extends Component {
             <Route exact path="/KidPage" component={KidHome} />
             <Route exact path="/OwnerPage" component={OwnerHome} />
             <Route exact path="/NearKiosks" component={NearKiosk} />
+            <Route exact path="/Barcode" component={BarcodeScanner} />
 
           </div>
         </HashRouter>

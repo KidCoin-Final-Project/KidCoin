@@ -8,13 +8,13 @@ class TopNavBar extends Component {
           <div id="body-top-navbar">
             <div id="top-navbar">
             <div>
-                <a className="fa fa-envelope navbar-fav"></a>
+                <div className="fa fa-envelope navbar-fav"></div>
             </div>
             <div>
-                <img id="logo-img" src="images/kid-coin-logo.jpg"/>
+                <img id="logo-img" src="images/kid-coin-logo.jpg" alt="KidCoin Logo"/>
             </div>
             <div>
-                <a className="fa fa-bars navbar-fav"></a>
+                <div className="fa fa-bars navbar-fav"></div>
             </div>
             </div>
           </div>

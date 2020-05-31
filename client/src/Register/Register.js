@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Register/register.css';
@@ -11,7 +11,6 @@ import {userContext} from "../utils/fire-base/userContext";
 function Register(props) {
   
 
-  const [showParent, setShowParent] = useState(false);
   const [showKid, setShowKid] = useState(false);
   const [showFirstTime, setShowFirstTime] = useState(true);
   const [isValid, setIsValid] = useState(false);
@@ -23,26 +22,25 @@ function Register(props) {
       const givenState = props.location.state;
 
       setShowFirstTime(!givenState.isFromLoginPage);
-      setShowParent(!givenState.isKid);
       setShowKid(givenState.isKid);
       setIsOwner(givenState.isOwner);
     }
-  })
+  }, [props.location.state])
 
   const HandleKidRegister = (evt) => {
-    setShowParent(false);
+    setIsOwner(false);
     setShowKid(true);
     setShowFirstTime(false);
   }
 
   const HandleParentRegister = (evt) => {
-    setShowParent(true);
     setShowKid(false);
     setShowFirstTime(false);
+    setIsOwner(false);
   }
 
   const HandleOwnerRegister = (evt) => {
-    setShowParent(true);
+
     setShowKid(false);
     setShowFirstTime(false);
     setIsOwner(true);
@@ -101,9 +99,10 @@ function Register(props) {
       { headers: { 'Content-Type': 'application/json' } }
     );
 
+    // check for errors
     const res = await response.data;
-    setUser(res.uid, Auth.signInWithCustomToken(res.token).then(tok => {return tok;}));
-    showKid ? props.history.push("/KidPage") : isOwner ? props.history.push("/OwnerPage") : props.history.push("/KidPage"); 
+    setUser(res.uid, await Auth.signInWithCustomToken(res.token).then(tok => {return tok;}));
+    props.history.push("/Login");
   };
   
     return (
