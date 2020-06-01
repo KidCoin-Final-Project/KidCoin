@@ -7,7 +7,6 @@ const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(bodyParser.json())
 app.use(cors())
-app.use('/',routes)
 
 let options = {
   swaggerDefinition: {
@@ -26,6 +25,7 @@ let options = {
 };
 expressSwagger(options)
 
+app.use('/',routes)
 //start server on port: 8080
 var server = app.listen(8080, function () {
 
