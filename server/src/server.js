@@ -7,7 +7,7 @@ const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(bodyParser.json())
 app.use(cors())
-
+app.use('/',routes)
 
 let options = {
   swaggerDefinition: {
