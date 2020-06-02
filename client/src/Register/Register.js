@@ -95,13 +95,13 @@ function Register(props) {
       phoneNumber: values.phoneNumber,
       password: values.password,
     firstName: values.name,
-  lastName: '' },
+  lastName: ''},
       { headers: { 'Content-Type': 'application/json' } }
     );
 
-    // check for errors
-    const res = await response.data;
-    setUser(res.uid, await Auth.signInWithCustomToken(res.token).then(tok => {return tok;}));
+    // TODO: check for errors and put allert
+    const res = response.data;
+    setUser(res.uid, await Auth.signInWithCustomToken(res.token));
     props.history.push("/Login");
   };
   

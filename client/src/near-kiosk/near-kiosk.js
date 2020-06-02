@@ -15,12 +15,13 @@ class NearKiosk extends Component {
     }
 
     componentDidMount() {
+        this.context.isLoggedInFunc();
         var that = this;
         this.setState({ userToken: this.context.userToken });
         if ("geolocation" in navigator) {
             const coords =  navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    this.setState({ nearKiosks : that.getNearKiosksFromServer(coords, this.state.userToken)});
+                    that.setState({ nearKiosks : that.getNearKiosksFromServer(coords, that.state.userToken)});
                 },
                 function (error) {
                     // default coordinates in center tlv
@@ -33,7 +34,7 @@ class NearKiosk extends Component {
     }
 
     async getNearKiosksFromServer(coords, token) {
-        const amit = await axios.get(
+        const nearKiosks = await axios.get(
             'http://localhost:8080/byLocation',
             {
                 headers: { 'authtoken': token },
@@ -45,9 +46,7 @@ class NearKiosk extends Component {
             }
         );
 
-        console.log(await amit);
-
-        return await amit;
+        return await nearKiosks.data;
     }
 
     render() {

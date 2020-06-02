@@ -9,6 +9,7 @@ import TopNavBar from "./Components/Top-Navbar/top-navbar"
 import KidHome from "./Pages/kid-page/kid-page";
 import NearKiosk from "./near-kiosk/near-kiosk";
 import OwnerHome from "./Pages/owner-page/owner-page";
+import ParentHome  from "./Pages/parent-page/parent-page";
 import Home from "./Pages/home/home";
 import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
@@ -34,12 +35,12 @@ class Main extends Component {
     Auth.onAuthStateChanged(async userAuth => {
       this.setState({ user: userAuth });
       if (userAuth) {
-        userAuth.getIdToken().then((idToken) => {
-          this.setUser(userAuth.uid, idToken);  
-        });
+        let token = await userAuth.getIdToken();
+        this.setUser(userAuth.uid, token);  
       }
 
       if (this.state.uid !== '' && this.state.userToken !== '' && this.state.firstTime) {
+        // TODO : if its first time then redirect to home
         const response = await axios.get(
           'http://localhost:8080/auth/userByToken',
           { headers: { 'authtoken': this.state.userToken } }
@@ -63,7 +64,7 @@ class Main extends Component {
 
   isLoggedIn(){
     if (!(this.state.uid !== '' || this.state.userToken !== '')) {
-      this.location.href = "/";
+      this.props.location.href = "/";
     }
   }
 
@@ -87,6 +88,7 @@ class Main extends Component {
             <Route exact path="/OwnerPage" component={OwnerHome} />
             <Route exact path="/NearKiosks" component={NearKiosk} />
             <Route exact path="/Barcode" component={BarcodeScanner} />
+            <Route exact path="/Parent" component={ParentHome} />
 
           </div>
         </HashRouter>
