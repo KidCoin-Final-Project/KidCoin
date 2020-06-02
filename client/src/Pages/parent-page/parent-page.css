@@ -71,6 +71,7 @@
     border-bottom: grey 2px solid;
     color: black;
     width: 80%;
+    font-size: 2vh;
     margin-bottom: 2vh;
 }
 
@@ -87,16 +88,16 @@
 }
 
 .product-name {
-    font-size: 4vh;
+    font-size: 3vh;
     font-weight: bold;
 }
 
-.kids-names{
-    display: flex; 
-    flex-wrap: wrap; 
-    flex-direction: row; 
-    align-items: center; 
-    width: 80%; 
+.kids-names {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
     margin-bottom: 2vh;
 }
 
@@ -159,46 +160,50 @@
     text-align: center;
 }
 
-.product-rate{
+.product-rate {
     margin: -5vh -25px 25px;
     padding: 10px 40px 0px;
     color: #13ffc4;
     text-align: center;
 }
 
-.do-center{
+.do-center {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.rating-stars{
+.rating-stars {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.rate{
-    display: flex; 
+.rate {
+    display: flex;
     justify-content: center;
 }
 
-.button-rate{
-    display: block; width: 9vh;
+.button-rate {
+    display: block;
+    width: 9vh;
     height: 3vh;
 }
 
-.kid-box{
-    background-color: white; width: 80%;
+.kid-box {
+    background-color: white;
+    width: 80%;
     display: flex;
-    border-radius: 25px;
     flex-direction: column;
     justify-content: space-around;
     height: 15vh;
 }
 
-.kid-element{
-    width: 50%; color: #00be92; border-bottom: 5px solid #00be92; text-align: center;
+.kid-element {
+    width: 50%;
+    color: #00be92;
+    border-bottom: 5px solid #00be92;
+    text-align: center;
 }
 
 #parent-span {
@@ -236,10 +241,10 @@
     font-size: 30px;
 }
 
-.load-money{
-    display: block; 
+.load-money {
+    display: block;
     width: 9vh;
-    height: 3vh; 
+    height: 3vh;
 }
 
 
@@ -264,23 +269,39 @@
     background-image: linear-gradient(45deg, hsla(0, 0%, 100%, 0.8), #fff);
 }
 
-.kid-image{
+.kid-image {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.kid-info{
+.kid-info {
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
     border-bottom: solid #00be92 5px;
 }
-.kid-specific{
-    display: flex; flex-direction: column; direction: rtl;
+
+.kid-specific {
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+    text-align: right;
 }
-.kid-money{
-    display: flex; flex-direction: row; justify-content: space-around;
+
+.kid-money {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.open {
+    display: block;
+    position: fixed;
+}
+
+.close {
+    display: none;
 }
 
 /*placeholders*/
