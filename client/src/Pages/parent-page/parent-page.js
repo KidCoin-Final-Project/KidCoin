@@ -35,6 +35,7 @@ class ParentHome extends Component {
 
     }
 
+
     render() {
         return (
             <div className="body-parent">
@@ -43,7 +44,13 @@ class ParentHome extends Component {
                     <div className="modal-wrapper" id="modal">
                         <div className="close-modal-button-separate"
                             id="close-modal-button-separate"
-                            onClick="closeModal('modal','close-modal-button-separate')"></div>
+                             onClick={(function(){
+                                 document.getElementById("modal").classList.add("close");
+
+                                 document.getElementById("modal").classList.remove("open");
+                                 document.getElementById('close-modal-button-separate').classList.remove("open");
+                                 document.getElementById('close-modal-button-separate').classList.add("close");
+                             })}></div>
                         <div className="modal-inner">
                             <div className="product-rate">
                                 <h2 style={{"color": "#00be92"}}>דירוג מוצר</h2>
@@ -59,9 +66,8 @@ class ParentHome extends Component {
                             </div>
                             <div className="rate">
                                 <div>
-                                    <button className="btn btn-light option-button button-rate">דרג
-                        </button>
-                                </div>
+                                    <div className="btn btn-light option-button" style={{"display": "flex", "width": "fit-content",
+                                        "height": "4vh", "align-items": "center"}}><span style={{"font-size":"2vh"}}>טען כסף </span></div>                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,17 +79,17 @@ class ParentHome extends Component {
                             <a className="fa fa-edit"></a>
 
                             <div className="kid-specific">
-                                <span style={{fontWeight: "bold"}}>הילה, בת 11</span>
-                                <span style={{fontSize: "3vh"}}>הגבלות: בוטנים, חלב, סויה</span>
+                                <span style={{fontWeight: "bold", "font-size":"3vh"}}>הילה, בת 11</span>
+                                <span style={{"font-size": "2vh"}}>הגבלות: בוטנים, חלב, סויה</span>
                             </div>
                             <div className="kid-image">
-                                <img src="../../../public/images/alon-face.png" style={{"borderRadius": "100%","height": "7vh","width": "7vh"}}/>
+                                <img src="/images/alon-face.png" style={{"borderRadius": "100%","height": "7vh","width": "7vh"}}/>
                             </div>
                         </div>
                         <div className="kid-money">
-                            <button className="btn btn-light option-button" style={{"display": "block", "width": "9vh",
-    "height": "3vh"}}>טען כסף
-                </button>
+                            <div className="btn btn-light option-button" style={{"display": "flex", "width": "fit-content",
+                                "height": "4vh", "align-items": "center"}}><span style={{"font-size":"2vh"}}>טען כסף </span>
+                </div>
 
                             <span style={{fontSize: "3vh"}}>יתרה: 8 שקלים</span>
                         </div>
@@ -93,18 +99,19 @@ class ParentHome extends Component {
                             <a className="fa fa-edit"></a>
 
                             <div className="kid-specific">
-                                <span style={{fontWeight: "bold"}}>הילה, בת 11</span>
-                                <span style={{fontSize: "3vh"}}>הגבלות: בוטנים, חלב, סויה</span>
+                                <span style={{fontWeight: "bold", "font-size":"3vh"}}>הילה, בת 11</span>
+                                <span style={{fontSize: "2vh"}}>הגבלות: בוטנים, חלב, סויה</span>
                             </div>
                             <div className="kid-image">
-                                <img src="../../../public/images/alon-face.png" style={{"borderRadius": "100%",
+                                <img src="/images/alon-face.png" style={{"borderRadius": "100%",
     "height": "7vh",
     "width": "7vh"}}/>
                             </div>
                         </div>
                         <div className="kid-money">
-                            <button className="btn btn-light option-button load-money">טען כסף
-                </button>
+                            <div className="btn btn-light option-button" style={{"display": "flex", "width": "fit-content",
+                                "height": "4vh", "align-items": "center"}}><span style={{"font-size":"2vh"}}>טען כסף </span>
+                            </div>
 
                             <span style={{fontSize: "3vh"}}>יתרה: 8 שקלים</span>
                         </div>
@@ -114,8 +121,7 @@ class ParentHome extends Component {
                 <div id="signup-outer-parent" style={{fontSize: "4vh"}}>
                     <div className="kids-names">
                         <div className="kid-element"> חן</div>
-                        <div  className="kid-element"> הילה</div>
-                        {/* <div style="width: 50%; color: #b0b0b0; border-bottom: 5px solid #b0b0b0; textAlign: center;"> הילה</div> */}
+                         <div style={{"width": "50%", "color": "#b0b0b0", "border-bottom": "5px solid #b0b0b0", "textAlign": "center"}}> הילה</div>
                     </div>
 
                     <div className="activity">
@@ -130,10 +136,16 @@ class ParentHome extends Component {
                         <div style={{"display": "flex",
     "flexDirection": "row",
     "justifyContent": "space-between"}}>
-                            <button className="btn btn-light selected-button"
-                                onClick="openModal('modal', 'close-modal-button-separate')"
-                                style={{display: "block", width: "9vh", height: "3vh"}}>דרג מוצר
-                </button>
+                            <div className="btn btn-light selected-button"
+                                onClick={(function(){
+                                    document.getElementById("modal").classList.add("open");
+
+                                    document.getElementById("modal").classList.remove("close");
+                                    document.getElementById('close-modal-button-separate').classList.remove("close");
+                                    document.getElementById('close-modal-button-separate').classList.add("open");
+                                })}
+                                style={{display: "flex", width: "fit-content", height: "3vh", "align-items":"center"}}><span style={{"font-size": "2vh"}}>דרג מוצר</span>
+                </div>
                             <div className="rateYo"></div>
                         </div>
                     </div>
@@ -148,10 +160,16 @@ class ParentHome extends Component {
                             <span>רכישה בקיוסק הוד השרון</span>
                         </div>
                         <div className="rating-stars">
-                            <button className="btn btn-light selected-button"
-                                onClick="openModal('modal', 'close-modal-button-separate')"
-                                style={{"display": "block", "width": "9vh", "height": "3vh"}}>דרג מוצר
-                </button>
+                            <div className="btn btn-light selected-button"
+                                 onClick={(function(){
+                                     document.getElementById("modal").classList.add("open");
+
+                                     document.getElementById("modal").classList.remove("close");
+                                     document.getElementById('close-modal-button-separate').classList.remove("close");
+                                     document.getElementById('close-modal-button-separate').classList.add("open");
+                                 })}
+                                 style={{display: "flex", width: "fit-content", height: "3vh", "align-items":"center"}}><span style={{"font-size": "2vh"}}>דרג מוצר</span>
+                            </div>
                             <div className="rateYo"></div>
                         </div>
                     </div>
