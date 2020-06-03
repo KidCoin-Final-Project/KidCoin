@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const childSRV = require('../services/childSRV')
-const transactionSRV = require('../services/transactionSRV')
+const transactionSRV = require('../services/purchaseSRV')
 
 
 /**

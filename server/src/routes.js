@@ -17,7 +17,7 @@ router.use('/product', require('./api/productAPI'))
 
 router.use('/child', require('./api/childAPI'))
 
-router.use('/transaction', require('./api/transactionAPI'))
+router.use('/purchase', require('./api/purchaseAPI'))
 
 router.use('/parent', require('./api/parentAPI'))
 
