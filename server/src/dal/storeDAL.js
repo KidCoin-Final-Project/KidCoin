@@ -67,5 +67,8 @@ module.exports = {
             owner: db.collection('owner').doc(ownerID),
             address: address
         });
+    },
+    deleteStore: function (storeID) {
+        return db.collection('store').doc(storeID).delete();
     }
 }
