@@ -11,7 +11,8 @@ module.exports = {
             return res.docs;
         });
     },
-    getStoreTransactions: function (storeId) {
+    getStoreTransactions: function (req) {
+        
         return transactionDAL.getStoreTransactions(storeId).then(res => {
             if (res.empty) {
                 console.log('Couldnt find any store transaction.');
