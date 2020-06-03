@@ -1,4 +1,6 @@
 const purchaseDAL = require('../dal/purchaseDAL')
+const ownerDAL = require('../dal/ownerDAL')
+const utils = require('../misc/utils')
 
 module.exports = {
 
@@ -11,8 +13,11 @@ module.exports = {
             return res.docs;
         });
     },
-    getStorePurchases: function (req) {
-        
+    getStorePurchases: async function (req) {
+        let userID = await utils.getIdByToken();
+        let storeId = await ownerDAL.getByID(userID).then(owner =>{
+            return owner.store.id;
+        })
         return purchaseDAL.getStorePurchases(storeId).then(res => {
             if (res.empty) {
                 console.log('Couldnt find any store purchase.');

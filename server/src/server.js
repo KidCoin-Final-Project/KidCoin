@@ -18,7 +18,15 @@ let options = {
       produces: [
           "application/json",
           "application/xml"
-      ]
+      ],
+      securityDefinitions: {
+        JWT: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'authtoken',
+            description: "",
+        }
+    }
   },
   basedir: __dirname, //app absolute path
   files: ['./api/*.js'] //Path to the API handle folder
