@@ -21,6 +21,8 @@ router.use('/transaction', require('./api/transactionAPI'))
 
 router.use('/parent', require('./api/parentAPI'))
 
+router.use('/productsInStore', require('./api/productsInStoreAPI'))
+
 
 module.exports = router;
 
