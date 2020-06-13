@@ -21,17 +21,10 @@ module.exports = {
         return db.collection('productsInStore').where('store_id', '==', db.collection('store').doc(storeID)).get().then(docs =>{
 
             let productsData = []
+            var category;
+         
         docs.docs.forEach(product => {
-/*              db.collection('product').doc(product.data().product_id).get().then(doc2 =>{
-                    productsData.push({
-                        'category': doc2.data().category,
-                        'name': doc2.data().name,
-                        'ingredients': doc2.data().ingredients,
-                        'picture': doc2.data().picture,
 
-    
-                    });
-                })  */
                 productsData.push({
                     'price': product.data().price,
                     'store_id': product.data().store_id,
@@ -42,22 +35,17 @@ module.exports = {
             return productsData;
         })
     },
-    /*
-    getByID: function(ID){
-        return db.collection('product').doc(ID).get().then(doc =>{
-            return doc;
-        })
-        .catch(err => {
-            throw new Error('something bad happened: '+ err);
-        })
-    },
 
-    getByCategory: function(category){
-        return db.collection('product').where("category", "==", category).get().then(doc =>{
-            return doc.docs;
+    addProducttoStore: function(storeID, productID, price)
+    {
+        return db.collection('productsInStore').add({
+            price: price,
+            product_id: db.collection('product').doc(productID),
+            store_id: db.collection('store').doc(storeID),
+           
         })
-        .catch(err => {
-            throw new Error('something bad happened: '+ err);
-        })
-    } */
+    }
+
+    
+ 
 }
