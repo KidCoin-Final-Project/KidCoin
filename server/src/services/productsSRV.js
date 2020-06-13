@@ -22,7 +22,14 @@ module.exports = {
     },
 
     getByCategory: function(category){
-        return productDAL.getByCategory(category);
-    }
+        return productDAL.getByCategory(category).then(doc => {
+            if(doc.empty) {
+                console.log('couldnt find category. ');
+                return
+            }
+            return doc;
+        });
+    },
+   
 }
 

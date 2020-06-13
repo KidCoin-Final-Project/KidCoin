@@ -21,28 +21,16 @@ module.exports = {
             return doc;
         });
     },
-/*     getAll: function(){
-        return productDAL.getAll().then(doc => {
-            if (doc.empty) {
-                console.log('couldnt find products.');
-                return;
+    addProduct: function(storeID, productID, price){
+        return productsInStoreDal.addProducttoStore(storeID, productID, price).then(doc => {
+            if(doc.empty) {
+                console.log('couldnt add product. ');
+                return
             }
-            return doc.docs;
+            console.log('new product was added successfully');
+            return {doc};
         });
     },
 
-    getByID: function(ID){
-        return productDAL.getByID(ID).then(doc => {
-            if (doc.empty) {
-                console.log('couldnt find product.');
-                return;
-            }
-            return doc;
-        });
-    },
-
-    getByCategory: function(category){
-        return productDAL.getByCategory(category);
-    } */
 }
 
