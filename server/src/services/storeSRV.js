@@ -34,7 +34,7 @@ module.exports = {
 
         try {
             let store = await storeDAL.addStore(storeName, location, ownerID, address);
-            ownerDAL.addOwner(ownerID, store).catch(e =>{
+            ownerDAL.addOwner(ownerID, store).catch(e => {
                 store.delete();
                 return res.status(500).send(e);
             });
@@ -42,5 +42,13 @@ module.exports = {
         } catch (e) {
             return res.status(500).send(e);
         }
-    }
+    },
+
+    getAllStore: async function (req, res) {
+        try {
+            return await storeDAL.getAllStore();
+        } catch (e) {
+            return res.status(500).send(e);
+        }
+    },
 }
