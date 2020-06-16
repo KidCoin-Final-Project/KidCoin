@@ -17,6 +17,14 @@ router.get('/byOwner/', middleware.isUserOwner, function (req, res) {
 });
 
 
+router.get('/totalRevenue/', middleware.isUserOwner, function (req, res) {
+    purchaseSRV.totalRevenue(req).then(revenue => {
+        return res.send(revenue);
+    });
+});
+
+
+
 
 router.get('/new/', middleware.isUserChild, function (req, res) {
     purchaseSRV.getStorePurchases(req).then(store => {
