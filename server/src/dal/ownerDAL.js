@@ -1,9 +1,9 @@
 const db = require('../misc/firebase-admin').database
 
 module.exports = {
-    addOwner: function (userId) {
+    addOwner: function (userId, store) {
         return db.collection('owner').doc(userId).set({
-            store: ''
+            store: store
         });
     },
     getByID: function (userId) {
@@ -16,5 +16,5 @@ module.exports = {
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
-    },
+    }
 }
