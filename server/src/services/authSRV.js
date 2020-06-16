@@ -45,7 +45,6 @@ module.exports = {
             console.log(user);
             try {
                 if (user) {
-                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
