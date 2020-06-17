@@ -1,10 +1,6 @@
 const db = require('../misc/firebase-admin')
-<<<<<<< HEAD
 const admin = require('firebase-admin');
 const daysToMsMultiplier = 1000*60*60*24;
-=======
-const daysToMsMultiplier = 1000 * 60 * 60 * 24;
->>>>>>> origin/master
 
 module.exports = {
 
