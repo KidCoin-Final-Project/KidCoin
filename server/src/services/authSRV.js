@@ -48,7 +48,7 @@ module.exports = {
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
-                        await ownerDAL.addOwner(user.uid);
+                        //owner is added in store add
                     }
                 }
             } catch (e) {
@@ -83,7 +83,8 @@ module.exports = {
                 var parent = await parentDAL.getByID(userInfo.uid);
                 userInfo.childrens = parent.childrens;
             } else if (user.type == 'owner') {
-                //owner is added at store add
+                var owner = await ownerDAL.getByID(userInfo.uid);
+                userInfo.store = owner.store;
             }
             res.send(userInfo);
         })
