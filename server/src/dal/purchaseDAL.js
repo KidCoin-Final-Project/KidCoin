@@ -1,4 +1,5 @@
 const db = require('../misc/firebase-admin')
+const admin = require('firebase-admin');
 const daysToMsMultiplier = 1000*60*60*24;
 
 module.exports = {
@@ -15,9 +16,10 @@ module.exports = {
             })
     },
 
-    getStorePurchases: function (storeId, msBack) {
+    getStorePurchases: function (store, msBack) {
+        let now = new Date()
         return db.database.collection('purchase')
-            .where('store', '==', db.database.collection('store').doc(storeId))
+            .where('store', '==', store)
             .orderBy('date')
             .startAt(now - msBack)
             .get()
