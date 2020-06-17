@@ -21,6 +21,7 @@ module.exports = {
             return res.send(500);
         }
         try {
+            let user;
             if (type == 'child') {
                 if (!parentEmail) {
                     return res.send(500, "Parent email is required")
@@ -29,14 +30,14 @@ module.exports = {
                 if (!parentUser.type == "parent") {
                     return res.send(500, "Parent does not exist");
                 }
-                const user = await firebase.auth.createUser({
+                user = await firebase.auth.createUser({
                     email: email,
                     password: password
                 });
                 await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                 await childDAL.addChild(user.uid);
             } else {
-                const user = await firebase.auth.createUser({
+                user = await firebase.auth.createUser({
                     email: email,
                     password: password
                 });
@@ -44,7 +45,6 @@ module.exports = {
             console.log(user);
             try {
                 if (user) {
-                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
@@ -83,8 +83,7 @@ module.exports = {
                 var parent = await parentDAL.getByID(userInfo.uid);
                 userInfo.childrens = parent.childrens;
             } else if (user.type == 'owner') {
-                var owner = await ownerDAL.getByID(userInfo.uid);
-                userInfo.store = owner.store;
+                //owner is added at store add
             }
             res.send(userInfo);
         })

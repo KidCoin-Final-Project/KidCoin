@@ -1,8 +1,8 @@
-const db = require('../misc/firebase-admin')
+const db = require('../misc/firebase-admin').database
 
 module.exports = {
     getAll: function(){
-        db.database.collection('product').get().then(doc =>{
+        return db.collection('product').get().then(doc =>{
             return doc;
         })
         .catch(err => {
@@ -10,8 +10,17 @@ module.exports = {
         })
     },
     getByID: function(ID){
-        return db.database.collection('product').doc(ID).get().then(doc =>{
+        return db.collection('product').doc(ID).get().then(doc =>{
             return doc;
+        })
+        .catch(err => {
+            throw new Error('something bad happened: '+ err);
+        })
+    },
+
+    getByCategory: function(category){
+        return db.collection('product').where("category", "==", category).get().then(doc =>{
+            return doc.docs;
         })
         .catch(err => {
             throw new Error('something bad happened: '+ err);

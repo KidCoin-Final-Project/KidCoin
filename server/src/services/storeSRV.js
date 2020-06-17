@@ -1,4 +1,6 @@
 const storeDAL = require('../dal/storeDAL')
+const ownerDAL = require('../dal/ownerDAL')
+const utils = require('../misc/utils')
 
 module.exports = {
 
@@ -23,18 +25,30 @@ module.exports = {
         const {
             storeName,
             location,
-            owner,
             address
         } = req.body;
-
-        if (!storeName || !location || !owner || !address) {
+        let ownerID = await utils.getIdByToken(req.headers.authtoken);
+        if (!storeName || !location || !ownerID || !address) {
             return res.send(500);
         }
+
         try {
-            let request = await storeDAL.addStore(storeName, location, owner, address);
-            return res.send(request);
+            let store = await storeDAL.addStore(storeName, location, ownerID, address);
+            ownerDAL.addOwner(ownerID, store).catch(e => {
+                store.delete();
+                return res.status(500).send(e);
+            });
+            return res.send(store);
         } catch (e) {
-            return res.send(e);
+            return res.status(500).send(e);
         }
-    }
+    },
+
+    getAllStore: async function (req, res) {
+        try {
+            return await storeDAL.getAllStore();
+        } catch (e) {
+            return res.status(500).send(e);
+        }
+    },
 }

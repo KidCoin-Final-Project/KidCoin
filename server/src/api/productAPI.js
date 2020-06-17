@@ -2,15 +2,48 @@ const express = require('express');
 const router = express.Router();
 const productsSRV = require('../services/productsSRV')
 
-router.get('/', function (req, res) {
-    var products = productsSRV.getAll(); 
-    res.send("all products:" + products);
 
+/**
+ * get all available products
+ * @route get /product
+ * @group product api
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/', function (req, res) {
+    productsSRV.getAll().then(doc => {
+        return res.send(doc);
+    }); 
+    
 });
 
-router.get('/:productID', function (req, res) {
-    var products = productsSRV.getByID(req.params.productID);
-    res.send(products);
+/**
+ * get product details by ID
+ * @route get /product/byId
+ * @group product api
+ * @param {string} productID.query.required - request amount
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.get('/byId/:productID', function (req, res) {
+    productsSRV.getByID(req.params.productID).then(doc => {
+        return res.send(doc);
+    }); 
+});
+
+/**
+ * get all products in category
+ * @route get /product/byCategory
+ * @group product api
+ * @param {string} category.query.required - request amount
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/byCategory/:category', function (req, res) {
+    productsSRV.getByCategory(req.params.category).then(doc => {;
+       return res.send(doc);
+    });
 });
 
 module.exports = router;

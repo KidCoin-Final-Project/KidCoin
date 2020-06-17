@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Login/login.css';
-import Auth from "../utils/fire-base/firebase"
-import { userContext } from "../utils/fire-base/userContext";
+import Auth from "../utils/fire-base/firebase";
+import Alert from "react-bootstrap/Alert"
 
 
 
@@ -28,14 +28,16 @@ class Login extends Component {
 
   async handleLogin(evt) {
     evt.preventDefault();
+    this.state.error = '';
 
     if (this.validateFields(evt)) {
       return this.setState({ error: this.validateFields(evt) });
     }
 
-    const res = await Auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
-      console.log("אירעה שגיאה במהלך כניסה לחשבון באמצעות מספר פלאפון וסיסמא : " + error);
-      return this.setState({ error: "אירעה שגיאה במהלך כניסה לחשבון באמצעות מספר פלאפון וסיסמא : " + error })
+    await Auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
+      this.setState({ error: " אירעה שגיאה במהלך כניסה לחשבון באמצעות מייל וסיסמא " + error });
+      this.setState({ password: '' });
+      return;
     });
 
     if (this.state.error === '') {
@@ -76,6 +78,12 @@ class Login extends Component {
     return (
       <div id="body-login">
         <div id="login-outer">
+          <Alert variant="danger" show={this.state.error !== ''} onClose={() => this.setState({error:''})} dismissible>
+            <Alert.Heading>קרתה שגיאה!</Alert.Heading>
+            <p>
+              {this.state.error}
+        </p>
+          </Alert>
           <form id="login-form" onSubmit={this.handleLogin}>
             <input className="login-input" placeholder="אימייל/שם משתמש" type="text" value={this.state.username} onChange={this.handleUserChange} />
             <input className="login-input" placeholder="סיסמא" type="password" value={this.state.password} onChange={this.handlePassChange} />
@@ -98,7 +106,6 @@ class Login extends Component {
             <button className="btn btn-light signup-login-page-button">
               <span>בעל/ת עסק</span></button></NavLink>
         </div>
-        <NavLink to={{ pathname: "Register" }}></NavLink>
       </div>
     );
   }

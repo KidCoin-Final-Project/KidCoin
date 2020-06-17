@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css"
 import "../owner-page/owner-page.css"
+import { userContext } from "../../utils/fire-base/userContext";
 
 class OwnerHome extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class OwnerHome extends Component {
     }
 
     componentDidMount() {
+        this.context.isLoggedInFunc();
         const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer();
         const remainCachDataFromServer = this.getRemainCashFromServer();
         this.setState({ remainCash: remainCachDataFromServer.remainCash });
@@ -91,32 +93,32 @@ class OwnerHome extends Component {
                 <div id="outer-products-list">
 
                     <button className="btn btn-light food-btn">
-                        <span><img className="product-image" src="images/bread.png" /></span>
+                        <span><img className="product-image" src="images/bread.png" alt="מוצר"/></span>
                         <span className="product-name">לחמים</span>
                     </button>
 
                     <button className="btn btn-light food-btn">
-                        <span><img className="product-image" src="images/milk.png" /></span>
+                        <span><img className="product-image" src="images/milk.png" alt="מוצר"/></span>
                         <span className="product-name">מוצרי חלב</span>
                     </button>
 
                     <button className="btn btn-light food-btn">
-                        <img className="product-image" src="images/apple.png" />
+                        <img className="product-image" src="images/apple.png" alt="מוצר"/>
                         <span className="product-name">ירקות ופירות</span>
                     </button>
 
                     <button className="btn btn-light food-btn">
-                        <img className="product-image" src="images/ice-cream.png" />
+                        <img className="product-image" src="images/ice-cream.png" alt="מוצר"/>
                         <span className="product-name">ממתקים וחטיפים</span>
                     </button>
 
                     <button className="btn btn-light food-btn">
-                        <img className="product-image" src="images/papers.png" />
+                        <img className="product-image" src="images/papers.png" alt="מוצר"/>
                         <span className="product-name">טואלט</span>
                     </button>
 
                     <button className="btn btn-light food-btn">
-                        <img className="product-image" src="images/press.png" />
+                        <img className="product-image" src="images/press.png" alt="מוצר"/>
                         <span className="product-name">עיתונים</span>
                     </button>
 
@@ -127,5 +129,6 @@ class OwnerHome extends Component {
     }
 }
 
+OwnerHome.contextType = userContext;
 export default OwnerHome;
 

@@ -60,12 +60,29 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     },
-    addStore: function (storeName, location, owner, address) {
+    addStore: function (storeName, location, ownerID, address) {
         return db.collection('store').add({
             storeName: storeName,
             location: location,
-            owner: db.collection('owner').doc(owner),
+            owner: db.collection('owner').doc(ownerID),
             address: address
+        });
+    },
+    deleteStore: function (storeID) {
+        return db.collection('store').doc(storeID).delete();
+    },
+    getAllStore: function () {
+        return db.collection('store').get().then((result) => {
+            let stores = [];
+            for (let i = 0; i < result.size; i++) {
+                let store = result.docs[i].data();
+                stores.push({
+                    'name': store.name,
+                    'address': store.address,
+                    'location': store.location
+                })
+            }
+            return stores;
         });
     }
 }
