@@ -40,5 +40,32 @@ module.exports = {
         } = req.body;
         //need productFromStoreDAL
         return purchaseDAL.newPurchase().then(getDataFromRes);
+    },
+
+    totalRevenue: async function (req) {
+
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        let storeId = await ownerDAL.getByID(userID).then(owner => {
+            return owner.store.id;
+        })
+        let msBack = req.query.msBack;
+        if (!msBack) {
+            msBack = 1000 * 60 * 60 * 24 * 365;
+        }
+
+        return purchaseDAL.getStorePurchases(storeId, msBack).then(res => {
+            if (res.empty) {
+                console.log('Couldnt find any store purchase.');
+                return;
+            }
+            let totalRevenue = 0;
+            res.docs.forEach(purchase => {
+                totalRevenue = totalRevenue + purchase.data().price;
+            });
+            return {
+                'totalRevenue': totalRevenue,
+                'numOfPurchases': res.size
+            };
+        });
     }
 }

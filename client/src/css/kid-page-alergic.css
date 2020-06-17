@@ -246,3 +246,8 @@
     background-color: transparent;
     text-align: center;
 }
+
+#delete-chile-button{
+    border-bottom-color: #F44336;
+    background: #ff000033
+}

@@ -9,7 +9,9 @@ import TopNavBar from "./Components/Top-Navbar/top-navbar"
 import KidHome from "./Pages/kid-page/kid-page";
 import NearKiosk from "./near-kiosk/near-kiosk";
 import OwnerHome from "./Pages/owner-page/owner-page";
+import ParentHome  from "./Pages/parent-page/parent-page";
 import Home from "./Pages/home/home";
+import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
 import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
@@ -26,18 +28,19 @@ class Main extends Component {
     };
 
     this.setUser = this.setUser.bind(this);
+    this.isLoggedIn = this.isLoggedIn.bind(this);
   }
 
   componentDidMount = async () => {
     Auth.onAuthStateChanged(async userAuth => {
       this.setState({ user: userAuth });
       if (userAuth) {
-        this.setUser(userAuth.uid, await userAuth.getIdToken().then(function (idToken) {
-          return idToken;
-        }));
+        let token = await userAuth.getIdToken();
+        this.setUser(userAuth.uid, token);  
       }
 
       if (this.state.uid !== '' && this.state.userToken !== '' && this.state.firstTime) {
+        // TODO : if its first time then redirect to home
         const response = await axios.get(
           'http://localhost:8080/auth/userByToken',
           { headers: { 'authtoken': this.state.userToken } }
@@ -54,9 +57,15 @@ class Main extends Component {
     this.setState({ uid: uid });
     if (token === undefined) {
       this.setState({ userToken: '' });
-      return
+      return;
     }
     this.setState({ userToken: token });
+  }
+
+  isLoggedIn(){
+    if (!(this.state.uid !== '' || this.state.userToken !== '')) {
+      this.props.location.href = "/";
+    }
   }
 
   render() {
@@ -64,6 +73,7 @@ class Main extends Component {
       uid: this.state.uid,
       userToken: this.state.userToken,
       setUserFunc: this.setUser,
+      isLoggedInFunc: this.isLoggedIn,
       userType: this.state.userType
     }
     return (
@@ -77,6 +87,8 @@ class Main extends Component {
             <Route exact path="/KidPage" component={KidHome} />
             <Route exact path="/OwnerPage" component={OwnerHome} />
             <Route exact path="/NearKiosks" component={NearKiosk} />
+            <Route exact path="/Barcode" component={BarcodeScanner} />
+            <Route exact path="/Parent" component={ParentHome} />
 
           </div>
         </HashRouter>

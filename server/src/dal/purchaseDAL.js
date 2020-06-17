@@ -1,6 +1,10 @@
 const db = require('../misc/firebase-admin')
+<<<<<<< HEAD
 const admin = require('firebase-admin');
 const daysToMsMultiplier = 1000*60*60*24;
+=======
+const daysToMsMultiplier = 1000 * 60 * 60 * 24;
+>>>>>>> origin/master
 
 module.exports = {
 
@@ -21,7 +25,7 @@ module.exports = {
         return db.database.collection('purchase')
             .where('store', '==', store)
             .orderBy('date')
-            .startAt(now - msBack)
+            .startAt(new Date() - msBack)
             .get()
             .catch(err => {
                 throw new Error('something bad happened: ' + err);

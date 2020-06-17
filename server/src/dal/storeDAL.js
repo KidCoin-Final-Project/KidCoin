@@ -70,5 +70,19 @@ module.exports = {
     },
     deleteStore: function (storeID) {
         return db.collection('store').doc(storeID).delete();
+    },
+    getAllStore: function () {
+        return db.collection('store').get().then((result) => {
+            let stores = [];
+            for (let i = 0; i < result.size; i++) {
+                let store = result.docs[i].data();
+                stores.push({
+                    'name': store.name,
+                    'address': store.address,
+                    'location': store.location
+                })
+            }
+            return stores;
+        });
     }
 }

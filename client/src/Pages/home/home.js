@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import {
-    Route,
-    HashRouter,
     Redirect
 } from "react-router-dom";
 import { userContext } from "../../utils/fire-base/userContext";
-import axios from 'axios';
 
 class Home extends Component {
     constructor(props) {
@@ -13,43 +10,57 @@ class Home extends Component {
         this.state = {
             moveToChild: false,
             moveToParent: false,
-            moveToOwner: false
+            moveToOwner: false,
+            moveToLogin: false
         }
     }
 
-    redirectToHome(type) {
+    componentDidMount() {
+        let type = this.context.userType;
 
         if (type !== '') {
-            
-
-
-            // type === "parent" ? this.props.history.push('/KidPage') : type === "owner" ? this.props.history.push('/OwnerPage') : this.props.history.push('/KidPage');
-
-            return type === "parent" ? <Redirect to="/KidPage"></Redirect> : type === "owner" ? <Redirect to="/OwnerPage"></Redirect> : <Redirect to="/KidPage"></Redirect>;
-
-
-
+            type === "parent" ? this.setState({moveToParent: true}) : type === "owner" ? this.setState({moveToOwner: true}) : this.setState({moveToChild: true});
         } else {
-            return <Redirect to="/Login"></Redirect>;
-            // return true;
+            this.setState({moveToLogin: true});
         }
-    }
-//     {this.redirectToHome(user.uid, user.userToken)}
+      }
+
     render() {
         return (
             <userContext.Consumer>
                 {user => {
                     return (
-                         <div>
-                             {this.redirectToHome(user.userType)}
-                         </div>
+                        <div>
+
+                            {this.state.moveToChild &&
+                                <Redirect to="/KidPage"></Redirect>
+                }
+                {
+                                this.state.moveToParent &&
+                                    <Redirect to="/KidPage"></Redirect>
+                                
+                }
+                {
+                                this.state.moveToOwner &&
+                                    <Redirect to="/OwnerPage"></Redirect>
+                                
+                }
+                {
+                                this.state.moveToLogin &&
+                                    <Redirect to="/Login"></Redirect>
+                                
+                }
+                            }
+                        </div>
 
                     )
                 }
                 }
-            </userContext.Consumer>
+            </userContext.Consumer >
         );
     }
 }
+
+Home.contextType = userContext;
 
 export default Home;
