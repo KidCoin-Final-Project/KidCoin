@@ -14,7 +14,7 @@
     height: 10vh;
 }
 
-#remain-cash-and-options {
+#remain-cash-and-options-owner {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,7 +77,7 @@
     font-weight: bold;
 }
 
-#outer-products-list {
+#outer-products-list-owner {
     background-color: white;
     display: flex;
     flex-wrap: wrap;
@@ -86,7 +86,7 @@
     justify-content: space-around;
 }
 
-.product-image {
+.product-image-owner {
     height: 6vh;
     padding-left: 37px;
     padding-right: 37px;
@@ -94,11 +94,7 @@
 }
 
 
-.product-name {
-    font-weight: bold;
-}
-
-.product-name {
+.product-name-owner {
     font-size: 1em;
     font-weight: bold;
 }

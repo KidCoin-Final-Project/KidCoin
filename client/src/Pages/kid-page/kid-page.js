@@ -17,8 +17,8 @@ class KidHome extends Component {
 
     componentDidMount() {
         this.context.isLoggedInFunc();
-        let childId = this.context.uid;
-        let userToken = this.context.userToken;
+        let childId = localStorage.getItem('userUID');
+        let userToken = localStorage.getItem('userToken');
         const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer(childId, userToken);
         const remainCachDataFromServer = this.getRemainCashFromServer();
         this.setState({ remainCash: remainCachDataFromServer.remainCash });
@@ -27,10 +27,12 @@ class KidHome extends Component {
     }
 
     getLastActivitiesDataFromServer(childId, token) {
-        //  return await axios.get(
+        //  const amit =  await axios.get(
         //     'http://localhost:8080/child/:' + childId,
         //     { headers: { 'authtoken': token } }
-        // ).then(response => {return response.data});
+        // );
+
+        // return amit.data;
 
         return [
                 {activity: {
@@ -64,12 +66,12 @@ class KidHome extends Component {
 
     mapLastActivities(lastActivities) {
         return lastActivities.map((activity) =>
-            <div className="activity" key={activity.activity.product.id} >
-                <div className="product">
-                    <span className="cost">{activity.activity.product.price}$</span>
-                    <span className="product-name">{activity.activity.product.name}</span>
+            <div className="activity-kid-page" key={activity.activity.product.id} >
+                <div className="product-kid-page">
+                    <span className="cost-kid-page">{activity.activity.product.price}$</span>
+                    <span className="product-name-kid-page">{activity.activity.product.name}</span>
                 </div>
-                <div className="more-details">
+                <div className="more-details-kid-page">
                     <span>{activity.activity.moreDetails.date}</span>
                     <span>{activity.activity.moreDetails.location}</span>
                 </div>
@@ -92,12 +94,13 @@ class KidHome extends Component {
                                     <span>היתרה שלי</span>
                                 </div>
 
-                                <button className="btn btn-light selected-button"><span>סריקת מוצר</span></button>
-                                <button className="btn btn-light option-button"><span>בקשה להורה</span></button>
-                                <NavLink to={{ pathname: "/nearkiosks" }}><button className="btn btn-light option-button"><span>חיפוש קיוסק קרוב</span></button></NavLink>
+                                <NavLink to={{ pathname: "/barcode" }}><button className="btn btn-light selected-button-kid-page"><span>סריקת מוצר</span></button></NavLink>
+                                
+                                <button className="btn btn-light option-button-kid-page"><span>בקשה להורה</span></button>
+                                <NavLink to={{ pathname: "/nearkiosks" }}><button className="btn btn-light option-button-kid-page"><span>חיפוש קיוסק קרוב</span></button></NavLink>
                             </div>
                             <div id="kid-page-outer">
-                                <span id="last-activity-span">
+                                <span id="last-activity-span-kid-page">
                                     פעילות אחרונה
         </span>
                                 {this.state.lastActivitiesDOM}

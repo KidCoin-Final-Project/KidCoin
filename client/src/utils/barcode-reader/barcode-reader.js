@@ -58,7 +58,6 @@ class BarcodeScanner extends Component {
     return (
 
       <div id="bobby">
-
         <div id="scandit-barcode-picker"></div>
       </div>
     )

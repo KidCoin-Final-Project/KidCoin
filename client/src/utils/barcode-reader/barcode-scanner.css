@@ -1,7 +1,6 @@
 #bobby {
-    background-color: #00be92;
-    height: 40%;
-    width: 40%;
+    height: 50%;
+    width: 100%;
     display:flex;
     justify-content:center;
     align-items:center;
