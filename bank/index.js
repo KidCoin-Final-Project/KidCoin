@@ -11,6 +11,16 @@ const db = require('../server/src/misc/firebase-admin').database
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get('/transactionById/:transID', async (req, res) => {
+    return res.send(await db.collection('bankHistory').doc(req.params.transID).get().then((doc) =>{
+        var data = doc.data()
+        return {
+            from: data.from.id,
+            to: data.to.id,
+            amount: data.amount
+        }
+    }))
+})
 
 app.post('/transfer', async (req, res) => {
     const {
