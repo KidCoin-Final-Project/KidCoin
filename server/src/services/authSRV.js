@@ -47,6 +47,7 @@ module.exports = {
                 if (user) {
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     } else if (type == 'owner') {
                         //owner is added in store add
                     }
@@ -61,7 +62,7 @@ module.exports = {
                 'token': token
             });
         } catch (e) {
-            return res.send(e);
+            return res.send(500,e.message);
         }
     },
     userByToken: function (req, res) {

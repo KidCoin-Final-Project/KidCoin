@@ -48,34 +48,47 @@ module.exports = {
         }
     },
     accept: async function (req, res){
-        var moneyRequest = await moneyRequestsDAL.getById(req.params.reqId);
+        var reqId = req.params.reqId;
+        var transId = req.body.transId;
+        if(!transId){
+            return res.status(400).send("transaction id is missing!")
+        }
+        var moneyRequest = await moneyRequestsDAL.getById(reqId);
         if(!moneyRequest){
             return res.status(404).send("money request not found!");
+        }
+        if(moneyRequest.accepted){
+            return res.status(404).send("money request already accepted!");
         }
         var parent = await parentDAL.getByID(await utils.getIdByToken(req.headers.authtoken));
 
         parent.childrens.forEach(child => {
             if(moneyRequest.childID == child.id){
-                checkTransferAndAddCreditsToChild(req.body.transId, moneyRequest.childID);
-                moneyRequestsDAL.markAsAccepted(moneyRequest.uid);
-                return res.send(moneyRequestsDAL.getById(req.query.reqId));
+                checkTransferAndAddCreditsToChild(transId, moneyRequest.childID)
+                .then(async ()=>{
+                    await moneyRequestsDAL.markReqAsAccepted(reqId);
+                    return res.send(await moneyRequestsDAL.getById(reqId));
+                })
+                .catch(e =>{
+                    return res.status(404).send("transaction does not exists or already accepted!");
+                })
             }
         });
     }
 
 }
 
-function checkTransferAndAddCreditsToChild(transferId, childId){
-    if(moneyRequestsDAL.checkIfTransAccepted(transferId)){
-        return false;
+async function checkTransferAndAddCreditsToChild(transferId, childId){
+    if(await moneyRequestsDAL.checkIfTransAccepted(transferId)){
+        throw false;
     }
-    request({uri: conf.bankUrl + transferId, json:true}).then((trans) => {
+    return request({uri: conf.bankUrl + "transactionById/" + transferId, json:true}).then((trans) => {
         if(trans.to == conf.bankAccount){
             moneyRequestsDAL.acceptTransaction(transferId);
             childDAL.addBalance(childId, trans.amount);
             return trans.amount;
+        } else {
+            throw false;
         }
-    }).catch(function (err) {
-        return false;        
     });
 }

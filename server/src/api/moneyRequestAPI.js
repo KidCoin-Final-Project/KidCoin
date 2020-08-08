@@ -29,11 +29,11 @@ router.get('/getAll', function (req, res) {
 });
 
 /**
- * get all money request - only for child user
- * @route GET /moneyRequest/getAll
+ * accept money request - only for parent user
+ * @route PUT /moneyRequest/accept/:reqId
  * @group moneyRequest api
- * @param {string} query.daysBack - the days back to get the money requests
- * @param {string} query.childID - only for parent request
+ * @param {string} url.reqId.required -  money request id
+ * @param {string} body.transId.required - transaction id from the bank
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */

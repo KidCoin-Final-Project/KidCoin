@@ -48,7 +48,7 @@ module.exports = {
         })
     },
     checkIfTransAccepted: async function (transId){
-        return await db.collection("transAccepted").doc(transId).get(doc).then((doc) => {
+        return await db.collection("transAccepted").doc(transId).get().then((doc) => {
             return doc.exists;
         })
     },
@@ -56,6 +56,9 @@ module.exports = {
         return db.collection('transAccepted').doc(transId).create({
             acceptedDate:admin.firestore.Timestamp.fromDate(new Date())
         });
+    },
+    markReqAsAccepted: async function (reqId){
+        await db.collection('moneyRequest').doc(reqId).update({accepted:true})
     }
 
 }
