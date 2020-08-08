@@ -5,7 +5,7 @@ const unless = require('express-unless');
 
 middleware.authenticate.unless = unless
 
-router.use(middleware.authenticate.unless({ path: ['/auth/signup', '/api-docs/','/api-docs'] }));
+router.use(middleware.authenticate.unless({ path: ['/auth/signup', '/api-docs/', '/api-docs'] }));
 
 router.use('/auth', require('./api/authAPI'))
 
@@ -22,6 +22,8 @@ router.use('/purchase', require('./api/purchaseAPI'))
 router.use('/parent', require('./api/parentAPI'))
 
 router.use('/productsInStore', require('./api/productsInStoreAPI'))
+
+router.use('/productReview', require('./api/productReviewAPI'))
 
 
 module.exports = router;
