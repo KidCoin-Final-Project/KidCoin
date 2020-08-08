@@ -2,16 +2,14 @@ const db = require('../misc/firebase-admin').database
 
 module.exports = {
 
-    getByID: function (userId) {
-        return db.collection('parent')
-            .doc(userId)
-            .get()
-            .then(doc => {
-                return doc.data();
-            })
-            .catch(err => {
-                throw new Error('something bad happened: ' + err);
-            })
+
+    addChildToParent: function(parentID, child){
+        return db.collection('parent').doc(parentID).get()
+        .then(doc => {
+            var childrensArr = doc.data().childrens;
+            childrensArr.push(child);
+            return db.collection('parent').doc(parentID).update({childrens: childrensArr})
+        });
     },
 
     addParent: function (userId) {

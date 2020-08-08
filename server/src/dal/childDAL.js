@@ -17,5 +17,10 @@ module.exports = {
         return db.collection('child').doc(userId).create({
             balance: 0
         });
+    },
+    addBalance: function (childId, balanceToAdd){
+        return db.collection('child').doc(childId).get().then(doc => {
+            return db.collection('child').doc(childId).update({balance:doc.data().balance + balanceToAdd})
+        })
     }
 }

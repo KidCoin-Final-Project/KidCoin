@@ -13,6 +13,9 @@ app.use(cors())
 
 app.get('/transactionById/:transID', async (req, res) => {
     return res.send(await db.collection('bankHistory').doc(req.params.transID).get().then((doc) =>{
+        if(!doc.exists){
+            return res.status(404).send('transaction not found!');
+        }
         var data = doc.data()
         return {
             from: data.from.id,

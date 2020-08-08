@@ -2,6 +2,10 @@ const utils = require('../misc/utils')
 const moneyRequestsDAL = require('../dal/moneyRequestDAL')
 const usersDAL = require('../dal/userDAL')
 const parentDAL = require('../dal/parentDAL')
+const childDAL = require('../dal/childDAL')
+const conf = require('../../config/conf.json')
+const request = require('request-promise');
+
 
 module.exports = {
     newRequest: async function (req, res) {
@@ -42,6 +46,36 @@ module.exports = {
             }
             return res.send(400, "child not found");
         }
+    },
+    accept: async function (req, res){
+        var moneyRequest = await moneyRequestsDAL.getById(req.params.reqId);
+        if(!moneyRequest){
+            return res.status(404).send("money request not found!");
+        }
+        var parent = await parentDAL.getByID(await utils.getIdByToken(req.headers.authtoken));
+
+        parent.childrens.forEach(child => {
+            if(moneyRequest.childID == child.id){
+                checkTransferAndAddCreditsToChild(req.body.transId, moneyRequest.childID);
+                moneyRequestsDAL.markAsAccepted(moneyRequest.uid);
+                return res.send(moneyRequestsDAL.getById(req.query.reqId));
+            }
+        });
     }
 
+}
+
+function checkTransferAndAddCreditsToChild(transferId, childId){
+    if(moneyRequestsDAL.checkIfTransAccepted(transferId)){
+        return false;
+    }
+    request({uri: conf.bankUrl + transferId, json:true}).then((trans) => {
+        if(trans.to == conf.bankAccount){
+            moneyRequestsDAL.acceptTransaction(transferId);
+            childDAL.addBalance(childId, trans.amount);
+            return trans.amount;
+        }
+    }).catch(function (err) {
+        return false;        
+    });
 }
