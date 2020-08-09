@@ -28,5 +28,20 @@ router.get('/getAll', function (req, res) {
     moneyTransferSRV.allRequests(req, res);
 });
 
+/**
+ * accept money request - only for parent user
+ * @route PUT /moneyRequest/accept/:reqId
+ * @group moneyRequest api
+ * @param {string} url.reqId.required -  money request id
+ * @param {string} body.transId.required - transaction id from the bank
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.put('/accept/:reqId', middleware.isUserParent,function (req, res) {
+    moneyTransferSRV.accept(req, res);
+});
+
+
+
 
 module.exports = router;
