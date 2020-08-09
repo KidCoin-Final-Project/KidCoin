@@ -1,0 +1,185 @@
+#body-register {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-img {
+    height: 10vh;
+}
+
+.img{
+    width: 190px;
+    margin-top: -10px;
+    margin-bottom: 12px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.category{
+    border: none;
+    width: fit-content;
+    border-bottom: 2px white solid;
+    background-color: transparent;
+    width: 27vh;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+.register-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 66vh;
+    flex-direction: column;
+    direction: rtl;
+}
+
+.register-input {
+    border: none;
+    width: fit-content;
+    border-bottom: 2px white solid;
+    background-color: transparent;
+}
+
+.register-input-error {
+    color: white;
+    border: none;
+    width: fit-content;
+    border-bottom: 2px red solid;
+    background-color: transparent;
+}
+
+.non-active{
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
+
+.gray-form{
+    border-radius: 6px;
+    background-color: #80808082;
+    border-bottom: 2px gray solid;
+    color: rgba(52, 52, 52, 0.86) !important;
+}
+
+.gray-button {
+    background-color: #80808082;
+    /*color: rgba(52, 52, 52, 0.86) !important;*/
+    color: rgba(255, 255, 255, 0.86) !important;
+    border: none !important;
+}
+
+#register-submit-button {
+    border-bottom: 2px solid white;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 25vh;
+    border-radius: 10px;
+    border-bottom: 2px solid white;
+    border-radius: 20px;
+    align-self: center;
+}
+
+#signup-outer-register-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-content: space-around;
+    /*flex-direction: column;*/
+    width: 100%;
+    background-color: #00be92;
+    /*height: 100vh;*/
+}
+
+.first-time-span-register-page {
+    color: white;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+    direction: rtl;
+}
+
+
+.register-outer {
+    width: 60%;
+    direction: rtl;
+}
+
+.signup-button {
+    border-color: #00be92;
+    background-color: white;
+    margin-bottom: 2vh;
+    color: #00be92;
+    font-weight: bold;
+    padding: 1vh 3vh;
+    width: 17vh;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.product-pic{
+    border: none;
+    border-bottom: 2px white solid;
+    width: 27vh;
+    color: #495057;
+    text-align: right;
+}
+
+/*placeholders*/
+::-webkit-input-placeholder { /* Edge */
+    color: #495057;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #495057;
+}
+
+::placeholder {
+    color: #495057;
+}
