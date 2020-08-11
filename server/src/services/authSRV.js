@@ -34,8 +34,14 @@ module.exports = {
                     email: email,
                     password: password
                 });
-                await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
-                await childDAL.addChild(user.uid);
+                try{
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                    await childDAL.addChild(user.uid);
+                    await parentDAL.addPendingChild(parentUser.id, email, user.uid);
+                } catch(e){
+                    firebase.auth.deleteUser(user.uid);
+                    throw e;
+                }
             } else {
                 user = await firebase.auth.createUser({
                     email: email,
