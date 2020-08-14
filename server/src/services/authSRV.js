@@ -34,8 +34,14 @@ module.exports = {
                     email: email,
                     password: password
                 });
-                await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
-                await childDAL.addChild(user.uid);
+                try{
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                    await childDAL.addChild(user.uid);
+                    await parentDAL.addPendingChild(parentUser.id, email, user.uid);
+                } catch(e){
+                    firebase.auth.deleteUser(user.uid);
+                    throw e;
+                }
             } else {
                 user = await firebase.auth.createUser({
                     email: email,
@@ -47,8 +53,9 @@ module.exports = {
                 if (user) {
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     } else if (type == 'owner') {
-                        await ownerDAL.addOwner(user.uid);
+                        //owner is added in store add
                     }
                 }
             } catch (e) {
@@ -61,7 +68,7 @@ module.exports = {
                 'token': token
             });
         } catch (e) {
-            return res.send(e);
+            return res.send(500,e.message);
         }
     },
     userByToken: function (req, res) {

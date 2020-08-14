@@ -11,11 +11,14 @@ import NearKiosk from "./near-kiosk/near-kiosk";
 import OwnerHome from "./Pages/owner-page/owner-page";
 import ParentHome  from "./Pages/parent-page/parent-page";
 import Home from "./Pages/home/home";
+import ListProducts from "./Pages/list-of-products/list-of-products";
+import Product from "./Pages/product/product";
 import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
 import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
 import ChargeMoney from "./Pages/charge-money/charge-money";
+import NewProduct from "./Pages/new-product/new-product";
 
 class Main extends Component {
   constructor(props) {
@@ -34,48 +37,42 @@ class Main extends Component {
 
   componentDidMount = async () => {
     Auth.onAuthStateChanged(async userAuth => {
-      this.setState({ user: userAuth });
       if (userAuth) {
         let token = await userAuth.getIdToken();
         this.setUser(userAuth.uid, token);  
       }
 
-      if (this.state.uid !== '' && this.state.userToken !== '' && this.state.firstTime) {
-        // TODO : if its first time then redirect to home
+      if (localStorage.getItem('userUID') !== null && localStorage.getItem('userToken') !== null && this.state.firstTime) {
+        //TODO : if its first time then redirect to home
+        // TODO : CHECK FOR ERRORS
         const response = await axios.get(
           'http://localhost:8080/auth/userByToken',
-          { headers: { 'authtoken': this.state.userToken } }
+          { headers: { 'authtoken': localStorage.getItem('userToken')} }
           );
   
           this.setState({ firstTime: false });
-          this.setState({ userType: response.data.type });
+          localStorage.setItem('userType', response.data.type);
+          // this.props.location.href = "/";
       };
     });
   }
 
 
   setUser(uid, token) {
-    this.setState({ uid: uid });
-    if (token === undefined) {
-      this.setState({ userToken: '' });
-      return;
-    }
-    this.setState({ userToken: token });
+    localStorage.setItem('userUID', uid);
+    localStorage.setItem('userToken', token);
   }
 
   isLoggedIn(){
-    if (!(this.state.uid !== '' || this.state.userToken !== '')) {
+    if ((!(localStorage.getItem('userUID') !== null || localStorage.getItem('userToken') !== null)) && this.props.location) {
       this.props.location.href = "/";
     }
   }
 
   render() {
     const value = {
-      uid: this.state.uid,
-      userToken: this.state.userToken,
       setUserFunc: this.setUser,
-      isLoggedInFunc: this.isLoggedIn,
-      userType: this.state.userType
+      isLoggedInFunc: this.isLoggedIn
     }
     return (
       <userContext.Provider value={value}>
@@ -91,6 +88,9 @@ class Main extends Component {
             <Route exact path="/Barcode" component={BarcodeScanner} />
             <Route exact path="/Parent" component={ParentHome} />
             <Route exact path="/ChargeMoney" component={ChargeMoney} />
+            <Route exact path="/Products" component={ListProducts} />
+            <Route exact path="/Product" component={Product} />
+            <Route exact path="/NewProduct" component={NewProduct} />
 
           </div>
         </HashRouter>

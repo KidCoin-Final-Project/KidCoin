@@ -1,4 +1,4 @@
-#body-kid-page {
+#body-list-products {
     color: white;
     overflow-y: hidden;
     background-color: #00be92;
@@ -10,18 +10,18 @@
     align-items: center;
 }
 
-#logo-img {
+#logo-img-list-products {
     height: 10vh;
 }
 
-#remain-cash-and-options-kid-page {
+#remain-cash-and-options-list-products {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
 }
 
-#kid-page-outer {
+#signup-outer-list-products {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -30,13 +30,13 @@
     height: 100vh;
 }
 
-#last-activity-span-kid-page {
+#last-activity-span-list-products {
     color: #b1beb1;
     margin-bottom: 3vh;
     margin-top: 2vh;
 }
 
-.option-button-kid-page {
+.option-button-list-products {
     background-color: #00be92;
     border-color: white;
     margin-bottom: 2vh;
@@ -48,7 +48,7 @@
     align-self: center;
 }
 
-.selected-button-kid-page {
+.selected-button-list-products {
     border-color: #00be92;
     background-color: white;
     margin-bottom: 2vh;
@@ -60,25 +60,25 @@
     align-self: center;
 }
 
-#remain-cash-kid-page {
+#remain-cash-list-products {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 3vh;
 }
 
-#cash-kid-page {
+#cash-list-products {
     display: flex;
     flex-direction: row;
     align-items: baseline;
 }
 
-#amount-kid-page {
+#amount-list-products {
     font-size: 3em;
     font-weight: bold;
 }
 
-.activity-kid-page {
+.activity-list-products {
     display: flex;
     flex-direction: column;
     border-bottom: grey 2px solid;
@@ -87,26 +87,55 @@
     margin-bottom: 2vh;
 }
 
-.product-kid-page {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.cost-kid-page {
+.cost-list-products {
     color: #00be92;
     font-weight: bold;
     font-size: 1em;
 }
 
-.product-name-kid-page {
-    font-size: 1em;
-    font-weight: bold;
-}
 
-.more-details-kid-page {
+.more-details-list-products {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 1vh;
+}
+
+
+#search-kiosk-outer-list-products {
+    background-color: #00be92;
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#near-kiosk-span-list-products {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#outer-products-list {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: fit-content;
+    justify-content: space-around;
+}
+
+.product-list-products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.product-image-list-products {
+    height: 15vh;
+}
+
+.product-name-list-products {
+    font-weight: bold;
 }

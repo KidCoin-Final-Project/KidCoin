@@ -16,9 +16,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        let type = this.context.userType;
+        const type = localStorage.getItem('userType');
 
-        if (type !== '') {
+        if (type !== null) {
             type === "parent" ? this.setState({moveToParent: true}) : type === "owner" ? this.setState({moveToOwner: true}) : this.setState({moveToChild: true});
         } else {
             this.setState({moveToLogin: true});
@@ -37,7 +37,7 @@ class Home extends Component {
                 }
                 {
                                 this.state.moveToParent &&
-                                    <Redirect to="/KidPage"></Redirect>
+                                    <Redirect to="/Parent"></Redirect>
                                 
                 }
                 {
@@ -50,7 +50,6 @@ class Home extends Component {
                                     <Redirect to="/Login"></Redirect>
                                 
                 }
-                            }
                         </div>
 
                     )

@@ -28,6 +28,37 @@ module.exports = {
             });
             return moneyRequestsData;
         })
+    },
+    getById: function (id){
+        return db.collection('moneyRequest')
+        .doc(id)
+        .get().then(doc => {
+            if(!doc.exists){
+                return undefined;
+            }
+            var moneyRequest = doc.data()
+                return {
+                    'amount': moneyRequest.amount,
+                    'requestDate': moneyRequest.requestDate,
+                    'accepted': moneyRequest.accepted,
+                    'acceptedDate': moneyRequest.acceptedDate,
+                    'childID': moneyRequest.child.id,
+                    'uid': moneyRequest.id
+                }
+        })
+    },
+    checkIfTransAccepted: async function (transId){
+        return await db.collection("transAccepted").doc(transId).get().then((doc) => {
+            return doc.exists;
+        })
+    },
+    acceptTransaction: async function (transId){
+        return db.collection('transAccepted').doc(transId).create({
+            acceptedDate:admin.firestore.Timestamp.fromDate(new Date())
+        });
+    },
+    markReqAsAccepted: async function (reqId){
+        await db.collection('moneyRequest').doc(reqId).update({accepted:true})
     }
 
 }

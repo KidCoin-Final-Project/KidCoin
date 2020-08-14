@@ -38,7 +38,9 @@ module.exports = {
         return auth.getUserByEmail(email).then(doc => {
             return db.collection('user').doc(doc.uid).get().then(function (doc) {
                 if (doc.exists) {
-                    return doc.data();
+                    data = doc.data();
+                    data.id = doc.id;
+                    return data;
                 } else {
                     console.log("No such document!");
                 }

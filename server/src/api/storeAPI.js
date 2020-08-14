@@ -42,18 +42,30 @@ router.get('/byLocation', function (req, res) {
 
 
 /**
- * make a new store - only for store owner
+ * make a new store - only for store owner - owner is taken from token
  * @route POST /store/
  * @group store api
  * @param {string} storeName.body.required - store name
  * @param {location.model} location.body.required - location
- * @param {string} ownerID.body.required - owner ID
  * @param {string} address.body.required - string address 
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */
-router.post('/',middleware.isUserOwner, function (req, res) {
+router.post('/', middleware.isUserOwner, function (req, res) {
     storeSRV.addStore(req, res);
+});
+
+/**
+ * get all stores
+ * @route get /store/allStores
+ * @group store api
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/allStores', function (req, res) {
+    storeSRV.getAllStore(req, res).then(stores => {
+        return res.send(stores);
+    });
 });
 
 module.exports = router;

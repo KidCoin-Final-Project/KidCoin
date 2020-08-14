@@ -1,6 +1,7 @@
 const auth = require('./firebase-admin').auth
 const utils = require('../misc/utils')
-const usersDAL = require('../dal/userDAL')
+const usersDAL = require('../dal/userDAL');
+const parentDAL = require('../dal/parentDAL');
 
 module.exports = {
 
@@ -54,6 +55,25 @@ module.exports = {
             })
         });
     },
+    isChildOfParent: function (req, res, next){
+        var childId = req.params.childID;
+        utils.getIdByToken(req.headers.authtoken).then(uid =>{
+            usersDAL.getByID(uid).then(user => {
+                if(user.type != 'parent'){
+                    return res.status(401).send({ error: 'unauthorized user! user is not a parent' });
+                }
+                parentDAL.getByID(uid).then(parent =>{
+                        for(var i = 0;i<parent.childrens.length;i++){
+                            if(parent.childrens[i].id == childId){
+                                return next();
+                            }
+                        }
+                        return res.status(401).send({ error: 'unauthorized user! child is not of this parent' });
+                })
+            })
+        });
+    },
+    
 
 
     addHeaders: function (req, res, next) {
