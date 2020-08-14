@@ -17,6 +17,7 @@ import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
 import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
+import NewProduct from "./Pages/new-product/new-product";
 
 class Main extends Component {
   constructor(props) {
@@ -87,6 +88,7 @@ class Main extends Component {
             <Route exact path="/Parent" component={ParentHome} />
             <Route exact path="/Products" component={ListProducts} />
             <Route exact path="/Product" component={Product} />
+            <Route exact path="/NewProduct" component={NewProduct} />
 
           </div>
         </HashRouter>

@@ -89,10 +89,12 @@ class OwnerHome extends Component {
                         <span className="product-name-owner">מוצרי חלב</span>
                     </button>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Snack' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/apple.png" alt="מוצר"/>
                         <span className="product-name-owner">ירקות ופירות</span>
                     </button>
+                    </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Snack' } }}>
                     <button className="btn btn-light food-btn">

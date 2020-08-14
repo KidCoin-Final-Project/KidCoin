@@ -62,7 +62,9 @@ class ListProducts extends Component {
                     <span id="near-kiosk-span-list-products">ממתקים וחטיפים</span>
                 </div>
                 <div id="remain-cash-and-options-list-products">
-                    <button className="btn btn-light option-button-list-products"><span>הוסף מוצר חדש</span></button>
+                    <NavLink to={{ pathname: "NewProduct", state: {} }}>
+                        <button className="btn btn-light option-button-list-products"><span>הוסף מוצר חדש</span></button>
+                    </NavLink>
                 </div>
 
                 <div id="outer-products-list">
