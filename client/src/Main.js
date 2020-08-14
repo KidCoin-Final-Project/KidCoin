@@ -15,6 +15,7 @@ import BarcodeScanner from "./utils/barcode-reader/barcode-reader";
 import { userContext } from "./utils/fire-base/userContext";
 import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
+import ChargeMoney from "./Pages/charge-money/charge-money";
 
 class Main extends Component {
   constructor(props) {
@@ -89,6 +90,7 @@ class Main extends Component {
             <Route exact path="/NearKiosks" component={NearKiosk} />
             <Route exact path="/Barcode" component={BarcodeScanner} />
             <Route exact path="/Parent" component={ParentHome} />
+            <Route exact path="/ChargeMoney" component={ChargeMoney} />
 
           </div>
         </HashRouter>
