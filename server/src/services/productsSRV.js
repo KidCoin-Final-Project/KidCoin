@@ -27,7 +27,16 @@ module.exports = {
                 console.log('couldnt find category. ');
                 return
             }
-            return doc;
+            var products = []
+            for(let i=0;i<doc.length;i++){
+                products.push({
+                    'category:': doc[i]._fieldsProto.category.stringValue,
+                    'ingredients': doc[i]._fieldsProto.ingredients.stringValue,
+                    'name': doc[i]._fieldsProto.name.stringValue,
+                   'picture': doc[i]._fieldsProto.picture.stringValue,
+                })
+            }
+            return products;
         });
     },
    
