@@ -38,9 +38,9 @@ module.exports = {
                 return res.send(400, "missing params: childID");
             }
             let parent = await parentDAL.getByID(userID);
-            for (let i = 0; i < parent.childrens.length; i++) {
-                if(parent.childrens[i].id == childID){
-                    moneyRequests = await moneyRequestsDAL.getAllByChildId(parent.childrens[i].id);
+            for (let i = 0; i < parent.children.length; i++) {
+                if(parent.children[i].id == childID){
+                    moneyRequests = await moneyRequestsDAL.getAllByChildId(parent.children[i].id);
                     return res.send(moneyRequests);
                 }
             }
@@ -62,7 +62,7 @@ module.exports = {
         }
         var parent = await parentDAL.getByID(await utils.getIdByToken(req.headers.authtoken));
 
-        parent.childrens.forEach(child => {
+        parent.children.forEach(child => {
             if(moneyRequest.childID == child.id){
                 checkTransferAndAddCreditsToChild(transId, moneyRequest.childID)
                 .then(async ()=>{

@@ -1,14 +1,19 @@
 const childDAL = require('../dal/childDAL')
+const userDAL = require('../dal/userDAL')
 
 module.exports = {
 
     getByID: function (userId) {
-        return childDAL.getByID(userId).then(doc => {
-            if (!doc.exists) {
+        return childDAL.getByID(userId).then(async doc => {
+            if (!doc) {
                 console.log('couldnt find child.');
-                return;
+                throw(404);
             }
-            return doc.data();
+            var userData = await userDAL.getByUid(userId);
+            return {
+                ...doc,
+                ...userData
+            };
         });
     }
 }
