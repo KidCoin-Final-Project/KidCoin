@@ -63,8 +63,8 @@ module.exports = {
                     return res.status(401).send({ error: 'unauthorized user! user is not a parent' });
                 }
                 parentDAL.getByID(uid).then(parent =>{
-                        for(var i = 0;i<parent.childrens.length;i++){
-                            if(parent.childrens[i].id == childId){
+                        for(var i = 0;i<parent.children.length;i++){
+                            if(parent.children[i].id == childId){
                                 return next();
                             }
                         }

@@ -87,8 +87,11 @@ module.exports = {
                 userInfo.balance = child.balance;
                 userInfo.parent = child.parent;
             } else if (user.type == 'parent') {
-                var parent = await parentDAL.getByID(userInfo.uid);
-                userInfo.childrens = parent.childrens;
+                var parent = await parentDAL.getByID(userInfo.uid);                
+                userInfo.children = [];
+                for(var i = 0; i< parent.children.length; i++){
+                    userInfo.children.push({id:parent.children[i].id});
+                }
             } else if (user.type == 'owner') {
                 var owner = await ownerDAL.getByID(userInfo.uid);
                 userInfo.store = owner.store;

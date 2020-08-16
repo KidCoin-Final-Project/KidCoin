@@ -17,6 +17,12 @@ const middleware = require('../misc/middleware')
 router.get('/:childID', function (req, res) {
     childSRV.getByID(req.params.childID).then(child => {
         return res.send(child);
+    }).catch(e =>{
+        if(e == 404){
+            res.status(404).send("couldnt find child.")
+        } else {
+            res.status(500).send("internal server error")
+        }
     });
 });
 
