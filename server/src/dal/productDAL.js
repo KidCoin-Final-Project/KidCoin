@@ -25,5 +25,14 @@ module.exports = {
         .catch(err => {
             throw new Error('something bad happened: '+ err);
         })
-    }
+    },
+
+    addProduct: function (name, category, ingredients, picture) {
+        return db.collection('product').add({
+            name: name,
+            category: category,
+            ingredients: ingredients,
+            picture: picture
+        });
+    },
 }

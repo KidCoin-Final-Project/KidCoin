@@ -21,6 +21,7 @@ module.exports = {
             return doc;
         });
     },
+
     addProduct: function(storeID, productID, price){
         return productsInStoreDal.addProducttoStore(storeID, productID, price).then(doc => {
             if(doc.empty) {

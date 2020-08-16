@@ -39,6 +39,22 @@ module.exports = {
             return products;
         });
     },
-   
+
+
+    addProduct: async function (req, res) {
+        const {
+            name, category, ingredients, picture
+        } = req.body.params;
+        try {
+            let product = await productDAL.addProduct(name, category, ingredients, picture);
+            return res.send(200, {
+                'product': product.name
+            });
+        } catch (e) {
+            return res.status(500).send(e);
+        }
+    },
+
+
 }
 
