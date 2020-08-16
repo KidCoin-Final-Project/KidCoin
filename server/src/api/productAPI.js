@@ -46,4 +46,10 @@ router.get('/byCategory/:category', function (req, res) {
     });
 });
 
+
+router.post('/addProduct', function (req, res) {
+    productsSRV.addProduct(req, res);
+});
+
+
 module.exports = router;
