@@ -44,7 +44,7 @@ module.exports = {
 
     totalRevenue: async function (req) {
 
-        let userID = await utils.getIdByToken(req.headers.authtoken);
+        let userID =await utils.getIdByToken(req.headers.authtoken);
         let storeId = await ownerDAL.getByID(userID).then(owner => {
             return owner.store.id;
         })
@@ -56,7 +56,7 @@ module.exports = {
         return purchaseDAL.getStorePurchases(storeId, msBack).then(res => {
             if (res.empty) {
                 console.log('Couldnt find any store purchase.');
-                return;
+                return 0;
             }
             let totalRevenue = 0;
             res.docs.forEach(purchase => {
