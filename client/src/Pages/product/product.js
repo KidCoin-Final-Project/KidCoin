@@ -4,6 +4,7 @@ import "../product/product.css";
 import { userContext } from "../../utils/fire-base/userContext";
 import { NavLink } from "react-router-dom";
 import StarRatingComponent from 'react-star-rating-component';
+import axios from "axios";
 
 class Product extends Component {
     constructor(props) {
@@ -15,50 +16,43 @@ class Product extends Component {
         };
     }
 
-    componentDidMount() {
-        // this.context.isLoggedInFunc();
-        // const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer();
-        // const remainCachDataFromServer = this.getRemainCashFromServer();
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
+    async componentDidMount() {
+        // const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, localStorage.getItem('userToken'));
+        // this.setState({products: productsByCategoryFromServer});
     }
 
-    // getLastActivitiesDataFromServer() {
-    //     return [
+    // async getProductsByCategoryFromServer(productId, token) {
+    //     const response = await axios.get(
+    //         'http://localhost:8080//product/byId/' + productId,
     //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה נוגט',
-    //                     price: '1'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.3.20',
-    //                     location: 'רכישה בקיוסק הוד השרון'
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה',
-    //                     price: '8'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.4.20',
-    //                     location: 'רכישה בקי'
-    //                 }
+    //             headers: { 'authtoken': token },
+    //             params: {
+    //                 category: productId
     //             }
     //         }
-    //     ];
+    //     ).catch(error => {
+    //         alert(error);
+    //     });
+    //     return response.data;
     // }
-
-    // getRemainCashFromServer() {
-    //     return { remainCash: 15 };
-    // }
-
 
     render() {
+        // const ProductsList = (props) => {
+        //     const products = props.products;
+        //     const listItems = products.map((product) =>
+        //         <NavLink to={{ pathname: "Product",  state: { category: product.productID} }}>
+        //             <div className="product-list-products">
+        //                 <img className="product-image-list-products" src="images/bisli.jpg" />
+        //                 <span className="product-name-list-products">{product.name}</span>
+        //                 <span>{product.money} ש"ח </span>
+        //             </div>
+        //     );
+        //     return (
+        //         <div id="outer-products-list">{listItems}</div>
+        //     );
+        // }
+
+
         return (
             <div id="body-product">
                 <div id="remain-cash-and-options-product">

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import "../owner-page/owner-page.css"
 import { userContext } from "../../utils/fire-base/userContext";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 class OwnerHome extends Component {
     constructor(props) {
@@ -24,36 +25,48 @@ class OwnerHome extends Component {
     }
 
     // getLastActivitiesDataFromServer() {
-    //     return [
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה נוגט',
-    //                     price: '1'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.3.20',
-    //                     location: 'רכישה בקיוסק הוד השרון'
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה',
-    //                     price: '8'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.4.20',
-    //                     location: 'רכישה בקי'
-    //                 }
-    //             }
-    //         }
-    //     ];
+        // return [
+        //     {
+        //         activity: {
+        //             product: {
+        //                 name: 'במבה נוגט',
+        //                 price: '1'
+        //             },
+        //             moreDetails: {
+        //                 date: '3.3.20',
+        //                 location: 'רכישה בקיוסק הוד השרון'
+        //             }
+        //         }
+        //     },
+        //     {
+        //         activity: {
+        //             product: {
+        //                 name: 'במבה',
+        //                 price: '8'
+        //             },
+        //             moreDetails: {
+        //                 date: '3.4.20',
+        //                 location: 'רכישה בקי'
+        //             }
+        //         }
+        //     }
+        // ];
     // }
 
-    // getRemainCashFromServer() {
-    //     return { remainCash: 15 };
+    // async getRemainCashFromServer() {
+        // const response = await axios.get(
+        //     'http://localhost:8080/totalRevenue/' + category,
+        //     {
+        //         headers: {'authtoken': token},
+        //         params: {
+        //             category: category
+        //         }
+        //     }
+        // ).catch(error => {
+        //     alert(error);
+        // });
+        // return response.data;
+        // // return { remainCash: 15 };
     // }
 
 
@@ -79,17 +92,21 @@ class OwnerHome extends Component {
                 <button className="btn btn-light option-button"><span>פירוט עסקאות</span></button>
                 <div id="outer-products-list-owner">
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Bread' } }}>
                     <button className="btn btn-light food-btn">
                         <span><img className="product-image-owner" src="images/bread.png" alt="מוצר"/></span>
                         <span className="product-name-owner">לחמים</span>
                     </button>
+                    </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Milk' } }}>
                     <button className="btn btn-light food-btn">
                         <span><img className="product-image-owner" src="images/milk.png" alt="מוצר"/></span>
                         <span className="product-name-owner">מוצרי חלב</span>
                     </button>
+                    </NavLink>
 
-                    <NavLink to={{ pathname: "Products", state: { category: 'Snack' } }}>
+                    <NavLink to={{ pathname: "Products", state: { category: 'Fruit' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/apple.png" alt="מוצר"/>
                         <span className="product-name-owner">ירקות ופירות</span>
@@ -103,15 +120,19 @@ class OwnerHome extends Component {
                     </button>
                     </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Drinks' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/papers.png" alt="מוצר"/>
-                        <span className="product-name-owner">טואלט</span>
+                        <span className="product-name-owner">שתייה</span>
                     </button>
+                </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Paper' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/press.png" alt="מוצר"/>
                         <span className="product-name-owner">עיתונים</span>
                     </button>
+                    </NavLink>
 
                 </div>
             </div>

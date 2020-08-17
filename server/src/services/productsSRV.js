@@ -34,6 +34,9 @@ module.exports = {
                     'ingredients': doc[i]._fieldsProto.ingredients.stringValue,
                     'name': doc[i]._fieldsProto.name.stringValue,
                    'picture': doc[i]._fieldsProto.picture.stringValue,
+                   'description': doc[i]._fieldsProto.description.stringValue,
+                   'productID': doc[i]._fieldsProto.productID.stringValue,
+                   'money': doc[i]._fieldsProto.money.stringValue,
                 })
             }
             return products;
