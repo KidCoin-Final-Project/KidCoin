@@ -16,10 +16,10 @@ module.exports = {
             })
     },
 
-    getStorePurchases: function (store, msBack) {
+    getStorePurchases: function (storeId, msBack) {
         let now = new Date()
         return db.database.collection('purchase')
-            .where('store', '==', store)
+            .where('store', '==', db.database.collection('store').doc(storeId))
             .orderBy('date')
             .startAt(new Date() - msBack)
             .get()
