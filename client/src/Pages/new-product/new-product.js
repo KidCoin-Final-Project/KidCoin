@@ -2,61 +2,120 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css"
 import "../new-product/new-product.css"
 import { userContext } from "../../utils/fire-base/userContext";
-import TopNavBar from "../../Components/Top-Navbar/top-navbar";
-import {Field} from "formik";
 import axios from "axios";
 
 class NewProduct extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            name: "",
+            category: "",
+            description: "",
+            ingredients: "",
+            money: "0",
+            picture: "",
+            productID: "",
+            file: null
+        };
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
+        this.handleMoneyChange = this.handleMoneyChange.bind(this);
+        this.handlePictureChange = this.handlePictureChange.bind(this);
+        this.handleBarcodeChange = this.handleBarcodeChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+    handleBarcodeChange(event) {
+        this.setState({productID: event.target.value});
+    }
+    handleMoneyChange(event) {
+        this.setState({money: event.target.value});
+    }
+    handleCategoryChange(event) {
+        this.setState({category: event.target.value});
+    }
+    handleDescriptionChange(event) {
+        this.setState({description: event.target.value});
+    }
+    handleIngredientsChange(event) {
+        this.setState({ingredients: event.target.value});
+    }
+    handleNameChange(event) {
+        this.setState({name: event.target.value});
+    }
+    handlePictureChange(event) {
+        this.setState({file: event.target.files[0]});
     }
 
     componentDidMount() {
     }
 
+    mySubmitHandler = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('myImage',this.state.file);
+        const config = {
+            headers: {
+                'authtoken': localStorage.getItem('userToken'), 'content-type': 'multipart/form-data'
+            }
+        };
+        axios.post('http://localhost:8080/product/addImage',formData,config)
+            .then((response) => {
+                alert("The file is successfully uploaded");
+            }).catch((error) => {
+        });
 
+        await axios.post(
+            'http://localhost:8080/product/addProduct',
+            {
+                headers: { 'authtoken': localStorage.getItem('userToken'), 'content-type': 'multipart/form-data'},
+                params: {
+                    name: this.state.name,
+                    category: this.state.category,
+                    ingredients: this.state.ingredients,
+                    picture: this.state.picture,
+                    description: this.state.description,
+                    money: this.state.money,
+                    productID: this.state.productID
+                }
+            }
+        ).then((response) => {
+            localStorage.setItem('productID', response.data)
+            window.location.href = '/#/Product'
+        }).catch(error => {
+            alert(error);
+        });
+    }
+
+    onChange(e) {
+        this.setState({file:e.target.files[0],
+        picture: e.target.value});
+    }
 
     render() {
-
-        const sendForm = async () => {
-            await axios.post(
-                'http://localhost:8080/product/addProduct',
-                {
-                    headers: { 'authtoken': localStorage.getItem('userToken') },
-                    params: {
-                        name: 'כיפלי',
-                        category: 'Snack',
-                        ingredients: 'ingredients',
-                        picture: ''
-                    }
-                }
-            ).catch(error => {
-                alert(error);
-            });
-        }
-
         return (
             <div className="signup-outer-register-page hide-element" id="kid-section">
-                <form enctype="multipart/form-data" name="form" className="register-form" action="http://localhost:8080/product/addProduct" method="post">
+                <form onSubmit={this.mySubmitHandler} id='form' data-name="form" enctype="multipart/form-data" name="form" className="register-form" action="http://localhost:8080/product/addProduct" method="post">
                     <div className="col-auto my-1">
-                        <select name='category' className="custom-select mr-sm-2 category" id="inlineFormCustomSelect">
+                        <select name='category' className="custom-select mr-sm-2 category" id="inlineFormCustomSelect" onChange={this.handleCategoryChange}>
                             <option selected>קטגוריה</option>
-                            <option value="milk">מוצרי חלב</option>
+                            <option value="Drinks">משקאות</option>
                             <option value="bread">לחמים</option>
-                            <option value="candy">ממתקים</option>
+                            <option value="Snack">ממתקים</option>
                             <option value="fruit">פירות וירקות</option>
                             <option value="paper">עיתונים</option>
                             <option value="toalet">טואלט</option>
                         </select>
                     </div>
-                    <input name="name" className="register-input" placeholder="שם המוצר" type="text"/>
-                    <input name="price" className="register-input" placeholder="מחיר" type="text"/>
-                    <input name="barcode" className="register-input" placeholder="ברקוד מוצר" type="text"/>
-                    <input name="ingredients" className="more-details" placeholder="רכיבים" type="text"/>
-                    <input name="more-detail" className="more-details" placeholder="פירוט נוסף" type="text"/>
+                    <input onChange={this.handleNameChange} id="name" name="name" data-name="name" className="register-input" placeholder="שם המוצר" type="text"/>
+                    <input onChange={this.handleMoneyChange} id="money" name="money" className="register-input" placeholder="מחיר" type="text"/>
+                    <input onChange={this.handleBarcodeChange} id="barcode" name="barcode" className="register-input" placeholder="ברקוד מוצר" type="text"/>
+                    <input onChange={this.handleIngredientsChange} id="ingredients" name="ingredients" className="more-details" placeholder="רכיבים" type="text"/>
+                    <input onChange={this.handleDescriptionChange} id="description" name="description" className="more-details" placeholder="פירוט נוסף" type="text"/>
                     <label htmlFor="img" className="product-pic">תמונת מוצר</label>
-                    <input className="img" type="file" id="img" name="picture" accept="image/*"/>
-                    <button className="btn btn-light register-submit-button" type="submit" onClick={sendForm}>שלח</button>
+                    <input onChange={this.onChange} id="myImage" className="img" type="file" name="myImage"/>
+                    <button className="btn btn-light register-submit-button" type="submit">שלח</button>
                 </form>
             </div>
 

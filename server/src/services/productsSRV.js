@@ -17,7 +17,17 @@ module.exports = {
                 console.log('couldnt find product.');
                 return;
             }
-            return doc;
+
+            return {
+                'category:': doc._fieldsProto.category.stringValue,
+                'ingredients': doc._fieldsProto.ingredients.stringValue,
+                'name': doc._fieldsProto.name.stringValue,
+                'picture': doc._fieldsProto.picture.stringValue,
+                'description': doc._fieldsProto.description.stringValue,
+                'productID': doc._fieldsProto.productID.stringValue,
+                'money': doc._fieldsProto.money.stringValue,
+                'reviews': doc._fieldsProto.reviews
+            };
         });
     },
 
@@ -46,13 +56,12 @@ module.exports = {
 
     addProduct: async function (req, res) {
         const {
-            name, category, ingredients, picture
+            name, category, ingredients, description, money, picture, productID
         } = req.body.params;
         try {
-            let product = await productDAL.addProduct(name, category, ingredients, picture);
-            return res.send(200, {
-                'product': product.name
-            });
+            let product = await productDAL.addProduct(name, category, ingredients, description, money, picture.split('\\')[picture.split('\\').length-1], productID);
+            let documentId = product._path.segments["1"];
+            return res.send(documentId).end();
         } catch (e) {
             return res.status(500).send(e);
         }

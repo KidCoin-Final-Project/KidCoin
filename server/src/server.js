@@ -3,8 +3,11 @@ const bodyParser = require('body-parser')
 const app = express();
 const routes = require('./routes')
 const cors = require('cors')
-const expressSwagger = require('express-swagger-generator')(app);
+const path = require("path");
 
+const expressSwagger = require('express-swagger-generator')(app);
+var dir = path.join(__dirname, 'public');
+app.use(express.static(dir));
 app.use(bodyParser.json())
 app.use(cors())
 
