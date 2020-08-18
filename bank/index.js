@@ -31,7 +31,9 @@ app.post('/transfer', async (req, res) => {
         fromAccount,
         toAccount
     } = req.body;
-    var trans = await transfer(fromAccount.toString(), toAccount.toString(), amount);
+    var trans = await transfer(fromAccount.toString(), toAccount.toString(), amount).catch(e => {
+        return res.status(404).send(trans);
+    });
     return res.send(trans);
 })
 
