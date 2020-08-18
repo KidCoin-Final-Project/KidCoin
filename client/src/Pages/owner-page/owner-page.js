@@ -16,15 +16,21 @@ class OwnerHome extends Component {
     }
 
     componentDidMount() {
-        // this.context.isLoggedInFunc();
-        // const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer();
-        // const remainCachDataFromServer = this.getRemainCashFromServer();
+        this.context.isLoggedInFunc();
+        let userId = localStorage.getItem('userUID');
+        let userToken = localStorage.getItem('userToken');
+        const lastActivitiesDataFromServer = this.getPurchaseOfStoreFromServer(userToken);
+        const remainCachDataFromServer = this.getRemainCashFromServer(userToken);
+        console.log(remainCachDataFromServer);
+
+        this.setState({ remainCash: remainCachDataFromServer.remainCash });
+        this.setState({ purchaseOfStore: remainCachDataFromServer.purchaseOfStore });
         // this.setState({ remainCash: remainCachDataFromServer.remainCash });
         // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
         // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
     }
 
-    // getLastActivitiesDataFromServer() {
+    getLastActivitiesDataFromServer() {
         // return [
         //     {
         //         activity: {
@@ -51,24 +57,33 @@ class OwnerHome extends Component {
         //         }
         //     }
         // ];
-    // }
+    }
 
-    // async getRemainCashFromServer() {
-        // const response = await axios.get(
-        //     'http://localhost:8080/totalRevenue/' + category,
-        //     {
-        //         headers: {'authtoken': token},
-        //         params: {
-        //             category: category
-        //         }
-        //     }
-        // ).catch(error => {
-        //     alert(error);
-        // });
-        // return response.data;
-        // // return { remainCash: 15 };
-    // }
+    async getRemainCashFromServer(token) {
+        const response = await axios.get(
+            'http://localhost:8080/purchase/totalRevenue/',
+            {
+                headers: {'authtoken': token}
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+        // return { remainCash: 15 };
+    }
 
+    async getPurchaseOfStoreFromServer(token) {
+        const response = await axios.get(
+            'http://localhost:8080/purchase/ofStore/',
+            {
+                headers: {'authtoken': token}
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+        // return { remainCash: 15 };
+    }
 
     render() {
         return (
@@ -76,7 +91,7 @@ class OwnerHome extends Component {
                 <div id="remain-cash-and-options-owner">
                     <div id="remain-cash-owner-page">
                         <div className="cash">
-                            <span id="amount">430</span>
+                            <span id="amount">{this.state.remainCash}</span>
                             <span id="coin">$</span>
                         </div>
                         <span>סך ההכנסות</span>

@@ -47,7 +47,6 @@ class NearKiosk extends Component {
                 }
             }
         );
-
         this.setState({ nearKiosks: await nearKiosks.data });
         this.setState({ nearKiosksDOM: this.nearKiosksDOM(this.state.nearKiosks)});
     }
