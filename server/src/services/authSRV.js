@@ -17,6 +17,9 @@ module.exports = {
             parentEmail
         } = req.body;
 
+        if (type!='child' && type!='parent' && type!='owner') {
+            return res.status(500).send("unknown user type");
+        }
         if (!email || !password) {
             return res.send(500);
         }
@@ -51,9 +54,9 @@ module.exports = {
             console.log(user);
             try {
                 if (user) {
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     if (type == 'parent') {
                         await parentDAL.addParent(user.uid);
-                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     } else if (type == 'owner') {
                         //owner is added in store add
                     }
