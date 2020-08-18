@@ -20,6 +20,9 @@ module.exports = {
                     reviews.push({
                         'rating': review.data().rating,
                         'comment': review.data().comment,
+                        'place': review.data().place,
+                        'details': review.data().details,
+                        'dateString': review.data().dateString,
                         'uid': review.id
                     })
                 });

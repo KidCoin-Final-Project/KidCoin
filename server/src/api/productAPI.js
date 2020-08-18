@@ -1,7 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const productsSRV = require('../services/productsSRV')
+const multer = require("multer");
 
+
+const storage = multer.diskStorage({
+    destination: "../pictures/",
+    filename: function(req, file, cb){
+        cb(null,file.originalname);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 1000000},
+}).single("myImage");
 
 /**
  * get all available products
@@ -51,5 +64,14 @@ router.post('/addProduct', function (req, res) {
     productsSRV.addProduct(req, res);
 });
 
+router.post('/addImage', function (req, res) {
+    upload(req, res, (err) => {
+        console.log("Request ---", req.body);
+        console.log("Request file ---", req.file);//Here you get file.
+        /*Now do where ever you want to do*/
+        if(err)
+            console.log(err);
+    });
+});
 
 module.exports = router;
