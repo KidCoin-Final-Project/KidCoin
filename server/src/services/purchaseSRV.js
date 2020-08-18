@@ -5,7 +5,7 @@ const utils = require('../misc/utils')
 const getDataFromRes = function (res) {
     if (res.empty) {
         console.log('Couldnt find any purchase.');
-        return;
+        return {};
     }
     var purchases = []
     for(let i=0;i<res.size;i++){
@@ -30,7 +30,9 @@ module.exports = {
     getStorePurchases: async function (req) {
         let userID = await utils.getIdByToken(req.headers.authtoken);
         let store = await ownerDAL.getByID(userID).then(owner =>{
-            return owner.store;
+            if(owner && owner.store){
+                return owner.store.id;
+            } return "-1";
         })
         return purchaseDAL.getStorePurchases(store).then(getDataFromRes);
     },
@@ -46,7 +48,9 @@ module.exports = {
 
         let userID =await utils.getIdByToken(req.headers.authtoken);
         let storeId = await ownerDAL.getByID(userID).then(owner => {
-            return owner.store.id;
+            if(owner && owner.store){
+                return owner.store.id;
+            } return "-1";
         })
         let msBack = req.query.msBack;
         if (!msBack) {
@@ -56,7 +60,10 @@ module.exports = {
         return purchaseDAL.getStorePurchases(storeId, msBack).then(res => {
             if (res.empty) {
                 console.log('Couldnt find any store purchase.');
-                return 0;
+                return {
+                    'totalRevenue': 0,
+                    'numOfPurchases': 0
+                };
             }
             let totalRevenue = 0;
             res.docs.forEach(purchase => {

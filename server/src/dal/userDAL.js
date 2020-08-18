@@ -9,7 +9,7 @@ module.exports = {
             lastName: lastName,
             phoneNumber: phoneNumber,
             type: type
-        });
+        })
     },
     getByID: function (userId) {
         return db.collection('user')
