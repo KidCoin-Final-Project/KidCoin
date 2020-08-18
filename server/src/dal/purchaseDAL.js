@@ -26,5 +26,24 @@ module.exports = {
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
+    },
+    newPurchase: function(productInStoreId, childId){
+        var productInStoreDoc = db.database.collection('productsInStore').doc(productInStoreId);
+        return productInStoreDoc.get().then(doc => {
+            if(doc.exists){
+                productInStore = doc.data();
+                return db.database.collection('purchase').add({
+                    price: productInStore.price,
+                    store: productInStore.store_id,
+                    date: admin.firestore.Timestamp.fromDate(new Date()),
+                    child: db.database.collection('child').doc(childId),
+                    productInStore: productInStoreDoc
+                }).then(doc=>{
+                    return doc.get();
+                });
+            } else{
+                throw 404;
+            }
+        })
     }
 }
