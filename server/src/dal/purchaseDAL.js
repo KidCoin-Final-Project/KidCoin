@@ -45,5 +45,18 @@ module.exports = {
                 throw 404;
             }
         })
+    },
+    getPriceAndStoreBankAccount: function(productInStoreId){
+        var productInStoreDoc = db.database.collection('productsInStore').doc(productInStoreId);
+        return productInStoreDoc.get().then(async doc => {
+            if(doc.exists){
+                var storeBankAccount = await doc.data().store_id.get().then(doc=>{
+                    return doc.data().bankAccount;
+                })
+                return {price:Number(doc.data().price), storeBankAccount:storeBankAccount};
+            } else{
+                throw 404;
+            }
+        })
     }
 }
