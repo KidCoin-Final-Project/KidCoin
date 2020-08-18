@@ -67,7 +67,7 @@ module.exports = {
                 'childId': data.child.id,
                 'productFromStore': data.productInStore.id,
                 'store': data.store.id,
-                'price': data.price,
+                'price': Number(data.price),
                 'date': data.date.toDate()
             }
         }).catch(e=>{
