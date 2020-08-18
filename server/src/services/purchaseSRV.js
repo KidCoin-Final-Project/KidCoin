@@ -12,7 +12,7 @@ const getDataFromRes = function (res) {
         purchase = res.docs[i].data();
         purchases.push({
             'childId': purchase.child.id,
-            'productFromStore': purchase.productFromStore.id,
+            'productFromStore': purchase.productInStore.id,
             'store': purchase.store.id,
             'price': purchase.price,
             'date': purchase.date.toDate()
@@ -36,12 +36,30 @@ module.exports = {
         })
         return purchaseDAL.getStorePurchases(store).then(getDataFromRes);
     },
-    createNewPurchase: function (req) {
+    createNewPurchase: async function (req, res) {
         const {
             productFromStoreId
         } = req.body;
-        //need productFromStoreDAL
-        return purchaseDAL.newPurchase().then(getDataFromRes);
+        if(!productFromStoreId){
+            return res.status(400).send('productFromStoreId is required');
+        }
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        return purchaseDAL.newPurchase(productFromStoreId, userID).then(doc=>{
+            var data = doc.data();
+            return {
+                'childId': data.child.id,
+                'productFromStore': data.productInStore.id,
+                'store': data.store.id,
+                'price': data.price,
+                'date': data.date.toDate()
+            }
+        }).catch(e=>{
+            if(e == 404){
+                return res.status(404).send('product in store not found');
+            } else{
+                return res.status(500).send('internal server error');
+            }
+        });
     },
 
     totalRevenue: async function (req) {
