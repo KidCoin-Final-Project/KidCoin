@@ -33,7 +33,7 @@ module.exports = {
             if(doc.exists){
                 productInStore = doc.data();
                 return db.database.collection('purchase').add({
-                    price: productInStore.price,
+                    price: Number(productInStore.price),
                     store: productInStore.store_id,
                     date: admin.firestore.Timestamp.fromDate(new Date()),
                     child: db.database.collection('child').doc(childId),
