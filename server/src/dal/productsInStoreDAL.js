@@ -2,6 +2,19 @@ const db = require('../misc/firebase-admin').database
 
 module.exports = {
 
+    getProduct: function(id){
+        return db.collection('productsInStore').doc(id).get().then(doc=>{
+            if(!doc.empty){
+                return doc.data().product_id.get().then(doc=>{
+                    if(!doc.empty){
+                        return {...doc.data(), id: doc.id};
+                    }
+                    return undefined;
+                })
+            }
+            return undefined;
+        })
+    },
     getPrice: function (storeID, productId) {
         return db.collection('productsInStore').where('product_id', '==', db.collection('product').doc(productId))
         .where('store_id', '==', db.collection('store').doc(storeID)).get().then(docs =>{

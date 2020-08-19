@@ -1,8 +1,14 @@
 const purchaseDAL = require('../dal/purchaseDAL')
+const productsInStoreDal = require('../dal/productsInStoreDAL')
+const childDAL = require('../dal/childDAL')
+const storeDAL = require('../dal/storeDAL')
 const ownerDAL = require('../dal/ownerDAL')
 const utils = require('../misc/utils')
+const conf = require('../../config/conf.json')
+const request = require('request-promise')
+const { response } = require('express')
 
-const getDataFromRes = function (res) {
+const getDataFromRes = async function (res) {
     if (res.empty) {
         console.log('Couldnt find any purchase.');
         return {};
@@ -10,10 +16,16 @@ const getDataFromRes = function (res) {
     var purchases = []
     for(let i=0;i<res.size;i++){
         purchase = res.docs[i].data();
+        product = await productsInStoreDal.getProduct(purchase.productInStore.id);
+        store = await storeDAL.getById(purchase.store.id);
+        delete store.owner;
+        delete store.bankAccount;
         purchases.push({
             'childId': purchase.child.id,
-            'productFromStore': purchase.productFromStore.id,
+            'productFromStore': purchase.productInStore.id,
             'store': purchase.store.id,
+            'storeData': store,
+            'productData': product,
             'price': purchase.price,
             'date': purchase.date.toDate()
         })
@@ -36,12 +48,43 @@ module.exports = {
         })
         return purchaseDAL.getStorePurchases(store).then(getDataFromRes);
     },
-    createNewPurchase: function (req) {
+    createNewPurchase: async function (req, res) {
         const {
             productFromStoreId
         } = req.body;
-        //need productFromStoreDAL
-        return purchaseDAL.newPurchase().then(getDataFromRes);
+        if(!productFromStoreId){
+            return res.status(400).send('productFromStoreId is required');
+        }
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        let child = await childDAL.getByID(userID);
+        let {
+            price, storeBankAccount
+        } = await purchaseDAL.getPriceAndStoreBankAccount(productFromStoreId);
+        if(child.balance < price){
+            return res.status(406).send('not enough blanace for child');
+        }
+        //transfer money to store owner:
+        var transRes = await transferMoneyToStore(price, storeBankAccount);
+        if(!transRes){
+            return res.status(500).send('bank transaction not successful');
+        }
+        childDAL.addBalance(userID, (price * -1));
+        return purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
+            var data = doc.data();
+            return {
+                'childId': data.child.id,
+                'productFromStore': data.productInStore.id,
+                'store': data.store.id,
+                'price': Number(data.price),
+                'date': data.date.toDate()
+            }
+        }).catch(e=>{
+            if(e == 404){
+                return res.status(404).send('product in store not found');
+            } else{
+                return res.status(500).send('internal server error');
+            }
+        });
     },
 
     totalRevenue: async function (req) {
@@ -75,4 +118,25 @@ module.exports = {
             };
         });
     }
+}
+
+async function transferMoneyToStore(amount, bankAccount){
+    var success = false;
+    var res = await request.post({
+        headers: {'content-type' : 'application/json'},
+        url:     conf.bankUrl + 'transfer',
+        body:    JSON.stringify({
+            amount: amount,
+            fromAccount: conf.bankAccount,
+            toAccount: bankAccount
+        })
+      }).on('error', res =>{
+         success = false
+      })
+      .on('response', res =>{
+          if(res.statusCode == 200){
+            success = true
+          }
+      }).catch(e=>{success = false});
+      return success;
 }

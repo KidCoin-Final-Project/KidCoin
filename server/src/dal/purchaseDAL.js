@@ -26,5 +26,37 @@ module.exports = {
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
+    },
+    newPurchase: function(productInStoreId, childId){
+        var productInStoreDoc = db.database.collection('productsInStore').doc(productInStoreId);
+        return productInStoreDoc.get().then(doc => {
+            if(doc.exists){
+                productInStore = doc.data();
+                return db.database.collection('purchase').add({
+                    price: Number(productInStore.price),
+                    store: productInStore.store_id,
+                    date: admin.firestore.Timestamp.fromDate(new Date()),
+                    child: db.database.collection('child').doc(childId),
+                    productInStore: productInStoreDoc
+                }).then(doc=>{
+                    return doc.get();
+                });
+            } else{
+                throw 404;
+            }
+        })
+    },
+    getPriceAndStoreBankAccount: function(productInStoreId){
+        var productInStoreDoc = db.database.collection('productsInStore').doc(productInStoreId);
+        return productInStoreDoc.get().then(async doc => {
+            if(doc.exists){
+                var storeBankAccount = await doc.data().store_id.get().then(doc=>{
+                    return doc.data().bankAccount;
+                })
+                return {price:Number(doc.data().price), storeBankAccount:storeBankAccount};
+            } else{
+                throw 404;
+            }
+        })
     }
 }
