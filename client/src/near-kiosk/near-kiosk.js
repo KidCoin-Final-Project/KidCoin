@@ -9,15 +9,19 @@ class NearKiosk extends Component {
         super(props);
         this.state = {
             userToken: '',
-            nearKiosksDOM: '',
-            currentCords:''
+            kiosksDOM: '',
+            currentCords:'',
+            allKiosks: ''
         };
+
+        this.handleNameChange = this.handleNameChange.bind(this);
     }
     
     componentDidMount() {
         this.context.isLoggedInFunc();
         var that = this;
         this.setState({ userToken: localStorage.getItem('userToken') });
+        this.getAllKiosks(localStorage.getItem('userToken'));
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {
@@ -48,12 +52,23 @@ class NearKiosk extends Component {
             }
         );
         this.setState({ nearKiosks: await nearKiosks.data });
-        this.setState({ nearKiosksDOM: this.nearKiosksDOM(this.state.nearKiosks)});
+        this.setState({ kiosksDOM: this.convertKiosksToDOM(this.state.nearKiosks)});
     }
 
-    nearKiosksDOM(nearKiosks) {
+    async getAllKiosks(token) {
+        const allKiosks = await axios.get(
+            'http://localhost:8080/store/allStores',
+            {
+                headers: { 'authtoken': token }
+            }
+        );
+
+        this.setState({ allKiosks: await allKiosks.data });
+    }
+
+    convertKiosksToDOM(nearKiosks) {
         return nearKiosks.map((kiosk) =>
-            <div className="activity" key={kiosk.distance}>
+            <div className="activity" key={kiosk.address}>
                 <div className="product">
                     <span className="cost"><a href={`https://www.google.com/maps/dir/?api=1&origin=${this.state.currentCords.latitude},${this.state.currentCords.longitude}&destination=${kiosk.location.latitude},${kiosk.location.longitude}`} target="_blank">נווט/י לשם</a></span>
                     <span className="product-name">{kiosk.name}</span>
@@ -66,6 +81,19 @@ class NearKiosk extends Component {
         );
     }
 
+    handleNameChange(evt){//search
+        let KioskToSearch = evt.target.value;
+
+        if(KioskToSearch !== ''){
+            let matches = this.state.allKiosks.filter(kiosk => kiosk.name.includes(KioskToSearch));
+
+            this.setState({ kiosksDOM: this.convertKiosksToDOM(matches)});
+        } else{
+            this.setState({ kiosksDOM: this.convertKiosksToDOM(this.state.nearKiosks)});
+        }
+        
+    } 
+
 
     render() {
         return (
@@ -74,7 +102,7 @@ class NearKiosk extends Component {
                     <span id="near-kiosk-span">קיוסקים קרובים</span>
 
                     <div id="search-outer-near-kiosk">
-                        <input id="search-input-near-kiosk" placeholder="חפש/י קיוסק" type="text" />
+                        <input id="search-input-near-kiosk" onChange={this.handleNameChange} placeholder="חפש/י קיוסק" type="text" />
                         <div className="fa fa-search"></div>
                     </div>
 
@@ -84,7 +112,7 @@ class NearKiosk extends Component {
                     <span id="near-kiosk-span">
                         הצעות
             </span>
-                    {this.state.nearKiosksDOM}
+                    {this.state.kiosksDOM}
                 </div>
             </div>
         );
