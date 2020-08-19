@@ -13,9 +13,11 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     },
-    addChild: function (userId) {
+    addChild: function (userId, age, sex) {
         return db.collection('child').doc(userId).create({
-            balance: 0
+            balance: 0,
+            age: Number(age),
+            sex: sex
         });
     },
     addBalance: function (childId, balanceToAdd){
