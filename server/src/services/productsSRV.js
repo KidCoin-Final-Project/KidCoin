@@ -1,38 +1,42 @@
 const productDAL = require('../dal/productDAL')
+const productReviewSRV = require('./productReviewSRV')
 
 module.exports = {
     getAll: function(){
-        return productDAL.getAll().then(doc => {
+        return productDAL.getAll().then(async doc => {
             if (doc.empty) {
                 console.log('couldnt find products.');
                 return;
             }
-            return doc.docs;
+
+            var docs = doc.docs;
+            var products = []
+            for(let i=0;i<docs.length;i++){
+                products.push({
+                    ...docs[i].data(),
+                   'avgRating': await productReviewSRV.getAvgRatingByProductId(docs[i].id)
+                })
+            }
+            return products;
         });
     },
 
     getByID: function(ID){
-        return productDAL.getByID(ID).then(doc => {
+        return productDAL.getByID(ID).then(async doc => {
             if (doc.empty) {
                 console.log('couldnt find product.');
                 return;
             }
 
             return {
-                'category:': doc._fieldsProto.category.stringValue,
-                'ingredients': doc._fieldsProto.ingredients.stringValue,
-                'name': doc._fieldsProto.name.stringValue,
-                'picture': doc._fieldsProto.picture.stringValue,
-                'description': doc._fieldsProto.description.stringValue,
-                'productID': doc._fieldsProto.productID.stringValue,
-                'money': doc._fieldsProto.money.stringValue,
-                'reviews': doc._fieldsProto.reviews
+                ...doc.data(),
+                'avgRating': await productReviewSRV.getAvgRatingByProductId(ID)
             };
         });
     },
 
     getByCategory: function(category){
-        return productDAL.getByCategory(category).then(doc => {
+        return productDAL.getByCategory(category).then(async doc => {
             if(doc.empty) {
                 console.log('couldnt find category. ');
                 return
@@ -40,13 +44,8 @@ module.exports = {
             var products = []
             for(let i=0;i<doc.length;i++){
                 products.push({
-                    'category:': doc[i]._fieldsProto.category.stringValue,
-                    'ingredients': doc[i]._fieldsProto.ingredients.stringValue,
-                    'name': doc[i]._fieldsProto.name.stringValue,
-                   'picture': doc[i]._fieldsProto.picture.stringValue,
-                   'description': doc[i]._fieldsProto.description.stringValue,
-                   'productID': doc[i]._fieldsProto.productID.stringValue,
-                   'money': doc[i]._fieldsProto.money.stringValue,
+                    ...doc[i].data(),
+                   'avgRating': await productReviewSRV.getAvgRatingByProductId(doc[i].id)
                 })
             }
             return products;

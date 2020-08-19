@@ -1,12 +1,14 @@
 const purchaseDAL = require('../dal/purchaseDAL')
+const productsInStoreDal = require('../dal/productsInStoreDAL')
 const childDAL = require('../dal/childDAL')
+const storeDAL = require('../dal/storeDAL')
 const ownerDAL = require('../dal/ownerDAL')
 const utils = require('../misc/utils')
 const conf = require('../../config/conf.json')
 const request = require('request-promise')
 const { response } = require('express')
 
-const getDataFromRes = function (res) {
+const getDataFromRes = async function (res) {
     if (res.empty) {
         console.log('Couldnt find any purchase.');
         return {};
@@ -14,10 +16,16 @@ const getDataFromRes = function (res) {
     var purchases = []
     for(let i=0;i<res.size;i++){
         purchase = res.docs[i].data();
+        product = await productsInStoreDal.getProduct(purchase.productInStore.id);
+        store = await storeDAL.getById(purchase.store.id);
+        delete store.owner;
+        delete store.bankAccount;
         purchases.push({
             'childId': purchase.child.id,
             'productFromStore': purchase.productInStore.id,
             'store': purchase.store.id,
+            'storeData': store,
+            'productData': product,
             'price': purchase.price,
             'date': purchase.date.toDate()
         })
