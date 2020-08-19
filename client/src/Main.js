@@ -42,7 +42,7 @@ class Main extends Component {
         this.setUser(userAuth.uid, token);  
       }
 
-      if (localStorage.getItem('userUID') !== null && localStorage.getItem('userToken') !== null && this.state.firstTime) {
+      if (localStorage.getItem('userUID') !== null && localStorage.getItem('userToken') !== null) {
         //TODO : if its first time then redirect to home
         // TODO : CHECK FOR ERRORS
         const response = await axios.get(
