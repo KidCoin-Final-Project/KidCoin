@@ -3,6 +3,14 @@ const geoLib = require('geolib')
 
 module.exports = {
 
+    getById: function (Id){
+        return db.collection('store').doc(Id).get().then(doc =>{
+            if(!doc.exist){
+                return {...doc.data(), id: doc.id};
+            }
+            return undefined;
+        })
+    },
     getByName: function (storeName) {
         return db.collection('store')
             .get()
