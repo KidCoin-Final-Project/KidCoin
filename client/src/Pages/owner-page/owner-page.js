@@ -19,12 +19,14 @@ class OwnerHome extends Component {
         this.context.isLoggedInFunc();
         let userId = localStorage.getItem('userUID');
         let userToken = localStorage.getItem('userToken');
-        const lastActivitiesDataFromServer = this.getPurchaseOfStoreFromServer(userToken);
-        const remainCachDataFromServer = this.getRemainCashFromServer(userToken);
-        console.log(remainCachDataFromServer);
+        // const lastActivitiesDataFromServer = this.getPurchaseOfStoreFromServer(userToken);
+        // const remainCachDataFromServer = this.getRemainCashFromServer(userToken);
+        // console.log(remainCachDataFromServer);
+        // console.log(remainCachDataFromServer);
 
-        this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        this.setState({ purchaseOfStore: remainCachDataFromServer.purchaseOfStore });
+        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
+        // this.setState({ purchaseOfStore: remainCachDataFromServer.purchaseOfStore });
+
         // this.setState({ remainCash: remainCachDataFromServer.remainCash });
         // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
         // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
@@ -73,6 +75,8 @@ class OwnerHome extends Component {
     }
 
     async getPurchaseOfStoreFromServer(token) {
+        console.log("token: ", token);
+
         const response = await axios.get(
             'http://localhost:8080/purchase/ofStore/',
             {
@@ -81,6 +85,13 @@ class OwnerHome extends Component {
         ).catch(error => {
             alert(error);
         });
+        // console.log("response: ", response);
+        //
+        // console.log("response.data: ", response.data);
+
+        // response.data.getData(this.sFilter).then(function(result) {
+        //     console.log("controller unmatched: ", result);
+        // });
         return response.data;
         // return { remainCash: 15 };
     }
