@@ -15,50 +15,15 @@ class OwnerHome extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.context.isLoggedInFunc();
         let userId = localStorage.getItem('userUID');
         let userToken = localStorage.getItem('userToken');
-        // const lastActivitiesDataFromServer = this.getPurchaseOfStoreFromServer(userToken);
-        // const remainCachDataFromServer = this.getRemainCashFromServer(userToken);
-        // console.log(remainCachDataFromServer);
-        // console.log(remainCachDataFromServer);
-
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ purchaseOfStore: remainCachDataFromServer.purchaseOfStore });
-
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
-    }
-
-    getLastActivitiesDataFromServer() {
-        // return [
-        //     {
-        //         activity: {
-        //             product: {
-        //                 name: 'במבה נוגט',
-        //                 price: '1'
-        //             },
-        //             moreDetails: {
-        //                 date: '3.3.20',
-        //                 location: 'רכישה בקיוסק הוד השרון'
-        //             }
-        //         }
-        //     },
-        //     {
-        //         activity: {
-        //             product: {
-        //                 name: 'במבה',
-        //                 price: '8'
-        //             },
-        //             moreDetails: {
-        //                 date: '3.4.20',
-        //                 location: 'רכישה בקי'
-        //             }
-        //         }
-        //     }
-        // ];
+        const remainCachDataFromServer = await this.getRemainCashFromServer(userToken);
+        console.log(remainCachDataFromServer);
+        console.log(remainCachDataFromServer);
+        this.setState({ remainCash: remainCachDataFromServer.totalRevenue });
+        this.setState({ purchaseOfStore: remainCachDataFromServer.numOfPurchases });
     }
 
     async getRemainCashFromServer(token) {
@@ -71,7 +36,6 @@ class OwnerHome extends Component {
             alert(error);
         });
         return response.data;
-        // return { remainCash: 15 };
     }
 
     async getPurchaseOfStoreFromServer(token) {
@@ -85,15 +49,7 @@ class OwnerHome extends Component {
         ).catch(error => {
             alert(error);
         });
-        // console.log("response: ", response);
-        //
-        // console.log("response.data: ", response.data);
-
-        // response.data.getData(this.sFilter).then(function(result) {
-        //     console.log("controller unmatched: ", result);
-        // });
         return response.data;
-        // return { remainCash: 15 };
     }
 
     render() {
@@ -110,7 +66,7 @@ class OwnerHome extends Component {
 
                     <div id="remain-Transactions-owner-page">
                         <div className="cash">
-                            <span id="Transactions">235</span>
+                            <span id="Transactions">{this.state.purchaseOfStore}</span>
                         </div>
                         <span>עסקאות בוצעו</span>
                     </div>
