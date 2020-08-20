@@ -97,7 +97,7 @@ module.exports = {
             fs.mkdirSync(csvDir);
         }
         const csvWriter = createCsvWriter({
-            path: csvDir + '/1' + '.csv',
+            path: csvDir + '/child-purchase' + '.csv',
             header: header
         });
          

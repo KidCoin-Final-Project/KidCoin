@@ -1,4 +1,4 @@
-
+import sys
 import pandas as pd
 import numpy as np
 
@@ -9,10 +9,10 @@ from scipy import sparse
 # LOAD THE DATASET
 #------------------
 
-data = pd.read_csv('data/lastfm.csv')
+data = pd.read_csv('./csvs/child-purchase.csv')
 
 # Create a new dataframe without the user ids.
-data_items = data.drop('user', 1)
+data_items = data.drop('child', 1)
 
 #------------------------
 # ITEM-ITEM CALCULATIONS
@@ -38,8 +38,6 @@ def calculate_similarity(data_items):
 # Build the similarity matrix
 data_matrix = calculate_similarity(data_items)
 
-# Lets get the top 11 similar artists for Beyonce
-print data_matrix.loc['beyonce'].nlargest(11)
 
 #------------------------
 # USER-ITEM CALCULATIONS
@@ -51,10 +49,9 @@ data_neighbours = pd.DataFrame(index=data_matrix.columns, columns=range(1,11))
 for i in xrange(0, len(data_matrix.columns)):
     data_neighbours.ix[i,:10] = data_matrix.ix[0:,i].sort_values(ascending=False)[:10].index
 
-user = 5985
-user_index = data[data.user == user].index.tolist()[0]
+user = sys.argv[0]
+user_index = data[data.child == user].index.tolist()[0]
 
-# Get the artists the user has played.
 known_user_likes = data_items.ix[user_index]
 known_user_likes = known_user_likes[known_user_likes >0].index.values
 
@@ -75,5 +72,5 @@ score = neighbourhood.dot(user_vector).div(neighbourhood.sum(axis=1))
 # Drop the known likes.
 score = score.drop(known_user_likes)
 
-print known_user_likes
+#print known_user_likes
 print score.nlargest(20)

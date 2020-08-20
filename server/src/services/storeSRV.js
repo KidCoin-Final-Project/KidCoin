@@ -21,27 +21,17 @@ module.exports = {
         return await storeDAL.getBylocation(location, maxDistanceInMeters);
     },
 
-    addStore: async function (req, res) {
-        const {
-            storeName,
-            location,
-            address
-        } = req.body;
-        let ownerID = await utils.getIdByToken(req.headers.authtoken);
-        if (!storeName || !location || !ownerID || !address) {
-            return res.send(500);
+    addStore: async function (store, ownerID) {
+        if (!store || 
+            !store.storeName || 
+            !store.location || 
+            !store.location.longitude || 
+            !store.location.latitude ||
+            !store.address || 
+            !store.bankAccount) {
+            throw ('missing params');
         }
-
-        try {
-            let store = await storeDAL.addStore(storeName, location, ownerID, address);
-            ownerDAL.addOwner(ownerID, store).catch(e => {
-                store.delete();
-                return res.status(500).send(e);
-            });
-            return res.send(store);
-        } catch (e) {
-            return res.status(500).send(e);
-        }
+        return  await storeDAL.addStore(store, ownerID);
     },
 
     getAllStore: async function (req, res) {
