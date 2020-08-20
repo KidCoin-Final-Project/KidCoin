@@ -17,8 +17,8 @@ class KidHome extends Component {
 
     async componentDidMount() {
         this.context.isLoggedInFunc();
-        let childId = localStorage.getItem('userUID');
-        let userToken = localStorage.getItem('userToken');
+        let childId = sessionStorage.getItem('userUID');
+        let userToken = sessionStorage.getItem('userToken');
         const lastActivitiesDataFromServer = await this.getLastActivitiesDataFromServer(childId, userToken);
         const remainCachDataFromServer = await this.getRemainCashFromServer();
         this.setState({remainCash: remainCachDataFromServer});

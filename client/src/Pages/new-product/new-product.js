@@ -57,7 +57,7 @@ class NewProduct extends Component {
         formData.append('myImage',this.state.file);
         const config = {
             headers: {
-                'authtoken': localStorage.getItem('userToken'), 'content-type': 'multipart/form-data'
+                'authtoken': sessionStorage.getItem('userToken'), 'content-type': 'multipart/form-data'
             }
         };
         axios.post('http://localhost:8080/product/addImage',formData,config)
@@ -69,7 +69,7 @@ class NewProduct extends Component {
         await axios.post(
             'http://localhost:8080/product/addProduct',
             {
-                headers: { 'authtoken': localStorage.getItem('userToken'), 'content-type': 'multipart/form-data'},
+                headers: { 'authtoken': sessionStorage.getItem('userToken'), 'content-type': 'multipart/form-data'},
                 params: {
                     name: this.state.name,
                     category: this.state.category,
@@ -81,7 +81,7 @@ class NewProduct extends Component {
                 }
             }
         ).then((response) => {
-            localStorage.setItem('productID', response.data)
+            sessionStorage.setItem('productID', response.data)
             window.location.href = '/#/Product'
         }).catch(error => {
             alert(error);

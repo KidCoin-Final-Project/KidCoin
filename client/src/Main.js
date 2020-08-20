@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {
   Route,
-  HashRouter
+  HashRouter,
+  Redirect
 } from "react-router-dom";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
@@ -28,46 +29,56 @@ class Main extends Component {
       uid: '',
       userToken: '',
       userType: '',
-      firstTime: true
+      firstTime: true,
+      navigateHome: false
     };
 
+    this.navigateHome = this.navigateHome.bind(this);
     this.setUser = this.setUser.bind(this);
     this.isLoggedIn = this.isLoggedIn.bind(this);
   }
 
   componentDidMount = async () => {
-    Auth.onAuthStateChanged(async userAuth => {
+    Auth.onAuthStateChanged(async userAuth => { 
       if (userAuth) {
         let token = await userAuth.getIdToken();
         this.setUser(userAuth.uid, token);  
+      }else{
+        this.setState({ navigateHome : false });
+        this.setState({ firstTime : true });
       }
 
-      if (localStorage.getItem('userUID') !== null && localStorage.getItem('userToken') !== null) {
+      if (sessionStorage.getItem('userUID') !== null && sessionStorage.getItem('userToken') !== null && this.state.firstTime) {
         //TODO : if its first time then redirect to home
         // TODO : CHECK FOR ERRORS
         const response = await axios.get(
           'http://localhost:8080/auth/userByToken',
-          { headers: { 'authtoken': localStorage.getItem('userToken')} }
+          { headers: { 'authtoken': sessionStorage.getItem('userToken')} }
           );
   
-          this.setState({ firstTime: false });
-          localStorage.setItem('userType', response.data.type);
-          // this.props.location.href = "/";
+          sessionStorage.setItem('userType', response.data.type);
+          this.setState({ firstTime : false });
+          this.setState({ navigateHome: true });
       };
     });
   }
 
 
   setUser(uid, token) {
-    localStorage.setItem('userUID', uid);
-    localStorage.setItem('userToken', token);
+    sessionStorage.setItem('userUID', uid);
+    sessionStorage.setItem('userToken', token);
   }
 
   isLoggedIn(){
-    if ((!(localStorage.getItem('userUID') !== null || localStorage.getItem('userToken') !== null)) && this.props.location) {
+    if ((!(sessionStorage.getItem('userUID') !== null || sessionStorage.getItem('userToken') !== null)) && this.props.location) {
       this.props.location.href = "/";
     }
   }
+
+  navigateHome(){
+    this.props.location.href = "/";
+  }
+  
 
   render() {
     const value = {
@@ -93,6 +104,9 @@ class Main extends Component {
             <Route exact path="/NewProduct" component={NewProduct} />
 
           </div>
+          {this.state.navigateHome &&
+                                <Redirect to="/"></Redirect>
+                }
         </HashRouter>
       </userContext.Provider>
     );
