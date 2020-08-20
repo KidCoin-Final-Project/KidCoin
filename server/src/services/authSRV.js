@@ -3,7 +3,8 @@ const userDAL = require('../dal/userDAL')
 const childDAL = require('../dal/childDAL')
 const parentDAL = require('../dal/parentDAL')
 const ownerDAL = require('../dal/ownerDAL')
-const utils = require('../misc/utils')
+const utils = require('../misc/utils');
+const storeSRV = require('./storeSRV');
 
 module.exports = {
     signup: async function (req, res) {
@@ -15,6 +16,9 @@ module.exports = {
             firstName,
             lastName,
             parentEmail,
+            age,
+            sex,
+            store,
             picture,
             file
         } = req.body;
@@ -61,11 +65,16 @@ module.exports = {
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
                         await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
-                        //owner is added in store add
+                        newStore = await storeSRV.addStore(store, user.uid);
+                        ownerDAL.addOwner(user.uid, newStore)
+
                     }
                 }
             } catch (e) {
                 firebase.auth.deleteUser(user.uid)
+                if(e == 'missing params'){
+                    return res.status(400).send(e);
+                }
                 return res.send(e);
             }
             var token = await firebase.auth.createCustomToken(user.uid).then((token) => { return token; });

@@ -68,12 +68,13 @@ module.exports = {
                 throw new Error('something bad happened: ' + err);
             })
     },
-    addStore: function (storeName, location, ownerID, address) {
+    addStore: function (store,ownerID) {
         return db.collection('store').add({
-            storeName: storeName,
-            location: location,
+            storeName: store.storeName,
+            location: store.location,
             owner: db.collection('owner').doc(ownerID),
-            address: address
+            address: store.address,
+            bankAccount: store.bankAccount
         });
     },
     deleteStore: function (storeID) {

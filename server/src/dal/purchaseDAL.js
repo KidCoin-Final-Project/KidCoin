@@ -38,7 +38,8 @@ module.exports = {
                     store: productInStore.store_id,
                     date: admin.firestore.Timestamp.fromDate(new Date()),
                     child: db.database.collection('child').doc(childId),
-                    productInStore: productInStoreDoc
+                    productInStore: productInStoreDoc,
+                    product: db.database.collection('product').doc(productInStore.product_id.id),
                 }).then(doc=>{
                     return doc.get();
                 });
@@ -58,6 +59,21 @@ module.exports = {
             } else{
                 throw 404;
             }
+        })
+    },
+    allPuchaseIdAndChildId: function (){
+        return db.database.collection('purchase').get().then(purchases =>{
+            var res = {};
+            docs = purchases.docs;
+            for (let i = 0; i < docs.length; i++) {
+                purchase = docs[i].data()
+                if(!res[purchase.child.id]){
+                    res[purchase.child.id] = {};
+                    res[purchase.child.id][purchase.product.id] = 1;
+                }
+                
+            }
+            return res;
         })
     }
 }
