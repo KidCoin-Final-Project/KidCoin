@@ -74,6 +74,7 @@ module.exports = {
             return {
                 'childId': data.child.id,
                 'productFromStore': data.productInStore.id,
+                'product': data.product.id,
                 'store': data.store.id,
                 'price': Number(data.price),
                 'date': data.date.toDate()

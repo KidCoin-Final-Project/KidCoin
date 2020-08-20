@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const productsSRV = require('../services/productsSRV')
 const multer = require("multer");
-
+const middleware = require('../misc/middleware')
 
 const storage = multer.diskStorage({
     destination: "../pictures/",
@@ -57,6 +57,18 @@ router.get('/byCategory/:category', function (req, res) {
     productsSRV.getByCategory(req.params.category).then(doc => {
        return res.send(doc);
     });
+});
+
+/**
+* get top 10 recommended items for child
+* @route get /product/recommended
+* @group product api
+* @returns {object} 200 
+* @returns {Error}  default - Unexpected error
+*/
+router.get('/recommended', middleware.isUserChild, function (req, res) {
+    productsSRV.getTopTenRecommended(req);
+    return res.send("ok");
 });
 
 

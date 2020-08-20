@@ -1,5 +1,12 @@
 const productDAL = require('../dal/productDAL')
+const purchaseDAL = require('../dal/purchaseDAL')
 const productReviewSRV = require('./productReviewSRV')
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const utils = require('../misc/utils')
+const fs = require('fs');
+const csvDir = './server/csvs';
+
+
 
 module.exports = {
     getAll: function(){
@@ -65,6 +72,40 @@ module.exports = {
             return res.status(500).send(e);
         }
     },
+
+    getTopTenRecommended: async function (req){
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        var data = await purchaseDAL.allPuchaseIdAndChildId();
+        var children = Object.keys(data);
+        var header = {}
+        var records = []
+        for (let i = 0; i < children.length; i++) {
+            records.push({...data[children[i]], child: children[i]})
+
+            childPurchases = Object.keys(data[children[i]])
+            for (let j = 0; j < childPurchases.length; j++) {
+                if(!header[childPurchases[j]]){
+                    header[childPurchases[j]] = {id: childPurchases[j], title: childPurchases[j]};
+                }
+                
+            }
+            
+        }
+        header = Object.values(header)
+        header.unshift({id: 'child', title: 'child'})
+        if (!fs.existsSync(csvDir)){
+            fs.mkdirSync(csvDir);
+        }
+        const csvWriter = createCsvWriter({
+            path: csvDir + '/1' + '.csv',
+            header: header
+        });
+         
+        csvWriter.writeRecords(records) 
+            .then(() => {
+                console.log('...Done');
+            });
+    }
 
 
 }
