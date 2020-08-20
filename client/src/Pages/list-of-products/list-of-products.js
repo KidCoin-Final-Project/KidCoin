@@ -14,7 +14,7 @@ class ListProducts extends Component {
     }
 
     async componentDidMount() {
-        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, localStorage.getItem('userToken'));
+        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, sessionStorage.getItem('userToken'));
         this.setState({products: productsByCategoryFromServer});
     }
 

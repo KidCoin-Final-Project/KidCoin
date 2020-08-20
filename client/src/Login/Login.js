@@ -34,6 +34,14 @@ class Login extends Component {
       return this.setState({ error: this.validateFields(evt) });
     }
 
+    if(sessionStorage.getItem('userToken') !== null){
+      Auth.signOut().then(function() {
+        sessionStorage.removeItem('userToken');
+      }).catch(function(error) {
+        // An error happened.
+      });
+  }
+
     await Auth.signInWithEmailAndPassword(this.state.username, this.state.password).catch(error => {
       this.setState({ error: " אירעה שגיאה במהלך כניסה לחשבון באמצעות מייל וסיסמא " + error });
       this.setState({ password: '' });
@@ -41,7 +49,6 @@ class Login extends Component {
     });
 
     if (this.state.error === '') {
-      this.props.history.push("/");
     }
 
   }

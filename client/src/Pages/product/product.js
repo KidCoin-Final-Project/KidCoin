@@ -83,9 +83,9 @@ class Product extends Component {
     }
 
     async componentDidMount() {
-        this.setState({productID: localStorage.getItem('productID')})
-        const productByIDFromServer = await this.getProductsByIDFromServer(localStorage.getItem('productID'), localStorage.getItem('userToken'));
-        const productReviews = await this.getProductReviewFromServer(localStorage.getItem('productID'), localStorage.getItem('userToken'));
+        this.setState({productID: sessionStorage.getItem('productID')})
+        const productByIDFromServer = await this.getProductsByIDFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
+        const productReviews = await this.getProductReviewFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
         this.setState({
             name: productByIDFromServer.name,
             category: productByIDFromServer.category,

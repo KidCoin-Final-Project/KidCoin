@@ -32,8 +32,8 @@ class ParentHome extends Component {
     }
 
     async componentDidMount() {
-        const parentId = localStorage.getItem('userUID');
-        const parentToken = localStorage.getItem('userToken');
+        const parentId = sessionStorage.getItem('userUID');
+        const parentToken = sessionStorage.getItem('userToken');
         let parentInfo = await this.getParentInfoFromServer(parentId, parentToken);
         this.setState({ childrenID : parentInfo.data.children });
         this.setState({ token : parentToken });

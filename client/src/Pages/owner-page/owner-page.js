@@ -17,8 +17,8 @@ class OwnerHome extends Component {
 
     async componentDidMount() {
         this.context.isLoggedInFunc();
-        let userId = localStorage.getItem('userUID');
-        let userToken = localStorage.getItem('userToken');
+        let userId = sessionStorage.getItem('userUID');
+        let userToken = sessionStorage.getItem('userToken');
         const remainCachDataFromServer = await this.getRemainCashFromServer(userToken);
         console.log(remainCachDataFromServer);
         console.log(remainCachDataFromServer);
