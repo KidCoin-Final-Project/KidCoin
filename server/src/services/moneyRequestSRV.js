@@ -67,7 +67,8 @@ module.exports = {
         }
     },
     accept: async function (req, res){
-        var reqId = req.params.reqId;
+        let authToken = req.headers.authtoken || req.body.headers.authtoken;
+        var reqId = req.body.params.reqId;
         var transId = req.body.params.transId;
         if(!transId){
             return res.status(400).send("transaction id is missing!")
@@ -79,7 +80,8 @@ module.exports = {
         if(moneyRequest.accepted){
             return res.status(404).send("money request already accepted!");
         }
-        var parent = await parentDAL.getByID(await utils.getIdByToken(req.headers.authtoken));
+        let idByToken = await utils.getIdByToken(authToken);
+        var parent = await parentDAL.getByID(idByToken);
 
         parent.children.forEach(child => {
             if(moneyRequest.childID == child.id){
