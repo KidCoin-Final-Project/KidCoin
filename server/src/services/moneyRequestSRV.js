@@ -47,9 +47,28 @@ module.exports = {
             return res.send(400, "child not found");
         }
     },
+    allRequestsForParent: async function (req, res){
+        const userID = await utils.getIdByToken(req.headers.authtoken);
+        const user = await usersDAL.getByID(userID);
+        let moneyRequests = [];
+        if (user.type == 'parent'){
+            let childID = req.query.childID;
+            if(!childID){
+                return res.send(400, "missing params: childID");
+            }
+            let parent = await parentDAL.getByID(userID);
+            for (let i = 0; i < parent.children.length; i++) {
+                if(parent.children[i].id == childID){
+                    moneyRequests = await moneyRequestsDAL.getAllByChildId(parent.children[i].id);
+                    return res.send(moneyRequests);
+                }
+            }
+            return res.send(400, "child not found");
+        }
+    },
     accept: async function (req, res){
         var reqId = req.params.reqId;
-        var transId = req.body.transId;
+        var transId = req.body.params.transId;
         if(!transId){
             return res.status(400).send("transaction id is missing!")
         }

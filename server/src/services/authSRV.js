@@ -15,8 +15,8 @@ module.exports = {
             firstName,
             lastName,
             parentEmail,
-            age,
-            sex
+            picture,
+            file
         } = req.body;
 
         if (type!='child' && type!='parent' && type!='owner') {
@@ -28,7 +28,7 @@ module.exports = {
         try {
             let user;
             if (type == 'child') {
-                if (!parentEmail || !age || !sex) {
+                if (!parentEmail ) {
                     return res.status(400).send("missing params");
                 }
                 let parentUser = await userDAL.getByEmail(parentEmail);
@@ -40,8 +40,8 @@ module.exports = {
                     password: password
                 });
                 try{
-                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
-                    await childDAL.addChild(user.uid, age, sex);
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
+                    await childDAL.addChild(user.uid);
                     await parentDAL.addPendingChild(parentUser.id, email, user.uid);
                 } catch(e){
                     firebase.auth.deleteUser(user.uid);
@@ -60,7 +60,7 @@ module.exports = {
                         await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
-                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
                         //owner is added in store add
                     }
                 }
