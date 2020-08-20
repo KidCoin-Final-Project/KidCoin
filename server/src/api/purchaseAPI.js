@@ -40,7 +40,7 @@ router.get('/ofStore/', middleware.isUserOwner, function (req, res) {
  * @returns {Error}  default - Unexpected error
  */
 router.get('/ofChild/', middleware.isUserChild, async function (req, res) {
-    childId = await utils.getIdByToken(req.headers.authtoken)
+    let childId = await utils.getIdByToken(req.headers.authtoken)
     purchaseSRV.getChildPurchases(childId).then(child => {
         return res.send(child);
     });

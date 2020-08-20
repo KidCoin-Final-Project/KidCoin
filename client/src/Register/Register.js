@@ -15,6 +15,8 @@ function Register(props) {
   const [isValid, setIsValid] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [error, setError] = useState('');
+  const [picture, setPicture] = useState('');
+  const [file, setFile] = useState('');
 
 
   useEffect(() => {
@@ -82,34 +84,55 @@ function Register(props) {
     // TODO : ADD EMAIL VALIDATION
   }
 
+  const onChange = (e) => {
+      setPicture(e.target.value);
+      setFile(e.target.files[0]);
+  }
   const TryRegisterToFireBase = async (values, setUser) => {
     let currError = '';
     const type = showKid ? 'child' : isOwner ? 'owner' : 'parent';
 
-    const response = await axios.post(
-      'http://localhost:8080/auth/signup',
-      {
-        email: values.email,
-        type: type,
-        phoneNumber: values.phoneNumber,
-        password: values.password,
-        firstName: values.name,
-        lastName: '',
-        parentEmail: values.parentEmail
-      },
-      { headers: { 'Content-Type': 'application/json' } }
-    ).catch(error => {
-      setError(error.response.data);
-      currError = error.response.data;
+    const formData = new FormData();
+    formData.append('myImage', file);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+    axios.post('http://localhost:8080/product/addImage',formData,config)
+        .then((response) => {
+          alert("image uplaoded seccessfully")
+        }).catch((error) => {
+          alert(error)
     });
 
-    if (currError === '') {
-      const res = response.data;
-      setUser(res.uid, await Auth.signInWithCustomToken(res.token));
-      props.history.push("/Login");
-    }
+    // const response = await axios.post(
+    //   'http://localhost:8080/auth/signup',
+    //   {
+    //     email: values.email,
+    //     type: type,
+    //     phoneNumber: values.phoneNumber,
+    //     password: values.password,
+    //     firstName: values.name,
+    //     lastName: '',
+    //     parentEmail: values.parentEmail,
+    //     picture: picture,
+    //     file: file
+    //   },
+    //   { headers: { 'Content-Type': 'application/json' } }
+    // ).catch(error => {
+    //   setError(error.response.data);
+    //   currError = error.response.data;
+    // });
+
+    // if (currError === '') {
+    //   const res = response.data;
+    //   setUser(res.uid, await Auth.signInWithCustomToken(res.token));
+    //   props.history.push("/Login");
+    // }
 
   };
+
 
   return (
     <div id="body-register">
@@ -133,7 +156,7 @@ function Register(props) {
             !showFirstTime &&
             <div>
               <Formik
-                initialValues={{ email: '', phoneNumber: '', parentEmail: '', password: '', name: '' }}
+                initialValues={{ email: '', phoneNumber: '', parentEmail: '', password: '', name: '', picture: '', file: '' }}
                 validate={values => {
                   const errors = {};
 
@@ -170,6 +193,7 @@ function Register(props) {
 
                       <Field className="register-input" type="text" name="email" placeholder="אימייל" />
                       <ErrorMessage name="email" component="div" />
+                      <Field id='myImage' className="register-input" type="file" name="myImage" onChange={onChange}/>
 
                       <Field className="register-input" type="text" name="name" placeholder="שם מלא" />
                       <ErrorMessage name="name" component="div" />

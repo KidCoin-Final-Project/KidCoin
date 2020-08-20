@@ -28,6 +28,11 @@ router.get('/getAll', function (req, res) {
     moneyTransferSRV.allRequests(req, res);
 });
 
+
+router.get('/getAllForParent', function (req, res) {
+    moneyTransferSRV.allRequestsForParent(req, res);
+});
+
 /**
  * accept money request - only for parent user
  * @route PUT /moneyRequest/accept/:reqId

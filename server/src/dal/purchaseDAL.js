@@ -4,9 +4,9 @@ const daysToMsMultiplier = 1000*60*60*24;
 
 module.exports = {
 
-    getChildPurchases: function (childId, msBack) {
+    getChildPurchases: async function (childId, msBack) {
         var now = new Date().getTime();
-        return db.database.collection('purchase')
+        let answer = await db.database.collection('purchase')
             .where('child', '==', db.database.collection('child').doc(childId))
             .orderBy('date')
             .startAt(now - msBack)
@@ -14,6 +14,7 @@ module.exports = {
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
             })
+        return answer;
     },
 
     getStorePurchases: function (storeId, msBack) {

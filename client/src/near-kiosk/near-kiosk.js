@@ -20,8 +20,8 @@ class NearKiosk extends Component {
     componentDidMount() {
         this.context.isLoggedInFunc();
         var that = this;
-        this.setState({ userToken: localStorage.getItem('userToken') });
-        this.getAllKiosks(localStorage.getItem('userToken'));
+        this.setState({ userToken: sessionStorage.getItem('userToken') });
+        this.getAllKiosks(sessionStorage.getItem('userToken'));
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {

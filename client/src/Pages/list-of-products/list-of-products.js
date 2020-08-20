@@ -14,7 +14,7 @@ class ListProducts extends Component {
     }
 
     async componentDidMount() {
-        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, localStorage.getItem('userToken'));
+        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, sessionStorage.getItem('userToken'));
         this.setState({products: productsByCategoryFromServer});
     }
 
@@ -40,7 +40,7 @@ class ListProducts extends Component {
             const listItems = products.map((product) =>
                 <NavLink to={{ pathname: "Product",  state: { category: product.productID} }}>
                 <div className="product-list-products">
-                    <img className="product-image-list-products" src="images/bisli.jpg" />
+                    <img className="product-image-list-products" src={"http://localhost:8080/images/" + product.picture} />
                     <span className="product-name-list-products">{product.name}</span>
                     <span>{product.money} ש"ח </span>
                 </div>

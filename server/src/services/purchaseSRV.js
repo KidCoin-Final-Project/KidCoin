@@ -32,12 +32,30 @@ const getDataFromRes = async function (res) {
     }
     return purchases;
 };
-
+const getChildPurchasesDataFromRes = async function (res) {
+    if (res.empty) {
+        console.log('Couldnt find any purchase.');
+        return;
+    }
+    var purchases = []
+    for (let i = 0; i < res.size; i++) {
+        purchase = res.docs[i].data();
+        let store = await purchase.store.get();
+        let storeData = store.data();
+        purchases.push({
+            'location': storeData.name,
+            'name': purchase.productName,
+            'price': purchase.price,
+            'date': purchase.date.toDate()
+        })
+    }
+    return purchases;
+};
 
 module.exports = {
 
     getChildPurchases: function (childId) {
-        return purchaseDAL.getChildPurchases(childId).then(getDataFromRes);
+        return purchaseDAL.getChildPurchases(childId).then(getChildPurchasesDataFromRes);
     },
     getStorePurchases: async function (req) {
         let userID = await utils.getIdByToken(req.headers.authtoken);
