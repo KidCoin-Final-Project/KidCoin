@@ -74,6 +74,11 @@ class ParentHome extends Component {
         return childrenInfo;
     }
 
+    async redirectToChat(childId) {
+        localStorage.setItem('chatChildId', childId)
+        window.location.href = '/#/ChargeMoney'
+    }
+
     async getChildInfoFromServer(id,token,url){
         const response = axios.get(
             'http://localhost:8080/'+ url + id,
@@ -87,14 +92,14 @@ class ParentHome extends Component {
         return children.map((child) =>
         <div className="kid-box" key={child.childId}>
         <div className="kid-info">
-            <a className="fa fa-edit"></a>
+            <a className="fa fa-envelope" onClick={this.redirectToChat.bind(this, child.childId)}></a>
 
             <div className="kid-specific">
-                <span style={{ fontWeight: "bold", "fontSize": "3vh" }}>{child.child.firstName}, בת 11</span>
+                <span style={{ fontWeight: "bold", "fontSize": "3vh" }}>{child.child.firstName}</span>
                 <span style={{ "fontSize": "2vh" }}>הגבלות: בוטנים, חלב, סויה</span>
             </div>
             <div className="kid-image">
-                <img src="/images/alon-face.png" style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />
+                <img src={"http://localhost:8080/images/" + child.child.picture} style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />
             </div>
         </div>
         <div className="kid-money">
@@ -127,15 +132,15 @@ class ParentHome extends Component {
             return '';
         }
 
-        return activities.map((activity) =>
+        return activities? activities.map((activity) =>
         <div className="activity" key={activity.date}>
                         <div className="product">
     <span className="cost">{activity.price}$</span>
-    <span className="product-name">{activity.productData.name}</span>
+    <span className="product-name">{activity.name}</span>
                         </div>
                         <div className="more-details">
                             <span>3.3.20</span>
-    <span>רכישה ב{activity.storeData.name}</span>
+    <span>רכישה ב{activity.location}</span>
                         </div>
                         <div style={{
                             "display": "flex",
@@ -161,7 +166,7 @@ class ParentHome extends Component {
                             />
                         </div>
                     </div>
-        );
+        ): <div></div>;
     }
 
     createTabsDOM(childrenInfo){

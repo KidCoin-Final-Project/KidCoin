@@ -2,27 +2,83 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css"
 import "./charge-money.css"
 import { userContext } from "../../utils/fire-base/userContext";
+import axios from "axios";
+import StarRatingComponent from "react-star-rating-component";
+
+
+class Request extends Component {
+    state = {
+    };
+
+    componentDidMount() {
+    }
+
+    async payForKid(uid, transId){
+        alert(uid);
+        let userToken = localStorage.getItem('userToken')
+        alert(userToken);
+        const response = await axios.put(
+            'http://localhost:8080/moneyRequest/accept/'+ uid,
+            { headers: { 'authtoken': userToken},
+                params: {
+                    reqId: uid,
+                    transId: transId
+                }}
+        );
+        alert(JSON.stringify(response))
+        return response;
+    }
+
+    render() {
+        if (this.props.accepted) {
+            return <div style={{'display': 'flex'}}><div className="asked-you">
+                <span className="right"><b>ביקשו ממך {this.props.amount} שקלים</b></span>
+                <span className="right font-size-2vh">{this.props.date}</span>
+                </div>
+                <div className="you-payed">
+                <span className="right"><b>שילמת {this.props.amount} שקלים</b></span>
+                <span className="right font-size-2vh">{this.props.date}</span>
+            </div>
+            </div>
+        }
+        return <div className="asked-you-with-pay-option">
+            <div className="asked-you-inner">
+                <span className="right"><b>ביקשו ממך {this.props.amount} שקלים</b></span>
+                <span className="right font-size-2vh">{this.props.date}</span>
+            </div>
+            <span className="tap-to-pay" onClick={this.payForKid.bind(this, this.props.uid, 'aaaa')}>לחץ לתשלום</span>
+        </div>;
+    }
+}
 
 class ChargeMoney extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
-            // lastActivities: [],
-            // lastActivitiesDOM: []
+            showModal: false,
+            requestsForParent: []
         };
     }
 
-    componentDidMount() {
-        // this.context.isLoggedInFunc();
-        // let childId = this.context.uid;
-        // let userToken = this.context.userToken;
-        // const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer(childId, userToken);
-        // const remainCachDataFromServer = this.getRemainCashFromServer();
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
+    async getRequestsForParentFromServer(chatChildId){
+        const response = await axios.get(
+            'http://localhost:8080/moneyRequest/getAllForParent',
+            { headers: { 'authtoken': localStorage.getItem('userToken')},
+            params: {
+                childID: chatChildId
+            }}
+        );
+        return response;
     }
+
+    async componentDidMount() {
+        const parentId = localStorage.getItem('userUID');
+        const chatChildId = localStorage.getItem('chatChildId');
+        let requestsForParent = await this.getRequestsForParentFromServer(chatChildId);
+        this.setState({ requestsForParent : requestsForParent.data });
+
+    }
+
 
     render() {
         const toggleResults = () =>  this.setState({ showModal: !this.state.showModal });
@@ -67,49 +123,10 @@ class ChargeMoney extends Component {
                         <div id="body-charge-money-page">
                             {this.state.showModal ? <Modal/>: null}
                             <div className="chat-panel">
-                                <div className="you-payed">
-                                    <span className="right"><b>שילמת 58 שקלים</b></span>
-                                    <span className="right font-size-2vh">התשלום עבר ב19.5</span>
-                                    <span className="right font-size-2vh">12:00</span>
-                                </div>
-                                <span className="date-separator">24 במאי</span>
-
-                                <div className="asked-you">
-                                    <span className="right"><b>ביקשו ממך 60 שקלים</b></span>
-                                    <span className="right font-size-2vh">12:00</span>
-                                </div>
-
-                                <div className="you-payed">
-                                    <span className="right"><b>שילמת 60 שקלים</b></span>
-                                    <span className="right font-size-2vh">התשלום עבר ב25.5</span>
-                                    <span className="right font-size-2vh">12:21</span>
-                                </div>
-
-                                <span className="date-separator">9 ביוני</span>
-
-                                <div className="asked-you-with-pay-option">
-                                    <div className="asked-you-inner">
-                                        <span className="right"><b>ביקשו ממך 66 שקלים</b></span>
-                                        <span className="right font-size-2vh">11:59</span>
-                                    </div>
-                                    <span className="tap-to-pay">לחץ לתשלום</span>
-                                </div>
-
-                                <div className="asked-you">
-                                    <span className="right"><b>ביקשו ממך 60 שקלים</b></span>
-                                    <span className="right font-size-2vh">12:00</span>
-                                </div>
-
-                                <div className="asked-you">
-                                    <span className="right rtl">תאשר רק את השני!</span>
-                                    <span className="right font-size-2vh">12:00</span>
-                                </div>
-
-                                <div className="you-payed">
-                                    <span className="right"><b>שילמת 60 שקלים</b></span>
-                                    <span className="right font-size-2vh">התשלום עבר ב10.6</span>
-                                    <span className="right font-size-2vh">12:19</span>
-                                </div>
+                                {this.state.requestsForParent.map((request,index) =>
+                                    <Request key={index}
+                                            accepted={request.accepted} amount={request.amount} date={request.requestDate} uid={request.uid} />
+                                )}
 
                             </div>
                             <div className="bottom-interface">
@@ -120,11 +137,6 @@ class ChargeMoney extends Component {
                                     <button className="pay-or-ask-button">
                                         שלם
                                     </button>
-                                </div>
-
-                                <div>
-                                    <input className="chat-input" defaultValue="רציתי להגיד ש..." type="text"/>
-                                        <a className="fa fa-send send-icon"></a>
                                 </div>
                             </div>
                         </div>

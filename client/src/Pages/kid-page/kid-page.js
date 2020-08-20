@@ -15,65 +15,49 @@ class KidHome extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.context.isLoggedInFunc();
         let childId = localStorage.getItem('userUID');
         let userToken = localStorage.getItem('userToken');
-        const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer(childId, userToken);
-        const remainCachDataFromServer = this.getRemainCashFromServer();
-        this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
+        const lastActivitiesDataFromServer = await this.getLastActivitiesDataFromServer(childId, userToken);
+        const remainCachDataFromServer = await this.getRemainCashFromServer();
+        this.setState({remainCash: remainCachDataFromServer});
+        this.setState({lastActivities: [lastActivitiesDataFromServer]});
+        this.setState({lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer)})
     }
 
-    getLastActivitiesDataFromServer(childId, token) {
-        //  const amit =  await axios.get(
-        //     'http://localhost:8080/child/:' + childId,
-        //     { headers: { 'authtoken': token } }
-        // );
-
-        // return amit.data;
-
-        return [
-                {activity: {
-                    product: {
-                        name: 'במבה נוגט',
-                        price: '1',
-                        id: 1
-                    },
-                    moreDetails: {
-                        date: '3.3.20',
-                        location: 'רכישה בקיוסק הוד השרון'
-                    }
-                }},
-                {activity: {
-                    product: {
-                        name: 'במבה',
-                        price: '8',
-                        id: 2
-                    },
-                    moreDetails: {
-                        date: '3.4.20',
-                        location: 'רכישה בקי'
-                    }
-                }}
-            ];
+    async getLastActivitiesDataFromServer(childId, token) {
+        const response = await axios.get(
+            'http://localhost:8080/purchase/ofChild/',
+            {
+                headers: { 'authtoken': token },
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
     }
 
-    getRemainCashFromServer() {
-        return { remainCash: 15 };
+    async getRemainCashFromServer() {
+        const response = await axios.get(
+            'http://localhost:8080/auth/userByToken',
+            { headers: { 'authtoken': localStorage.getItem('userToken')} }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data.balance;
     }
 
     mapLastActivities(lastActivities) {
-        return lastActivities.map((activity) =>
-            <div className="activity-kid-page" key={activity.activity.product.id} >
+        return lastActivities.map((activity, index) =>
+            <div className="activity-kid-page" key={index} >
                 <div className="product-kid-page">
-                    <span className="cost-kid-page">{activity.activity.product.price}$</span>
-                    <span className="product-name-kid-page">{activity.activity.product.name}</span>
+                    <span className="cost-kid-page">{activity.price}$</span>
+                    <span className="product-name-kid-page">{activity.name}</span>
                 </div>
                 <div className="more-details-kid-page">
-                    <span>{activity.activity.moreDetails.date}</span>
-                    <span>{activity.activity.moreDetails.location}</span>
+                    <span>{activity.date}</span>
+                    <span>{activity.location}</span>
                 </div>
             </div>
         );
