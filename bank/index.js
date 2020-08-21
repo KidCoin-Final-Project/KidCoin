@@ -31,7 +31,9 @@ app.post('/transfer', async (req, res) => {
         fromAccount,
         toAccount
     } = req.body;
-    var trans = await transfer(fromAccount.toString(), toAccount.toString(), amount);
+    var trans = await transfer(fromAccount.toString(), toAccount.toString(), amount).catch(e => {
+        return res.status(404).send(trans);
+    });
     return res.send(trans);
 })
 
@@ -44,8 +46,8 @@ app.post('/chargeCard', async (req, res) => {
         cardHolderId,
         cardHolderName,
         toAccount
-    } = req.body;
-    return await db.collection('creditCards')
+    } = req.body.params;
+    return db.collection('creditCards')
             .doc(cardNumber)
             .get()
             .then(async doc =>{
@@ -74,8 +76,8 @@ function isCardEqual(firstCardNumber, card,
 
     if((firstCardNumber == cardNumber) && 
     (card.expireDate == expirationDate) && 
-    (card.securityCode == cardSecurityCode) && 
-    (card.holderID == cardHolderId) && 
+    (card.securityCode.toString() == cardSecurityCode) &&
+    (card.holderID.toString() == cardHolderId) &&
     (card.holderName == cardHolderName)){
         return true;
     }

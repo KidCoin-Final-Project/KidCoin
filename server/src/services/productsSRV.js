@@ -1,28 +1,49 @@
 const productDAL = require('../dal/productDAL')
+const purchaseDAL = require('../dal/purchaseDAL')
+const productReviewSRV = require('./productReviewSRV')
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const utils = require('../misc/utils')
+const fs = require('fs');
+const csvDir = './server/csvs';
+
+
 
 module.exports = {
     getAll: function(){
-        return productDAL.getAll().then(doc => {
+        return productDAL.getAll().then(async doc => {
             if (doc.empty) {
                 console.log('couldnt find products.');
                 return;
             }
-            return doc.docs;
+
+            var docs = doc.docs;
+            var products = []
+            for(let i=0;i<docs.length;i++){
+                products.push({
+                    ...docs[i].data(),
+                   'avgRating': await productReviewSRV.getAvgRatingByProductId(docs[i].id)
+                })
+            }
+            return products;
         });
     },
 
     getByID: function(ID){
-        return productDAL.getByID(ID).then(doc => {
+        return productDAL.getByID(ID).then(async doc => {
             if (doc.empty) {
                 console.log('couldnt find product.');
                 return;
             }
-            return doc;
+
+            return {
+                ...doc.data(),
+                'avgRating': await productReviewSRV.getAvgRatingByProductId(ID)
+            };
         });
     },
 
     getByCategory: function(category){
-        return productDAL.getByCategory(category).then(doc => {
+        return productDAL.getByCategory(category).then(async doc => {
             if(doc.empty) {
                 console.log('couldnt find category. ');
                 return
@@ -30,10 +51,8 @@ module.exports = {
             var products = []
             for(let i=0;i<doc.length;i++){
                 products.push({
-                    'category:': doc[i]._fieldsProto.category.stringValue,
-                    'ingredients': doc[i]._fieldsProto.ingredients.stringValue,
-                    'name': doc[i]._fieldsProto.name.stringValue,
-                   'picture': doc[i]._fieldsProto.picture.stringValue,
+                    ...doc[i].data(),
+                   'avgRating': await productReviewSRV.getAvgRatingByProductId(doc[i].id)
                 })
             }
             return products;
@@ -43,17 +62,50 @@ module.exports = {
 
     addProduct: async function (req, res) {
         const {
-            name, category, ingredients, picture
+            name, category, ingredients, description, money, picture, productID
         } = req.body.params;
         try {
-            let product = await productDAL.addProduct(name, category, ingredients, picture);
-            return res.send(200, {
-                'product': product.name
-            });
+            let product = await productDAL.addProduct(name, category, ingredients, description, money, picture.split('\\')[picture.split('\\').length-1], productID);
+            let documentId = product._path.segments["1"];
+            return res.send(documentId).end();
         } catch (e) {
             return res.status(500).send(e);
         }
     },
+
+    getTopTenRecommended: async function (req){
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        var data = await purchaseDAL.allPuchaseIdAndChildId();
+        var children = Object.keys(data);
+        var header = {}
+        var records = []
+        for (let i = 0; i < children.length; i++) {
+            records.push({...data[children[i]], child: children[i]})
+
+            childPurchases = Object.keys(data[children[i]])
+            for (let j = 0; j < childPurchases.length; j++) {
+                if(!header[childPurchases[j]]){
+                    header[childPurchases[j]] = {id: childPurchases[j], title: childPurchases[j]};
+                }
+                
+            }
+            
+        }
+        header = Object.values(header)
+        header.unshift({id: 'child', title: 'child'})
+        if (!fs.existsSync(csvDir)){
+            fs.mkdirSync(csvDir);
+        }
+        const csvWriter = createCsvWriter({
+            path: csvDir + '/child-purchase' + '.csv',
+            header: header
+        });
+         
+        csvWriter.writeRecords(records) 
+            .then(() => {
+                console.log('...Done');
+            });
+    }
 
 
 }

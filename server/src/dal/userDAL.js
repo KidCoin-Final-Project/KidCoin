@@ -3,12 +3,13 @@ const auth = require('../misc/firebase-admin').auth
 
 module.exports = {
 
-    addUser: function (uid, firstName, lastName, phoneNumber, type) {
+    addUser: function (uid, firstName, lastName, phoneNumber, type, picture) {
         return db.collection('user').doc(uid).create({
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
-            type: type
+            type: type,
+            picture: picture.split('\\')[picture.split('\\').length-1]
         });
     },
     getByID: function (userId) {

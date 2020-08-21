@@ -3,7 +3,8 @@ const userDAL = require('../dal/userDAL')
 const childDAL = require('../dal/childDAL')
 const parentDAL = require('../dal/parentDAL')
 const ownerDAL = require('../dal/ownerDAL')
-const utils = require('../misc/utils')
+const utils = require('../misc/utils');
+const storeSRV = require('./storeSRV');
 
 module.exports = {
     signup: async function (req, res) {
@@ -14,17 +15,25 @@ module.exports = {
             password,
             firstName,
             lastName,
-            parentEmail
+            parentEmail,
+            age,
+            sex,
+            store,
+            picture,
+            file
         } = req.body;
 
+        if (type!='child' && type!='parent' && type!='owner') {
+            return res.status(500).send("unknown user type");
+        }
         if (!email || !password) {
             return res.send(500);
         }
         try {
             let user;
             if (type == 'child') {
-                if (!parentEmail) {
-                    return res.send(500, "Parent email is required")
+                if (!parentEmail ) {
+                    return res.status(400).send("missing params");
                 }
                 let parentUser = await userDAL.getByEmail(parentEmail);
                 if (!parentUser.type == "parent") {
@@ -35,9 +44,10 @@ module.exports = {
                     password: password
                 });
                 try{
-                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                    await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
                     await childDAL.addChild(user.uid);
                     await parentDAL.addPendingChild(parentUser.id, email, user.uid);
+                    await parentDAL.approveChild(parentUser.id, email);
                 } catch(e){
                     firebase.auth.deleteUser(user.uid);
                     throw e;
@@ -52,14 +62,20 @@ module.exports = {
             try {
                 if (user) {
                     if (type == 'parent') {
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
                         await parentDAL.addParent(user.uid);
-                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
                     } else if (type == 'owner') {
-                        //owner is added in store add
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
+                        newStore = await storeSRV.addStore(store, user.uid);
+                        ownerDAL.addOwner(user.uid, newStore)
+
                     }
                 }
             } catch (e) {
                 firebase.auth.deleteUser(user.uid)
+                if(e == 'missing params'){
+                    return res.status(400).send(e);
+                }
                 return res.send(e);
             }
             var token = await firebase.auth.createCustomToken(user.uid).then((token) => { return token; });

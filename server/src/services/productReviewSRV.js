@@ -31,5 +31,18 @@ module.exports = {
             }
             return doc;
         });
+    },
+    getAvgRatingByProductId: function (productId) {
+        return productReviewDAL.getByProductId(productId).then(doc => {
+            if (doc.length == 0) {
+                console.log('couldnt find reviews.');
+                return 0;
+            }
+            var ratingSum = 0
+            for (let i = 0; i < doc.length; i++) {
+                ratingSum = ratingSum + Number(doc[i].rating)
+            }
+            return (ratingSum/doc.length);
+        });
     }
 }

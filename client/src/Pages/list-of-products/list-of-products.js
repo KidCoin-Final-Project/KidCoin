@@ -14,7 +14,7 @@ class ListProducts extends Component {
     }
 
     async componentDidMount() {
-        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer('Snack', localStorage.getItem('userToken'));
+        const productsByCategoryFromServer = await this.getProductsByCategoryFromServer(this.props.location.state.category, sessionStorage.getItem('userToken'));
         this.setState({products: productsByCategoryFromServer});
     }
 
@@ -38,11 +38,13 @@ class ListProducts extends Component {
         const ProductsList = (props) => {
             const products = props.products;
             const listItems = products.map((product) =>
+                <NavLink to={{ pathname: "Product",  state: { category: product.productID} }}>
                 <div className="product-list-products">
-                    <img className="product-image-list-products" src="images/bisli.jpg" />
+                    <img className="product-image-list-products" src={"http://localhost:8080/images/" + product.picture} />
                     <span className="product-name-list-products">{product.name}</span>
-                    <span> ב.ק. 1.5</span>
+                    <span>{product.money} ש"ח </span>
                 </div>
+                </NavLink>
             );
             return (
                 <div id="outer-products-list">{listItems}</div>
@@ -60,6 +62,8 @@ class ListProducts extends Component {
                 </div>
                         <ProductsList products={this.state.products} />
             </div>
+
+
         );
 
     }

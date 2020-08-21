@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import "../owner-page/owner-page.css"
 import { userContext } from "../../utils/fire-base/userContext";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 class OwnerHome extends Component {
     constructor(props) {
@@ -14,48 +15,42 @@ class OwnerHome extends Component {
         };
     }
 
-    componentDidMount() {
-        // this.context.isLoggedInFunc();
-        // const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer();
-        // const remainCachDataFromServer = this.getRemainCashFromServer();
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
+    async componentDidMount() {
+        this.context.isLoggedInFunc();
+        let userId = sessionStorage.getItem('userUID');
+        let userToken = sessionStorage.getItem('userToken');
+        const remainCachDataFromServer = await this.getRemainCashFromServer(userToken);
+        console.log(remainCachDataFromServer);
+        console.log(remainCachDataFromServer);
+        this.setState({ remainCash: remainCachDataFromServer.totalRevenue });
+        this.setState({ purchaseOfStore: remainCachDataFromServer.numOfPurchases });
     }
 
-    // getLastActivitiesDataFromServer() {
-    //     return [
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה נוגט',
-    //                     price: '1'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.3.20',
-    //                     location: 'רכישה בקיוסק הוד השרון'
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה',
-    //                     price: '8'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.4.20',
-    //                     location: 'רכישה בקי'
-    //                 }
-    //             }
-    //         }
-    //     ];
-    // }
+    async getRemainCashFromServer(token) {
+        const response = await axios.get(
+            'http://localhost:8080/purchase/totalRevenue/',
+            {
+                headers: {'authtoken': token}
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+    }
 
-    // getRemainCashFromServer() {
-    //     return { remainCash: 15 };
-    // }
+    async getPurchaseOfStoreFromServer(token) {
+        console.log("token: ", token);
 
+        const response = await axios.get(
+            'http://localhost:8080/purchase/ofStore/',
+            {
+                headers: {'authtoken': token}
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+    }
 
     render() {
         return (
@@ -63,7 +58,7 @@ class OwnerHome extends Component {
                 <div id="remain-cash-and-options-owner">
                     <div id="remain-cash-owner-page">
                         <div className="cash">
-                            <span id="amount">430</span>
+                            <span id="amount">{this.state.remainCash}</span>
                             <span id="coin">$</span>
                         </div>
                         <span>סך ההכנסות</span>
@@ -71,7 +66,7 @@ class OwnerHome extends Component {
 
                     <div id="remain-Transactions-owner-page">
                         <div className="cash">
-                            <span id="Transactions">235</span>
+                            <span id="Transactions">{this.state.purchaseOfStore}</span>
                         </div>
                         <span>עסקאות בוצעו</span>
                     </div>
@@ -79,17 +74,21 @@ class OwnerHome extends Component {
                 <button className="btn btn-light option-button"><span>פירוט עסקאות</span></button>
                 <div id="outer-products-list-owner">
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Bread' } }}>
                     <button className="btn btn-light food-btn">
                         <span><img className="product-image-owner" src="images/bread.png" alt="מוצר"/></span>
                         <span className="product-name-owner">לחמים</span>
                     </button>
+                    </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Milk' } }}>
                     <button className="btn btn-light food-btn">
                         <span><img className="product-image-owner" src="images/milk.png" alt="מוצר"/></span>
                         <span className="product-name-owner">מוצרי חלב</span>
                     </button>
+                    </NavLink>
 
-                    <NavLink to={{ pathname: "Products", state: { category: 'Snack' } }}>
+                    <NavLink to={{ pathname: "Products", state: { category: 'Fruit' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/apple.png" alt="מוצר"/>
                         <span className="product-name-owner">ירקות ופירות</span>
@@ -103,15 +102,19 @@ class OwnerHome extends Component {
                     </button>
                     </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Drinks' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/papers.png" alt="מוצר"/>
-                        <span className="product-name-owner">טואלט</span>
+                        <span className="product-name-owner">שתייה</span>
                     </button>
+                </NavLink>
 
+                    <NavLink to={{ pathname: "Products", state: { category: 'Paper' } }}>
                     <button className="btn btn-light food-btn">
                         <img className="product-image-owner" src="images/press.png" alt="מוצר"/>
                         <span className="product-name-owner">עיתונים</span>
                     </button>
+                    </NavLink>
 
                 </div>
             </div>

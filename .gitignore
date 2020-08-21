@@ -3,6 +3,7 @@
 /server/package-lock.json
 
 /server/config/firebase-service-account.json    
+/server/csvs    
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 

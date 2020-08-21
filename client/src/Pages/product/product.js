@@ -2,60 +2,103 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css"
 import "../product/product.css";
 import { userContext } from "../../utils/fire-base/userContext";
-import { NavLink } from "react-router-dom";
 import StarRatingComponent from 'react-star-rating-component';
+import axios from "axios";
+
+
+class Review extends Component {
+    state = {
+        rating: 0,
+        place: "",
+        comment: "",
+        dateString: ""
+    };
+
+    componentDidMount() {
+    }
+
+    render() {
+        return <div className="activity-product">
+            <div className="more-details-product">
+                <StarRatingComponent
+                    name="bamba"
+                    editing={false}
+                    starCount={5}
+                    value={this.props.rating}
+                />
+                <span>{this.props.place}</span>
+            </div>
+            <div className="more-details-product">
+                <span>{this.props.dateString}</span>
+                <span>{this.props.comment}</span>
+            </div>
+        </div>;
+    }
+}
 
 class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            remainCash: '',
-            lastActivities: [],
-            lastActivitiesDOM: []
+            name: "",
+            category: "",
+            description: "",
+            ingredients: "",
+            money: "0",
+            picture: "",
+            productID: "",
+            file: null,
+            reviews: []
         };
     }
 
-    componentDidMount() {
-        // this.context.isLoggedInFunc();
-        // const lastActivitiesDataFromServer = this.getLastActivitiesDataFromServer();
-        // const remainCachDataFromServer = this.getRemainCashFromServer();
-        // this.setState({ remainCash: remainCachDataFromServer.remainCash });
-        // this.setState({ lastActivities: [lastActivitiesDataFromServer] });
-        // this.setState({ lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer) })
+    async getProductsByIDFromServer(productId, token) {
+        const response = await axios.get(
+            'http://localhost:8080/product/byId/' + productId,
+            {
+                headers: { 'authtoken': token },
+                params: {
+                    productID: productId
+                }
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
     }
 
-    // getLastActivitiesDataFromServer() {
-    //     return [
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה נוגט',
-    //                     price: '1'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.3.20',
-    //                     location: 'רכישה בקיוסק הוד השרון'
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             activity: {
-    //                 product: {
-    //                     name: 'במבה',
-    //                     price: '8'
-    //                 },
-    //                 moreDetails: {
-    //                     date: '3.4.20',
-    //                     location: 'רכישה בקי'
-    //                 }
-    //             }
-    //         }
-    //     ];
-    // }
+    async getProductReviewFromServer(productId, token) {
+        const response = await axios.get(
+            'http://localhost:8080/productReview/' + productId,
+            {
+                headers: { 'authtoken': token },
+                params: {
+                    productID: productId
+                }
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+    }
 
-    // getRemainCashFromServer() {
-    //     return { remainCash: 15 };
-    // }
+    async componentDidMount() {
+        this.setState({productID: sessionStorage.getItem('productID')})
+        const productByIDFromServer = await this.getProductsByIDFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
+        const productReviews = await this.getProductReviewFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
+        this.setState({
+            name: productByIDFromServer.name,
+            category: productByIDFromServer.category,
+            ingredients: productByIDFromServer.ingredients,
+            picture: "http://localhost:8080/images/" + productByIDFromServer.picture,
+            description: productByIDFromServer.description,
+            money: productByIDFromServer.money,
+            productID: productByIDFromServer.productID,
+            reviews: productReviews
+        })
+        // this.setState({products: productsByCategoryFromServer});
+    }
+
 
 
     render() {
@@ -64,10 +107,7 @@ class Product extends Component {
                 <div id="remain-cash-and-options-product">
                     <div id="remain-cash-product">
                         <div id="cash-product">
-                            <span id="titleText-product">דף מוצר</span>
-                        </div>
-                        <div>
-                            <span id="emptyProductText-product">סמן כמוצר חסר</span>
+                            <span id="titleText-product">{this.state.name}</span>
                         </div>
 
                     </div>
@@ -77,18 +117,16 @@ class Product extends Component {
                 <div className="signup-outer-product">
 
                     <div className="product-product">
-                        <img className="product-image-product" src="images/bisli.jpg" />
+                        <img className="product-image-product" src={this.state.picture} />
                         <div>
-                            <span className="product-name-product">מחיר בחנות:</span>
-                            <span className="product-name-product">1.5</span>
-                            <span className="product-name-product">ביטקוין</span>
+                            <span className="product-name-product">מחיר בחנות: </span>
+                            <span className="product-name-product">{this.state.money}</span>
+                            <span className="product-name-product"> שקלים </span>
                         </div>
 
                         <div id="ingredientsText-product">
-                            <span id="ingredientsTitleText-product">רכיבים:</span>
-                            <span> קמח חיטה (מכיל גלוטן) (72%), שמנים מהצומח, שמרים מיובשים, מלח,
-                            סוכרים, הידרוליזט חלבון סויה, מחזקי טעם (מונוסודיום גלוטמט, E627, E631),
-            עמילן אורז, תבלינים, חומרי טעם וריח, חלבון סויה, חומר מעכב חמצון (תמצית רוזמרין). </span>
+                            <span id="ingredientsTitleText-product"> רכיבים: </span>
+                            <span>{this.state.ingredients}</span>
                         </div>
                     </div>
 
@@ -98,51 +136,10 @@ class Product extends Component {
                     <span id="last-activity-span-product">
                         ביקורת אחרונה על המוצר
         </span>
-                    <div className="activity-product">
-                        <div className="more-details-product">
-                        <StarRatingComponent
-                                name="bamba"
-                                editing={false}
-                                starCount={5}
-                                value={2}
-                            />
-                            <span>ציפורה כהן</span>
-                        </div>
-                        <div className="more-details-product">
-                            <span>3.3.20</span>
-                            <span>מלא מונוסודיום גלוטומט!</span>
-                        </div>
-                    </div>
-                    <div className="activity-product">
-                        <div className="more-details-product">
-                        <StarRatingComponent
-                                name="bamba"
-                                editing={false}
-                                starCount={5}
-                                value={4}
-                            />
-                            <span>שקד דונל</span>
-                        </div>
-                        <div className="more-details-product">
-                            <span>3.3.20</span>
-                            <span>מלא מלחים ושמנים לא טובים</span>
-                        </div>
-                    </div>
-                    <div className="activity-product">
-                        <div className="more-details-product">
-                            <span>3.3.20</span>
-                            <span>שרון הראשון</span>
-                        </div>
-                        <div className="more-details-product">
-                        <StarRatingComponent
-                                name="bamba"
-                                editing={false}
-                                starCount={5}
-                                value={5}
-                            />
-                            <span>טעים מאוד!</span>
-                        </div>
-                    </div>
+                    {this.state.reviews.map((review,index) =>
+                        <Review key={index}
+                                  place={review.place} dateString={review.dateString} rating={review.rating} comment={review.comment} />
+                    )}
                 </div>
             </div>
         );

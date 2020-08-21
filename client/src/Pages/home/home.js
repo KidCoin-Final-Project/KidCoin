@@ -16,7 +16,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const type = localStorage.getItem('userType');
+        const type = sessionStorage.getItem('userType');
 
         if (type !== null) {
             type === "parent" ? this.setState({moveToParent: true}) : type === "owner" ? this.setState({moveToOwner: true}) : this.setState({moveToChild: true});

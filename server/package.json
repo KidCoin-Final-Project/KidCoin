@@ -20,11 +20,13 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "csv-writer": "^1.6.0",
     "express": "^4.17.1",
     "express-unless": "^0.5.0",
     "firebase": "^7.14.0",
     "firebase-admin": "^8.10.0",
     "geolib": "^3.2.1",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
@@ -33,6 +35,7 @@
     "unless": "^0.1.1"
   },
   "devDependencies": {
-    "express-swagger-generator": "^1.1.17"
+    "express-swagger-generator": "^1.1.17",
+    "image-data-uri": "^2.0.1"
   }
 }

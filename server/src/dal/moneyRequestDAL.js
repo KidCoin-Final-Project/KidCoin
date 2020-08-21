@@ -19,7 +19,7 @@ module.exports = {
             docs.docs.forEach(moneyRequest => {
                 moneyRequestsData.push({
                     'amount': moneyRequest.data().amount,
-                    'requestDate': moneyRequest.data().requestDate,
+                    'requestDate': moneyRequest.data().requestDate.toDate(),
                     'accepted': moneyRequest.data().accepted,
                     'acceptedDate': moneyRequest.data().acceptedDate,
                     'childID': moneyRequest.data().child.id,
