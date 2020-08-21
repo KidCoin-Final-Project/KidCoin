@@ -22,7 +22,9 @@
     "react-scripts": "3.4.1",
     "react-star-rating-component": "^1.4.1",
     "react-tabs": "^3.1.1",
-    "scandit-sdk": "^5.0.0"
+    "scandit-sdk": "^5.0.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

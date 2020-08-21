@@ -5,3 +5,47 @@
     justify-content:center;
     align-items:center;
 }
+
+.container {
+    color: white;
+    overflow-y: hidden;
+    background-color: #00be92;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .container {
+    width: 500px;
+    border: 5px;
+    border-radius: .5em;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
+    align-items: center;
+  } */
+  
+  .column {
+    flex-direction: column;
+    height: 400px;
+  }
+  
+  .item {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border: 2px;
+  }
+
+
+  .barcode-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 37vh;
+    flex-direction: column;
+}

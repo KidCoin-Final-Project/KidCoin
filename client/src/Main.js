@@ -22,6 +22,7 @@ import ChargeMoney from "./Pages/charge-money/charge-money";
 import NewProduct from "./Pages/new-product/new-product";
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import 'semantic-ui-css/semantic.min.css';
 
 class Main extends Component {
   constructor(props) {
