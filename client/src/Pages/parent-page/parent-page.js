@@ -8,7 +8,8 @@ import { userContext } from "../../utils/fire-base/userContext";
 import StarRatingComponent from 'react-star-rating-component';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import Alert from "react-bootstrap/Alert"
+import Alert from "react-bootstrap/Alert";
+import { store } from 'react-notifications-component';
 
 
 class ParentHome extends Component {
@@ -46,6 +47,7 @@ class ParentHome extends Component {
 
         this.setState({ allTabsDOM : this.createAllTabsDOM(this.createTabsDOM(allChildrenInfo), this.convertLastActivitiesToDOM(allChildrenLastActivities)) });
 
+        this.handleNotifications(allChildrenInfo);
     }
 
     async getParentInfoFromServer(uid,token){
@@ -226,11 +228,63 @@ class ParentHome extends Component {
     }
 
 
+    async handleNotifications(childrenInfo,token){
+        var childrenMoneyRequests = [];
+        var childObj;
+
+        // for (var i = 0; i < childrenInfo.length; i++) {
+        //     const response = await axios.get(
+        //         'http://localhost:8080/moneyRequest/getAll',
+        //         { headers: { 'authtoken': token},
+        //           params: {
+        //               daysBack: 10,
+        //               childId: childrenInfo[i].id
+        //           } }
+        //         );
+
+        //         childObj = {
+        //             numOfRequests :  childrenInfo[i].child.name + " ביקש כ - " + await response.data.length + " בקשות לכסף",
+        //             childId: childrenInfo[i].id
+        //         };
+        //         childrenMoneyRequests.push(childObj);
+        // }
+        this.notificationsDOM(childrenMoneyRequests);
+    }
+
+
+    notificationsDOM(moneyRequests){
+        store.addNotification({
+            title: "שלום ז'אק",
+            message: "שלום שקד",
+            type: "info",
+            insert: "bottom",
+            container: "bottom-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+              pauseOnHover: true
+            }
+          });
+        //this.NotificationManager.info('Info message',"שלום רב");
+
+    //     return moneyRequests.map((moneyRequest) => 
+    //     <ReactNotifications
+    //     onRef={ref => (this.n = ref)} // Required
+    //     title="שלום" // Required
+    //     body={moneyRequest.numOfRequests}
+    //     icon="icon.png"
+    //     tag={moneyRequest.childId}
+    //     onClick={event => this.handleClick(event)}
+    //   />
+        //)
+    }
+
+
     render() {
         const { rating } = this.state;
         return (
-            <div className="body-parent">
-
                 <div id="parent-outer">
                     <div className="modal-wrapper" id="modal">
                         <form>
@@ -282,10 +336,11 @@ class ParentHome extends Component {
                     <span style={{ fontSize: "4vh", "color": "white", "textAlign": "right" }}>הילדים שלי</span>
 
                     {this.state.childrenDOM}
-                </div>
 
                     {this.state.allTabsDOM}
-            </div>
+                </div>
+
+                    
 
         );
 

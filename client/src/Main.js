@@ -20,6 +20,8 @@ import Auth from "./utils/fire-base/firebase";
 import axios from 'axios';
 import ChargeMoney from "./Pages/charge-money/charge-money";
 import NewProduct from "./Pages/new-product/new-product";
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 class Main extends Component {
   constructor(props) {
@@ -49,8 +51,6 @@ class Main extends Component {
       }
 
       if (sessionStorage.getItem('userUID') !== null && sessionStorage.getItem('userToken') !== null && this.state.firstTime) {
-        //TODO : if its first time then redirect to home
-        // TODO : CHECK FOR ERRORS
         const response = await axios.get(
           'http://localhost:8080/auth/userByToken',
           { headers: { 'authtoken': sessionStorage.getItem('userToken')} }
@@ -87,6 +87,7 @@ class Main extends Component {
     }
     return (
       <userContext.Provider value={value}>
+        <ReactNotification />
         <HashRouter>
           <TopNavBar />
           <div>
