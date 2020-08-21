@@ -38,4 +38,13 @@ module.exports = {
             productID
         });
     },
+    getProductInStore: function (productId, storeId) {
+        return db.collection('productsInStore').where('product_id', '==', db.collection('product').doc(productId))
+        .where('store_id', '==', db.collection('store').doc(storeId)).get().then(docs =>{
+            if(!docs.empty){
+                return {...docs.docs[0].data(), id: docs.docs[0].id}
+            }
+            return undefined;
+        });
+    }
 }

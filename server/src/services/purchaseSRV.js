@@ -1,5 +1,6 @@
 const purchaseDAL = require('../dal/purchaseDAL')
 const productsInStoreDal = require('../dal/productsInStoreDAL')
+const productDal = require('../dal/productDAL')
 const childDAL = require('../dal/childDAL')
 const storeDAL = require('../dal/storeDAL')
 const ownerDAL = require('../dal/ownerDAL')
@@ -68,25 +69,29 @@ module.exports = {
     },
     createNewPurchase: async function (req, res) {
         const {
-            productFromStoreId
+            storeId,
+            productId
         } = req.body;
-        if(!productFromStoreId){
+        if(!storeId || !productId){
             return res.status(400).send('productFromStoreId is required');
         }
+        let productFromStore = await productDal.getProductInStore(storeId, productId);
+        let productFromStoreId = productFromStore.id;
+        if(!productFromStoreId)
         let userID = await utils.getIdByToken(req.headers.authtoken);
         let child = await childDAL.getByID(userID);
-        let {
-            price, storeBankAccount
-        } = await purchaseDAL.getPriceAndStoreBankAccount(productFromStoreId);
-        if(child.balance < price){
+        let storeBankAccount = productFromStore.store_id.get().than(doc =>{
+            return docs.data().bankAccount;
+        })
+        if(child.balance < productFromStore.price){
             return res.status(406).send('not enough blanace for child');
         }
         //transfer money to store owner:
-        var transRes = await transferMoneyToStore(price, storeBankAccount);
+        var transRes = await transferMoneyToStore(productFromStore.price, storeBankAccount);
         if(!transRes){
             return res.status(500).send('bank transaction not successful');
         }
-        childDAL.addBalance(userID, (price * -1));
+        childDAL.addBalance(userID, (productFromStore.price * -1));
         return purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
             var data = doc.data();
             return {
