@@ -47,6 +47,7 @@ module.exports = {
                     await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
                     await childDAL.addChild(user.uid);
                     await parentDAL.addPendingChild(parentUser.id, email, user.uid);
+                    await parentDAL.approveChild(parentUser.id, email);
                 } catch(e){
                     firebase.auth.deleteUser(user.uid);
                     throw e;
@@ -61,7 +62,7 @@ module.exports = {
             try {
                 if (user) {
                     if (type == 'parent') {
-                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type);
+                        await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
                         await parentDAL.addParent(user.uid);
                     } else if (type == 'owner') {
                         await userDAL.addUser(user.uid, firstName, lastName, phoneNumber, type, picture);
