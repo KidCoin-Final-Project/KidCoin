@@ -84,7 +84,9 @@ class NearKiosk extends Component {
     handleNameChange(evt){//search
         let KioskToSearch = evt.target.value;
 
-        if(KioskToSearch !== ''){
+        if(KioskToSearch !== '')
+        {
+            // TODO : check if ther are any kiosks
             let matches = this.state.allKiosks.filter(kiosk => kiosk.name.includes(KioskToSearch));
 
             this.setState({ kiosksDOM: this.convertKiosksToDOM(matches)});

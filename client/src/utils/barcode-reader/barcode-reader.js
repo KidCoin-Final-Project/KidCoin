@@ -23,10 +23,10 @@ class BarcodeScanner extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     var that = this;
     const token = sessionStorage.getItem('userToken');
-    this.setState({ allKiosks: this.mapKiosksToDropdown(this.getAllKiosks(token)) });
+    this.setState({ allKiosks: this.mapKiosksToDropdown( await this.getAllKiosks(token)) });
     ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker"), {
       playSoundOnScan: true,
       vibrateOnScan: true
@@ -57,22 +57,17 @@ class BarcodeScanner extends Component {
     });
   }
 
-  getAllKiosks(token) {
-
-    return [{ storeId: '1', storeName: 'קיוסק השרון' },
-    { storeId: '2', storeName: 'קיוסק ראשון' },
-    { storeId: '3', storeName: 'הקיוסק של אבי' },
-    { storeId: '4', storeName: 'קיוסק אשכנזי' }];
-    // return await axios.get(
-    //     'http://localhost:8080/store/allStores',
-    //     {
-    //         headers: { 'authtoken': token }
-    //     }
-    // );
+  async getAllKiosks(token) {
+    return await axios.get(
+        'http://localhost:8080/store/allStores',
+        {
+            headers: { 'authtoken': token }
+        }
+    );
   }
 
   mapKiosksToDropdown(kiosks){
-    return kiosks.map((kiosk) => ({
+    return kiosks.data.map((kiosk) => ({
       key: kiosk.storeId,
       text: kiosk.storeName,
       value: kiosk.storeId

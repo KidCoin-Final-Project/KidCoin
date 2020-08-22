@@ -209,6 +209,9 @@ function Register(props) {
                                     parentEmail: '',
                                     password: '',
                                     name: '',
+                                    storeName: '',
+                                    address: '',
+                                    bankAccount: '',
                                     picture: '',
                                     file: ''
                                 }}
