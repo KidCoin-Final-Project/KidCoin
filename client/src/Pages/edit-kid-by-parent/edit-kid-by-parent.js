@@ -19,6 +19,7 @@ class EditKidByParent extends Component {
             isKioskSelected: false,
             isBarcodeSelected : false,
             show: false,
+            restrictions:[]
         };
         this.handleChange = this.handleChange.bind(this)
     }
@@ -31,18 +32,42 @@ class EditKidByParent extends Component {
             this.setState({ allKiosks: EditKidByParent.mapProductToDropdown(value) });
             console.log("work???" + this.state.allKiosks);
         });
-        // this.setState({ allKiosks: EditKidByParent.mapProductToDropdown(this.getAllProduct(token)) });
+        this.setState({restrictions: this.restrictionsToArray(this.props.location.state.kid.child.restrictions)});
+        this.setState({kioskSelected: this.props.location.state.kid.child.restrictions})
     }
 
     static mapProductToDropdown(products){
          let map = products.map((product) => ({
-            key: product.name,
-            value: 1,
+            key: product.id,
+            value: product.id,
             text: product.name
         }));
-         console.log("shakin:" + map);
          return map;
+    }
 
+    async restrictionsToArray(restrictions){
+        let map = [];
+        restrictions.map(res=>{
+            console.log(res);
+            this.getProductById(res).then(product=>{
+                map.push({key:product.id, value:product.id, text: product.name});
+                console.log("ckkkkkkkk" + map);
+            });
+        });
+        return map;
+    }
+
+    async getProductById(id){
+        const token = sessionStorage.getItem('userToken');
+        const response = await axios.get(
+            'http://localhost:8080/product/byId/' + id,
+            {
+                headers: { 'authtoken': token }
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
     }
 
     async getAllProduct(token) {
@@ -55,6 +80,19 @@ class EditKidByParent extends Component {
             alert(error);
         });
         return response.data;
+    }
+
+    async deleteProduct(productId) {
+        let childId = sessionStorage.getItem('userUID');
+        let token = sessionStorage.getItem('userToken');
+        const chargeResponse = await axios.post(
+            'http://localhost:8080/child/restrict/' + childId,
+            {
+                headers: { 'authtoken': token },
+                params: {
+                    productId: productId
+                }}
+        );
     }
 
     handleChange(evt,e){
@@ -123,15 +161,6 @@ class EditKidByParent extends Component {
 
             <span className="diet-span-kidAlergic">הגבלת מוצרים על הילד/ה</span>
             <div className="activity-kidAlergic">
-                <div className="fuck-kidAlergic">
-                    <button className="btn btn-light option-button-kidAlergic"><span>קולה</span><span>x</span></button>
-                    <button className="btn btn-light option-button-kidAlergic"><span>ספרייט</span><span>x</span></button>
-                    <button className="btn btn-light option-button-kidAlergic"><span>שוקולד</span><span>x</span></button>
-                </div>
-                {/*<button className="btn btn-light add-button-kidAlergic"*/}
-                {/*        variant="primary" onClick={this.handleShow}><span>הוספה</span><span>+</span>*/}
-                {/*</button>*/}
-
                 <Dropdown placeholder='הוסף מוצרים'
                           fluid
                           multiple
@@ -142,7 +171,7 @@ class EditKidByParent extends Component {
             </div>
 
             { this.state.isKioskSelected &&
-            <div className="item"><Button>בצע רכישה</Button></div>
+            <div className="item"><Button>הוסף להגבלות</Button></div>
             }
         </div>
         </div>
