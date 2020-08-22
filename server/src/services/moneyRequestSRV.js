@@ -11,15 +11,18 @@ module.exports = {
     newRequest: async function (req, res) {
         const {
             amount
-        } = req.body;
-        const childId = await utils.getIdByToken(req.headers.authtoken);
+        } = req.body.params;
+        try {
+        let authtoken = req.headers.authtoken || req.body.headers.authtoken;
+
+        const childId = await utils.getIdByToken(authtoken);
         if (!amount) {
             return res.send(400, "missing params");
         }
-        try {
+
             let moneyRequest = await moneyRequestsDAL.requestMoneyFromParent(childId, amount);
             return res.send(200,{
-                'moseyRequestUid': moneyRequest.id
+                'moneyRequestUid': moneyRequest.id
             });
         } catch (e) {
             return res.status(500).send(e);

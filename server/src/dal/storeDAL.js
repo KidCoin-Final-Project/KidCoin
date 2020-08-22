@@ -80,15 +80,20 @@ module.exports = {
     deleteStore: function (storeID) {
         return db.collection('store').doc(storeID).delete();
     },
-    getAllStore: function () {
-        return db.collection('store').get().then((result) => {
+    getAllStore: async function () {
+        return db.collection('store').get().then(async (result) => {
             let stores = [];
             for (let i = 0; i < result.size; i++) {
                 let store = result.docs[i].data();
+                let ownerId = await store.owner.get();
+                let ownerIdData = ownerId.id;
                 stores.push({
                     'name': store.name,
                     'address': store.address,
-                    'location': store.location
+                    'location': store.location,
+                    'ownerId': ownerIdData,
+                    'storeName': store.storeName,
+                    'storeId': result.docs[i].id
                 })
             }
             return stores;

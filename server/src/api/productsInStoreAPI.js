@@ -45,9 +45,9 @@ router.get('/getStoreProducts', function (req, res) {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/', function (req, res) {
-    productsInStoreSRV.addProduct(req.query.storeId, req.query.productId, req.query.price).then(doc => {
+    productsInStoreSRV.addProduct(req.body.params.storeId, req.body.params.productID, req.body.params.price).then(doc => {
         return res.send(doc);
-    });;
+    });
 });
 
 

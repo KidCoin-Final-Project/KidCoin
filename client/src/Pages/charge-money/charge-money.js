@@ -49,7 +49,7 @@ class Request extends Component {
 
 
     async payForKid(uid, amount, cardNumber, expirationDate, cardSecurityCode, cardHolderId, cardHolderName){
-        let userToken = localStorage.getItem('userToken')
+        let userToken = sessionStorage.getItem('userToken')
         const chargeResponse = await axios.post(
             'http://localhost:5050/chargeCard/',
             { headers: { 'authtoken': userToken},
@@ -60,7 +60,7 @@ class Request extends Component {
                     cardSecurityCode: cardSecurityCode,
                     cardHolderId: cardHolderId,
                     cardHolderName: cardHolderName,
-                    // toAccount: localStorage.getItem('chatChildId')
+                    // toAccount: sessionStorage.getItem('chatChildId')
                     toAccount: '354952584'
                 }}
         );
@@ -174,7 +174,7 @@ class ChargeMoney extends Component {
         const response = await axios.get(
             'http://localhost:8080/moneyRequest/getAllForParent',
             {
-                headers: {'authtoken': localStorage.getItem('userToken')},
+                headers: {'authtoken': sessionStorage.getItem('userToken')},
                 params: {
                     childID: chatChildId
                 }
@@ -184,8 +184,8 @@ class ChargeMoney extends Component {
     }
 
     async componentDidMount() {
-        const parentId = localStorage.getItem('userUID');
-        const chatChildId = localStorage.getItem('chatChildId');
+        const parentId = sessionStorage.getItem('userUID');
+        const chatChildId = sessionStorage.getItem('chatChildId');
         let requestsForParent = await this.getRequestsForParentFromServer(chatChildId);
         this.setState({requestsForParent: requestsForParent.data});
 
