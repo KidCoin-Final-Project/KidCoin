@@ -11,9 +11,19 @@ class KidHome extends Component {
         this.state = {
             remainCash: '',
             lastActivities: [],
-            lastActivitiesDOM: []
+            lastActivitiesDOM: [],
+            showModal: false,
+            amount: 0
+
         };
+
+        this.handleAmountChange = this.handleAmountChange.bind(this);
     }
+
+    handleAmountChange(event) {
+        this.setState({amount: event.target.value});
+    }
+
 
     async componentDidMount() {
         this.context.isLoggedInFunc();
@@ -25,6 +35,27 @@ class KidHome extends Component {
         this.setState({lastActivities: [lastActivitiesDataFromServer]});
         this.setState({lastActivitiesDOM: this.mapLastActivities(lastActivitiesDataFromServer)})
     }
+
+    submitForm = async () => {
+        const config = {
+            headers: {
+                'authtoken': sessionStorage.getItem('userToken'), 'content-type': 'multipart/form-data'
+            },
+            params: {
+                amount: this.state.amount
+            }
+        };
+
+        const response = await axios.post(
+            'http://localhost:8080/moneyRequest/childRequest',
+            config
+        );
+        this.setState({showModal: !this.state.showModal});
+        alert("הבקשה בוצעה בהצלחה!")
+        return response;
+    }
+
+
 
     async getLastActivitiesDataFromServer(childId, token) {
         const response = await axios.get(
@@ -41,7 +72,7 @@ class KidHome extends Component {
     async getRemainCashFromServer() {
         const response = await axios.get(
             'http://localhost:8080/auth/userByToken',
-            { headers: { 'authtoken': localStorage.getItem('userToken')} }
+            { headers: { 'authtoken': sessionStorage.getItem('userToken')} }
         ).catch(error => {
             alert(error);
         });
@@ -64,7 +95,34 @@ class KidHome extends Component {
     }
 
     render() {
+        const toggleResults = () => this.setState({showModal: !this.state.showModal});
+        const Modal = () => (
+            <div className="modal-wrapper" id="modal" style={{'display': 'block'}}>
+                <div className="close-modal-button-separate"
+                     id="close-modal-button-separate"
+                     onClick={toggleResults} style={{'display': 'block'}}></div>
+                <div className="modal-inner" style={{'direction':'rtl'}}>
+                    <div className="ask-outer">
+                        <h2 className="ask-h2">בקשה חדשה</h2>
+                        <div className="modal-detail">
+                            <div>
+                                <span className="what-is-amount-span">מה הסכום המבוקש?</span>
+                                <input value={this.state.amount} onChange={this.handleAmountChange} className="amount-input" type="text" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="send-button-outer">
+                        <div>
+                            <button className="btn btn-light option-button send-button" onClick={this.submitForm}>שלחי
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
         return (
+
             <userContext.Consumer>
                 {user => {
                     return (
@@ -77,10 +135,11 @@ class KidHome extends Component {
                                     </div>
                                     <span>היתרה שלי</span>
                                 </div>
+                                {this.state.showModal ? <Modal/> : null}
 
                                 <NavLink to={{ pathname: "/barcode" }}><button className="btn btn-light selected-button-kid-page"><span>סריקת מוצר</span></button></NavLink>
                                 
-                                <button className="btn btn-light option-button-kid-page"><span>בקשה להורה</span></button>
+                                <button className="btn btn-light option-button-kid-page" onClick={toggleResults}><span>בקשה להורה</span></button>
                                 <NavLink to={{ pathname: "/nearkiosks" }}><button className="btn btn-light option-button-kid-page"><span>חיפוש קיוסק קרוב</span></button></NavLink>
                             </div>
                             <div id="kid-page-outer">
@@ -93,6 +152,7 @@ class KidHome extends Component {
                         </div>
                     )
                 }}
+
             </userContext.Consumer>
 
         );

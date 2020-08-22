@@ -77,7 +77,7 @@ class ParentHome extends Component {
     }
 
     async redirectToChat(childId) {
-        localStorage.setItem('chatChildId', childId)
+        sessionStorage.setItem('chatChildId', childId)
         window.location.href = '/#/ChargeMoney'
     }
 
@@ -103,7 +103,7 @@ class ParentHome extends Component {
                 <span style={{ "fontSize": "2vh" }}>הגבלות: בוטנים, חלב, סויה</span>
             </div>
             <div className="kid-image">
-                <img src={"http://localhost:8080/images/" + child.child.picture} style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />
+                <img src={"/new-images/" + child.child.picture} style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />
             </div>
         </div>
         <div className="kid-money">

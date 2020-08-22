@@ -52,6 +52,10 @@ class OwnerHome extends Component {
         return response.data;
     }
 
+    setCategory(category) {
+        sessionStorage.setItem('category', category)
+    }
+
     render() {
         return (
             <div id="body-owner-page">
@@ -75,42 +79,42 @@ class OwnerHome extends Component {
                 <div id="outer-products-list-owner">
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Bread' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Bread')}>
                         <span><img className="product-image-owner" src="images/bread.png" alt="מוצר"/></span>
                         <span className="product-name-owner">לחמים</span>
                     </button>
                     </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Milk' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Milk')}>
                         <span><img className="product-image-owner" src="images/milk.png" alt="מוצר"/></span>
                         <span className="product-name-owner">מוצרי חלב</span>
                     </button>
                     </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Fruit' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Fruit')}>
                         <img className="product-image-owner" src="images/apple.png" alt="מוצר"/>
                         <span className="product-name-owner">ירקות ופירות</span>
                     </button>
                     </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Snack' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Snack')}>
                         <img className="product-image-owner" src="images/ice-cream.png" alt="מוצר"/>
                         <span className="product-name-owner">ממתקים וחטיפים</span>
                     </button>
                     </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Drinks' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Drinks')}>
                         <img className="product-image-owner" src="images/papers.png" alt="מוצר"/>
                         <span className="product-name-owner">שתייה</span>
                     </button>
                 </NavLink>
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Paper' } }}>
-                    <button className="btn btn-light food-btn">
+                    <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Paper')}>
                         <img className="product-image-owner" src="images/press.png" alt="מוצר"/>
                         <span className="product-name-owner">עיתונים</span>
                     </button>

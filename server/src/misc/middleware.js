@@ -11,12 +11,12 @@ module.exports = {
         }
         console.log("authenticating users");
         try {
-            if (!req.headers.authtoken) {
+            let authtoken = req.headers.authtoken || req.body.headers.authtoken;
+            if (!authtoken) {
                 console.log('no token found')
                 throw ('no token found');
             }
-            authToken = req.headers.authtoken;
-            auth.verifyIdToken(authToken).then((data) => {
+            auth.verifyIdToken(authtoken).then((data) => {
                 console.log(data);
             });
             next();
