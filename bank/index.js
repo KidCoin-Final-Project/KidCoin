@@ -20,7 +20,7 @@ app.get('/transactionById/:transID', async (req, res) => {
         return {
             from: data.from.id,
             to: data.to.id,
-            amount: data.amount
+            amount: Number(data.amount)
         }
     }))
 })
@@ -31,7 +31,7 @@ app.post('/transfer', async (req, res) => {
         fromAccount,
         toAccount
     } = req.body;
-    var trans = await transfer(fromAccount.toString(), toAccount.toString(), amount).catch(e => {
+    var trans = await transfer(fromAccount.toString(), toAccount.toString(), Number(amount)).catch(e => {
         return res.status(404).send(trans);
     });
     return res.send(trans);
@@ -52,7 +52,7 @@ app.post('/chargeCard', async (req, res) => {
             .get()
             .then(async doc =>{
                 if(isCardEqual(doc.id, doc.data(), cardNumber, expirationDate, cardSecurityCode, cardHolderId, cardHolderName)){
-                    var trans = await transfer(cardHolderId.toString(), toAccount.toString(), amount);
+                    var trans = await transfer(cardHolderId.toString(), toAccount.toString(), Number(amount));
                     return res.send(trans)
                 } else {
                     return res.send(403, "card is not valid");

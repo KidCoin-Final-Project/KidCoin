@@ -27,15 +27,22 @@ module.exports = {
         })
     },
 
-    addProduct: function (name, category, ingredients, description, money, picture, productID) {
+    addProduct: function (name, category, ingredients, description, picture) {
         return db.collection('product').add({
             name: name,
             category: category,
             ingredients: ingredients,
             description: description,
-            money: money,
-            picture: picture,
-            productID
+            picture: picture, 
         });
     },
+    getProductInStore: function (productId, storeId) {
+        return db.collection('productsInStore').where('product_id', '==', db.collection('product').doc(productId))
+        .where('store_id', '==', db.collection('store').doc(storeId)).get().then(docs =>{
+            if(!docs.empty){
+                return {...docs.docs[0].data(), id: docs.docs[0].id}
+            }
+            return undefined;
+        });
+    }
 }

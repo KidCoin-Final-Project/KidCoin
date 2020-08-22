@@ -23,6 +23,7 @@ import NewProduct from "./Pages/new-product/new-product";
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import EditKidByParent from "./Pages/edit-kid-by-parent/edit-kid-by-parent";
+import 'semantic-ui-css/semantic.min.css';
 
 class Main extends Component {
   constructor(props) {

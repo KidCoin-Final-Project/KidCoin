@@ -17,6 +17,7 @@ function Register(props) {
   const [error, setError] = useState('');
   const [picture, setPicture] = useState('');
   const [file, setFile] = useState('');
+  const [coordinates, setCoordinates] = useState('');
 
 
   useEffect(() => {
@@ -26,7 +27,25 @@ function Register(props) {
       setShowFirstTime(!givenState.isFromLoginPage);
       setShowKid(givenState.isKid);
       setIsOwner(givenState.isOwner);
+
+      if(givenState.isOwner){
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+              function (position) {
+                setCoordinates(position.coords);
+              },
+              function (error) {
+                  // default coordinates in center tlv
+                  console.error("Error Code = " + error.code + " - " + error.message);
+              }
+          );
+          
+      } else {
+          console.log("Not Available");
+      }
+      }
     }
+    
   }, [props.location.state])
 
   const HandleKidRegister = (evt) => {
@@ -84,6 +103,22 @@ function Register(props) {
     // TODO : ADD EMAIL VALIDATION
   }
 
+  const ValidateStoreFields = (values, errors) => {
+    if(isOwner) {
+      if (!values.storeName) {
+        errors.storeName = 'נחוץ';
+      }
+
+      if (!values.address) {
+        errors.address = 'נחוץ';
+      }
+
+      if (!values.bankAccount) {
+        errors.bankAccount = 'נחוץ';
+      }
+    } 
+  }
+
   const onChange = (e) => {
       setPicture(e.target.value);
       setFile(e.target.files[0]);
@@ -92,7 +127,8 @@ function Register(props) {
     let currError = '';
     const type = showKid ? 'child' : isOwner ? 'owner' : 'parent';
 
-    const formData = new FormData();
+    if(showKid){
+      const formData = new FormData();
     formData.append('myImage', file);
     const config = {
       headers: {
@@ -105,31 +141,42 @@ function Register(props) {
         }).catch((error) => {
           alert(error)
     });
+    }
 
-    // const response = await axios.post(
-    //   'http://localhost:8080/auth/signup',
-    //   {
-    //     email: values.email,
-    //     type: type,
-    //     phoneNumber: values.phoneNumber,
-    //     password: values.password,
-    //     firstName: values.name,
-    //     lastName: '',
-    //     parentEmail: values.parentEmail,
-    //     picture: picture,
-    //     file: file
-    //   },
-    //   { headers: { 'Content-Type': 'application/json' } }
-    // ).catch(error => {
-    //   setError(error.response.data);
-    //   currError = error.response.data;
-    // });
+    const response = await axios.post(
+      'http://localhost:8080/auth/signup',
+      {
+        email: values.email,
+        type: type,
+        phoneNumber: values.phoneNumber,
+        password: values.password,
+        firstName: values.name,
+        lastName: '',
+        parentEmail: values.parentEmail,
+        //picture: picture,
+        //file: file,
+        store: {
+          storeName: values.storeName,
+          location: {
+            longitude: coordinates.longitude,
+            latitude: coordinates.latitude
+          },
+          address: values.address,
+          bankAccount: values.bankAccount
 
-    // if (currError === '') {
-    //   const res = response.data;
-    //   setUser(res.uid, await Auth.signInWithCustomToken(res.token));
-    //   props.history.push("/Login");
-    // }
+        }
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    ).catch(error => {
+      setError(error.response.data);
+      currError = error.response.data;
+    });
+
+    if (currError === '') {
+      const res = response.data;
+      setUser(res.uid, await Auth.signInWithCustomToken(res.token));
+      props.history.push("/Login");
+    }
 
   };
 
@@ -170,6 +217,8 @@ function Register(props) {
 
                   ValidateNameField(values, errors);
 
+                  ValidateStoreFields(values, errors);
+
                   setIsValid(errors.length === undefined);
 
                   return errors;
@@ -188,12 +237,24 @@ function Register(props) {
                         <React.Fragment>
                           <Field className="register-input" type="email" name="parentEmail" placeholder="אימייל של ההורה" />
                           <ErrorMessage name="parentEmail" component="div" />
+
+                          <Field id='myImage' className="register-input" type="file" name="myImage" onChange={onChange}/>
+                        </React.Fragment>
+                      }
+
+                      {isOwner &&
+                        <React.Fragment>
+                          <Field className="register-input" type="name" name="storeName" placeholder="שם חנות" />
+                          <ErrorMessage name="storeName" component="div" />
+                          <Field className="register-input" type="address" name="address" placeholder="כתובת" />
+                          <ErrorMessage name="address" component="div" />
+                          <Field className="register-input" type="bankAccount" name="bankAccount" placeholder="חשבון בנק" />
+                          <ErrorMessage name="bankAccount" component="div" />
                         </React.Fragment>
                       }
 
                       <Field className="register-input" type="text" name="email" placeholder="אימייל" />
                       <ErrorMessage name="email" component="div" />
-                      <Field id='myImage' className="register-input" type="file" name="myImage" onChange={onChange}/>
 
                       <Field className="register-input" type="text" name="name" placeholder="שם מלא" />
                       <ErrorMessage name="name" component="div" />
