@@ -64,7 +64,7 @@ router.get('/totalRevenue/', middleware.isUserOwner, function (req, res) {
 
 /**
  * make a new purchase (only for child) 
- * @route post /purchases/new/
+ * @route post /purchase/new/
  * @group purchases api
  * @param {string} productFromStoreId.body.required - id of Store Product
  * @returns {object} 200 
