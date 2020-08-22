@@ -22,6 +22,7 @@ import ChargeMoney from "./Pages/charge-money/charge-money";
 import NewProduct from "./Pages/new-product/new-product";
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import EditKidByParent from "./Pages/edit-kid-by-parent/edit-kid-by-parent";
 import 'semantic-ui-css/semantic.min.css';
 
 class Main extends Component {
@@ -104,6 +105,8 @@ class Main extends Component {
             <Route exact path="/Products" component={ListProducts} />
             <Route exact path="/Product" component={Product} />
             <Route exact path="/NewProduct" component={NewProduct} />
+            <Route exact path="/EditKidByParent" component={EditKidByParent} />
+
 
           </div>
           {this.state.navigateHome &&

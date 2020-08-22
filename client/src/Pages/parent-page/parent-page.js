@@ -95,7 +95,9 @@ class ParentHome extends Component {
         <div className="kid-box" key={child.childId}>
         <div className="kid-info">
             <a className="fa fa-envelope" onClick={this.redirectToChat.bind(this, child.childId)}></a>
-
+            <NavLink to={{ pathname: "EditKidByParent", state: { kid: child } }}>
+                calsssss
+            </NavLink>
             <div className="kid-specific">
                 <span style={{ fontWeight: "bold", "fontSize": "3vh" }}>{child.child.firstName}</span>
                 <span style={{ "fontSize": "2vh" }}>הגבלות: בוטנים, חלב, סויה</span>

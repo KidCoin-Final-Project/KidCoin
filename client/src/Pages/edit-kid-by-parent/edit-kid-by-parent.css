@@ -1,4 +1,31 @@
-#body {
+.zubi-kidAlergic{
+    margin: -5vh -25px 25px;
+    padding: 10px 40px 0px;
+    color: #00be92;
+    text-align: center;
+}
+
+.hara-kidAlergic{
+    color: #00be92
+}
+
+.category-in-my-ass-kidAlergic{
+    color: black; font-size: 3vh;
+}
+
+.cus-emek-kidAlergic{
+    display: flex; justify-content: center;
+}
+
+.leshanot-kidAlergic{
+    display: block; width: 15vh;
+    height: 8vh;
+}
+
+.tamut-kidAlergic{
+    color: black; font-size: 3vh;
+}
+.body-kidAlergic {
     color: white;
     overflow-y: hidden;
     background-color: #00be92;
@@ -10,26 +37,26 @@
     align-items: center;
 }
 
-#logo-img {
+.logo-img-kidAlergic {
     height: 10vh;
 }
 
-#ingredientsTitleText{
+.ingredientsTitleText-kidAlergic{
     font-weight: bold;
 }
 
-#ingredientsText{
+.ingredientsText-kidAlergic{
     text-align: center;
 }
 
-#remain-cash-and-options {
+.remain-cash-and-options-kidAlergic {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
 }
 
-.diet-span {
+.diet-span-kidAlergic {
     color: black;
     margin-bottom: 2vh;
     margin-top: 2vh;
@@ -39,36 +66,36 @@
     justify-content: flex-end;
 }
 
-#remain-cash {
+.remain-cash-kidAlergic {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 3vh;
 }
 
-#cash {
+.cash-kidAlergic {
     display: flex;
     flex-direction: row;
     align-items: baseline;
 }
 
-#g{
+.g-kidAlergic{
     border-radius: 200px;
     width: 100px;
     height: 95px;
 }
 
-#titleText {
+.titleText-kidAlergic {
     font-size: 2em;
     font-weight: bold;
 }
 
-#child-name-text{
+.child-name-text-kidAlergic{
     font-size: 2em;
     font-family: Alef;
 }
 
-.product {
+.product-kidAlergic {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,22 +103,23 @@
 }
 
 
-.signup-outer {
+.signup-outer-kidAlergic {
     display: flex;
     /*align-items: center;*/
     flex-direction: column;
     width: 100%;
     background-color: white;
+    height: 350px;
 }
 
-.fuck{
+.fuck-kidAlergic{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
 
-.option-button {
+.option-button-kidAlergic {
     background-color: white;
     border-color: #00be92;
     margin-bottom: 2vh;
@@ -106,14 +134,14 @@
     flex-direction: row;
 }
 
-.upper-btn{
+.upper-btn-kidAlergic{
     width: 300px;
     background-color: white;
     border-bottom: double;
     border-bottom-color: #00be92;
 }
 
-.add-button{
+.add-button-kidAlergic{
     background-color: #00be92;
     border-color: #00be92;
     margin-bottom: 2vh;
@@ -128,7 +156,7 @@
 }
 
 
-.comment-outer {
+.comment-outer-kidAlergic {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -136,25 +164,25 @@
     background-color: white;
 }
 
-.product-image {
+.product-image-kidAlergic {
     height: 15vh;
 }
 
-#switch-button{
+.switch-button-kidAlergic{
     display: flex;
     flex-direction: row;
     font-size: 3em;
     justify-content: space-around;
 }
 
-.product-name {
+.product-name-kidAlergic {
     font-size: 1em;
     font-weight: bold;
     color: white;
     font-family: alef;
 }
 
-.activity {
+.activity-kidAlergic {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -163,7 +191,7 @@
 }
 
 
-.more-details {
+.more-details-kidAlergic {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -172,7 +200,7 @@
 
 
 
-.modal-wrapper {
+.modal-wrapper-kidAlergic {
     display: none;
     position: absolute;
     left: 0%;
@@ -193,7 +221,7 @@
     background-image: linear-gradient(45deg, hsla(0, 0%, 100%, 0.8), #fff);
 }
 
-.close-modal-button-separate {
+.close-modal-button-separate-kidAlergic {
     position: absolute;
     left: auto;
     top: 20px;
@@ -203,7 +231,7 @@
     width: 30px;
     height: 30px;
     padding: 5px;
-    background-image: url('../Pages/edit-kid-by-parent/x-close.png');
+    background-image: url('x-close.png');
     background-position: 80% 50%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -212,7 +240,7 @@
 }
 
 
-.modal-detail{
+.modal-detail-kidAlergic{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -220,13 +248,13 @@
 }
 
 
-.register-input {
+.register-input-kidAlergic {
     border: none;
     width: fit-content;
     border-bottom: 2px #00be92 solid;
     background-color: transparent;
 }
-.modal-inner {
+.modal-inner-kidAlergic {
     position: static;
     left: 0%;
     top: auto;
@@ -247,7 +275,7 @@
     text-align: center;
 }
 
-#delete-chile-button{
+.delete-chile-button-kidAlergic{
     border-bottom-color: #F44336;
     background: #ff000033
 }
