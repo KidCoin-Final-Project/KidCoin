@@ -7,7 +7,15 @@ module.exports = {
             .doc(userId)
             .get()
             .then(doc =>{
-                return doc.data();
+                var data = doc.data();
+                var restrictions = [];
+                for (let i = 0; i < data.restrictions.length; i++) {
+                    restrictions.push(data.restrictions[i].id)
+                    
+                }
+                data.restrictions = restrictions;
+                return data;
+
             })
             .catch(err => {
                 throw new Error('something bad happened: ' + err);
