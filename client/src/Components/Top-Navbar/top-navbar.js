@@ -22,7 +22,7 @@ class TopNavBar extends Component {
       sessionStorage.removeItem('userToken');
       sessionStorage.removeItem('userUID');
       sessionStorage.removeItem('userType');
-      
+
     }).catch(function(error) {
       // An error happened.
     });
@@ -43,7 +43,6 @@ class TopNavBar extends Component {
                 <img id="logo-img" src="images/kid-coin-logo.jpg" alt="KidCoin Logo"/>
             </div>
             <div>
-                <div className="fa fa-bars navbar-fav"></div>
             </div>
             </div>
           </div>

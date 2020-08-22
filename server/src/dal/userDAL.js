@@ -9,7 +9,7 @@ module.exports = {
             lastName: lastName,
             phoneNumber: phoneNumber,
             type: type,
-            picture: picture.split('\\')[picture.split('\\').length-1]
+            picture: picture? picture.split('\\')[picture.split('\\').length-1]: ''
         });
     },
     getByID: function (userId) {

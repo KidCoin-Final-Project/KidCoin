@@ -17,14 +17,14 @@
 
 .register-form {
     display: flex;
-    align-items: center;
     justify-content: space-evenly;
     height: 37vh;
     flex-direction: column;
+    align-items: inherit;
 }
 
 .register-input {
-    color: white;
+    color: white !important;
     border: none;
     width: fit-content;
     border-bottom: 2px white solid;

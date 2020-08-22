@@ -135,7 +135,7 @@ function Register(props) {
             };
             axios.post('http://localhost:8080/product/addImage', formData, config)
                 .then((response) => {
-                    alert("image uplaoded seccessfully")
+                    // alert("image uplaoded seccessfully")
                 }).catch((error) => {
                 alert(error)
             });
@@ -151,7 +151,7 @@ function Register(props) {
                 firstName: values.name,
                 lastName: '',
                 parentEmail: values.parentEmail,
-                //picture: picture,
+                picture: picture,
                 //file: file,
                 store: {
                     storeName: values.storeName,
@@ -166,6 +166,7 @@ function Register(props) {
             },
             {headers: {'Content-Type': 'application/json'}}
         ).catch(error => {
+            alert(JSON.stringify(error));
             setError(error.response.data);
             currError = error.response.data;
         });
