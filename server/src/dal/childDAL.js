@@ -37,10 +37,7 @@ module.exports = {
             if(!doc.exists){
                 throw 404;
             }
-            var restrictions = doc.data().restrictions;
-            if(!restrictions){
-                restrictions = [];
-            }
+            restrictions = [];
             for (let i = 0; i < productIds.length; i++) {
                 restrictions.push(db.collection('product').doc(productIds[i]))
             }
