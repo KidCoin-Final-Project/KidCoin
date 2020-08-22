@@ -1,5 +1,6 @@
 const productDAL = require('../dal/productDAL')
 const purchaseDAL = require('../dal/purchaseDAL')
+const childDAL = require('../dal/childDAL')
 const productReviewSRV = require('./productReviewSRV')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const utils = require('../misc/utils')
@@ -44,18 +45,26 @@ module.exports = {
         });
     },
 
-    getByCategory: function(req){
+    getByCategory: async function(req){
+        var userType = await utils.getUserType(req.headers.authtoken)
+        var child;
+        if(userType == 'child'){
+            child = await childDAL.getByID(await utils.getIdByToken(req.headers.authtoken));
+        }
         return productDAL.getByCategory(req.params.category).then(async doc => {
             if(doc.empty) {
-                console.log('couldnt find category. ');
+                console.log('couldnt find category.');
                 return
             }
             var products = []
             for(let i=0;i<doc.length;i++){
-                products.push({
-                    ...doc[i].data(),
-                   'avgRating': await productReviewSRV.getAvgRatingByProductId(doc[i].id)
-                })
+                if(!child || (child && child.restrictions.indexOf(doc[i].id) == -1)){
+                    products.push({
+                        ...doc[i].data(),
+                        id: doc[i].id,
+                    'avgRating': await productReviewSRV.getAvgRatingByProductId(doc[i].id)
+                    })
+                }
             }
             return products;
         });

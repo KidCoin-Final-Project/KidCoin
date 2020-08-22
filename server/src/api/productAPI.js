@@ -50,6 +50,7 @@ router.get('/byId/:productID', function (req, res) {
  * @route get /product/byCategory
  * @group product api
  * @param {string} category.query.required - request amount
+ * @param {string} storeId.url.required - request amount
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */
