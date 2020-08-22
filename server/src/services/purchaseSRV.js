@@ -77,7 +77,6 @@ module.exports = {
         }
         let productFromStore = await productDal.getProductInStore(storeId, productId);
         let productFromStoreId = productFromStore.id;
-        if(!productFromStoreId)
         let userID = await utils.getIdByToken(req.headers.authtoken);
         let child = await childDAL.getByID(userID);
         let storeBankAccount = productFromStore.store_id.get().than(doc =>{
