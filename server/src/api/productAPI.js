@@ -73,8 +73,23 @@ router.get('/recommended', middleware.isUserChild, function (req, res) {
 });
 
 
-router.post('/addProduct', function (req, res) {
-    productsSRV.addProduct(req, res);
+
+/**
+* add new product to and productInStore, if product already exists only productInStore will be created
+* @route post /product/addProduct
+* @param {string} name.body.required - name of the product
+* @param {string} category.body.required - category of the product
+* @param {string} ingredients.body.required - ingredients of the product
+* @param {string} description.body.required - description of the product
+* @param {string} picture.body.required - picture of the product
+* @param {string} price.body.required - price of the product in the store
+* @param {string} prodId.body.required - prodId of the product (barcode)
+* @group product api
+* @returns {object} 200 
+* @returns {Error}  default - Unexpected error
+*/
+router.post('/addProduct', middleware.isUserOwner, function (req, res) {
+    return productsSRV.addProduct(req, res);
 });
 
 router.post('/addImage', function (req, res) {

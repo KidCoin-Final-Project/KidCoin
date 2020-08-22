@@ -1,5 +1,7 @@
 const productDAL = require('../dal/productDAL')
+const productsInStoreDAL = require('../dal/productsInStoreDAL')
 const purchaseDAL = require('../dal/purchaseDAL')
+const ownerDAL = require('../dal/ownerDAL')
 const childDAL = require('../dal/childDAL')
 const productReviewSRV = require('./productReviewSRV')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
@@ -73,12 +75,15 @@ module.exports = {
 
     addProduct: async function (req, res) {
         const {
-            name, category, ingredients, description, picture
-        } = req.body.params;
+            name, category, ingredients, description, price, prodId
+        } = req.body;
+        var picture = req.body.picture.split('\\')[req.body.picture.split('\\').length-1];
         try {
-            let product = await productDAL.addProduct(name, category, ingredients, description, picture.split('\\')[picture.split('\\').length-1]);
-            let documentId = product._path.segments["1"];
-            return res.send(documentId).end();
+            const userID = await utils.getIdByToken(req.headers.authtoken);
+            var owner = await ownerDAL.getByID(userID);
+            let product = await productDAL.addProduct(name, category, ingredients, description, picture, prodId.toString());
+            productsInStoreDAL.addProducttoStore(owner.store.id, prodId.toString(), price);
+            return res.send('ok!');
         } catch (e) {
             return res.status(500).send(e);
         }

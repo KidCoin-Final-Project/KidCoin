@@ -52,7 +52,7 @@ module.exports = {
     addProducttoStore: function(storeID, productID, price)
     {
         return db.collection('productsInStore').add({
-            price: price,
+            price: Number(price),
             product_id: db.collection('product').doc(productID),
             store_id: db.collection('store').doc(storeID),
            

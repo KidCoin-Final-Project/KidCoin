@@ -76,7 +76,7 @@ module.exports = {
                 if(e == 'missing params'){
                     return res.status(400).send(e);
                 }
-                return res.send(e);
+                return res.status(500).send(e);
             }
             var token = await firebase.auth.createCustomToken(user.uid).then((token) => { return token; });
             return res.send({
