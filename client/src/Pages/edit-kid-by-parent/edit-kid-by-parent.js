@@ -3,27 +3,63 @@ import "bootstrap/dist/css/bootstrap.css"
 import "../edit-kid-by-parent/edit-kid-by-parent.css"
 import TopNavBar from "../../Components/Top-Navbar/top-navbar";
 import Modal from "react-bootstrap/Modal";
+import {Button, Dropdown} from "semantic-ui-react";
+import * as ScanditSDK from "scandit-sdk";
+import axios from 'axios';
+
 
 class EditKidByParent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            result: 'No result',
+            barcode: '',
+            allKiosks: [],
+            kioskSelected: [],
+            isKioskSelected: false,
+            isBarcodeSelected : false,
             show: false,
         };
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentDidMount() {
-        this.setState({kids: this.props.location.state.kid})
+        this.setState({kids: this.props.location.state.kid});
+        const token = sessionStorage.getItem('userToken');
+        this.getAllProduct(token).then(value=>{
+            console.log(value);
+            this.setState({ allKiosks: EditKidByParent.mapProductToDropdown(value) });
+            console.log("work???" + this.state.allKiosks);
+        });
+        // this.setState({ allKiosks: EditKidByParent.mapProductToDropdown(this.getAllProduct(token)) });
     }
 
-    handleShow(){
-        this.state.show = true
+    static mapProductToDropdown(products){
+         let map = products.map((product) => ({
+            key: product.name,
+            value: 1,
+            text: product.name
+        }));
+         console.log("shakin:" + map);
+         return map;
+
     }
 
-    handleClose(){
-        this.state.show = false
+    async getAllProduct(token) {
+        const response = await axios.get(
+            'http://localhost:8080/product/',
+            {
+                headers: { 'authtoken': token }
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data;
+    }
+
+    handleChange(evt,e){
+        this.setState({ kioskSelected: e.value });
+        this.setState({ isKioskSelected : true });
     }
 
     render() {
@@ -92,26 +128,22 @@ class EditKidByParent extends Component {
                     <button className="btn btn-light option-button-kidAlergic"><span>ספרייט</span><span>x</span></button>
                     <button className="btn btn-light option-button-kidAlergic"><span>שוקולד</span><span>x</span></button>
                 </div>
-                <button className="btn btn-light add-button-kidAlergic"
-                        variant="primary" onClick={this.handleShow}><span>הוספה</span><span>+</span>
-                </button>
+                {/*<button className="btn btn-light add-button-kidAlergic"*/}
+                {/*        variant="primary" onClick={this.handleShow}><span>הוספה</span><span>+</span>*/}
+                {/*</button>*/}
+
+                <Dropdown placeholder='הוסף מוצרים'
+                          fluid
+                          multiple
+                          selection
+                          options={this.state.allKiosks}
+                          value={this.state.kioskSelected}
+                          onChange={this.handleChange} />
             </div>
 
-            <Modal show={this.state.show} onHide={this.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                <Modal.Footer>
-                    <button variant="secondary" onClick={this.handleClose}>
-                        Close
-                    </button>
-                    <button variant="primary" onClick={this.handleClose}>
-                        Save Changes
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
+            { this.state.isKioskSelected &&
+            <div className="item"><Button>בצע רכישה</Button></div>
+            }
         </div>
         </div>
 
