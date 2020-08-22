@@ -22,7 +22,8 @@ module.exports = {
             for(let i=0;i<docs.length;i++){
                 products.push({
                     ...docs[i].data(),
-                   'avgRating': await productReviewSRV.getAvgRatingByProductId(docs[i].id)
+                    id: docs[i].id,
+                   avgRating: await productReviewSRV.getAvgRatingByProductId(docs[i].id)
                 })
             }
             return products;
