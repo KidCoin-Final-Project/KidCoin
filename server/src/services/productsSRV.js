@@ -4,6 +4,7 @@ const productReviewSRV = require('./productReviewSRV')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const utils = require('../misc/utils')
 const fs = require('fs');
+const middleware = require('../misc/middleware');
 const csvDir = './server/csvs';
 
 
@@ -21,7 +22,8 @@ module.exports = {
             for(let i=0;i<docs.length;i++){
                 products.push({
                     ...docs[i].data(),
-                   'avgRating': await productReviewSRV.getAvgRatingByProductId(docs[i].id)
+                    id: docs[i].id,
+                   avgRating: await productReviewSRV.getAvgRatingByProductId(docs[i].id)
                 })
             }
             return products;
@@ -42,8 +44,8 @@ module.exports = {
         });
     },
 
-    getByCategory: function(category){
-        return productDAL.getByCategory(category).then(async doc => {
+    getByCategory: function(req){
+        return productDAL.getByCategory(req.params.category).then(async doc => {
             if(doc.empty) {
                 console.log('couldnt find category. ');
                 return
