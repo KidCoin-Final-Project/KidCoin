@@ -24,10 +24,7 @@ module.exports = {
     addStore: async function (store, ownerID) {
         if (!store || 
             !store.storeName || 
-            !store.location || 
-            !store.location.longitude || 
-            !store.location.latitude ||
-            !store.address || 
+            !store.address ||
             !store.bankAccount) {
             throw ('missing params');
         }
