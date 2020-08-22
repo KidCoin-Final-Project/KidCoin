@@ -53,11 +53,10 @@ router.post('/restrict/:childID', middleware.isChildOfParent, function (req, res
 });
 
 /**
- * delete restriction for child
- * @route post /child/restrict/:childId
+ * delete child
+ * @route delete /child/:childId
  * @group child api
  * @param {string} childID.url.required - child's ID 
- * @param {string} productId.body.required - restrict productId to delete
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */
@@ -66,10 +65,11 @@ router.delete('/:childID', middleware.isChildOfParent, function (req, res) {
 });
 
 /**
- * delete child
- * @route post /child/restrict/:childId
+ * delete restriction for child
+ * @route delete /child/restrict/:childId
  * @group child api
  * @param {string} childID.url.required - child's ID 
+ * @param {string} productId.body.required - restrict productId to delete
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */
