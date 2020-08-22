@@ -39,4 +39,16 @@ router.post('/approve/:childEmail', middleware.isUserParent, function (req, res)
     return parentSRV.approveChild(req, res);
 });
 
+/**
+ * approve a child by Email
+ * @route post /restrict/:childId
+ * @group child api
+ * @param {string} childEmail.url.required - child's Email 
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
+    return childSRV.addRestriction(req, res);
+});
+
 module.exports = router;

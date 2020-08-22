@@ -5,7 +5,7 @@ const unless = require('express-unless');
 
 middleware.authenticate.unless = unless
 
-router.use(middleware.authenticate.unless({ path: ['/auth/signup', '/auth/all', '/api-docs/', '/api-docs'] }));
+router.use(middleware.authenticate.unless({ path: ['/auth/signup', '/auth/all', '/api-docs/', '/api-docs', '/product/addImage'] }));
 
 router.use('/auth', require('./api/authAPI'))
 
