@@ -80,7 +80,7 @@ class KidHome extends Component {
     }
 
     mapLastActivities(lastActivities) {
-        return lastActivities.map((activity, index) =>
+        return lastActivities? lastActivities.map((activity, index) =>
             <div className="activity-kid-page" key={index} >
                 <div className="product-kid-page">
                     <span className="cost-kid-page">{activity.price}$</span>
@@ -91,7 +91,7 @@ class KidHome extends Component {
                     <span>{activity.location}</span>
                 </div>
             </div>
-        );
+        ): <div></div>;
     }
 
     render() {

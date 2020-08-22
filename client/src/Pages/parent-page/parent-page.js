@@ -96,7 +96,7 @@ class ParentHome extends Component {
         <div className="kid-info">
             <a className="fa fa-envelope" onClick={this.redirectToChat.bind(this, child.childId)}></a>
             <NavLink to={{ pathname: "EditKidByParent", state: { kid: child } }}>
-                calsssss
+                <div className='fa fa-edit' style={{'color':'black'}}></div>
             </NavLink>
             <div className="kid-specific">
                 <span style={{ fontWeight: "bold", "fontSize": "3vh" }}>{child.child.firstName}</span>
@@ -107,12 +107,6 @@ class ParentHome extends Component {
             </div>
         </div>
         <div className="kid-money">
-            <div className="btn btn-light option-button" style={{
-                "display": "flex", "width": "fit-content",
-                "height": "4vh", "alignItems": "center"
-            }}><span style={{ "fontSize": "2vh" }}>טען כסף </span>
-            </div>
-
             <span style={{ fontSize: "3vh" }}>יתרה: {child.child.balance} שקלים</span>
         </div>
     </div>
@@ -335,7 +329,7 @@ class ParentHome extends Component {
                         </form>
                     </div>
 
-                    <span style={{ fontSize: "4vh", "color": "white", "textAlign": "right" }}>הילדים שלי</span>
+                    <span style={{ fontSize: "4vh", "color": "white", "textAlign": "right", "marginBottom": "2vh" }}>הילדים שלי</span>
 
                     {this.state.childrenDOM}
 

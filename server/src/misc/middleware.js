@@ -26,7 +26,9 @@ module.exports = {
         }
     },
     isUserChild: function (req, res, next){
-        utils.getIdByToken(req.headers.authtoken).then(uid =>{
+        let authtoken = req.headers.authtoken || req.body.headers.authtoken;
+
+        utils.getIdByToken(authtoken).then(uid =>{
             usersDAL.getByID(uid).then(user => {
                 if(user.type != 'child'){
                     return res.status(401).send({ error: 'unauthorized user! user is not a child' });

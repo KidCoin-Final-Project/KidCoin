@@ -89,7 +89,13 @@ class Request extends Component {
                     <div className="ask-outer">
                         <h2 className="ask-h2">תשלום באמצעות אשראי</h2>
                         <div className="modal-detail">
-                            <div>
+                            <div style={{
+                                'height': '45vh',
+                                'display': 'flex',
+                                'flexDirection': 'column',
+                                'justifyContent': 'space-around',
+                                'alignItems': 'flex-start'
+                            }}>
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
                                     <input type="text" onChange={this.handleNameChange} value={this.state.name}/>
                                     <span>שם בעל האשראי</span>
@@ -241,13 +247,6 @@ class ChargeMoney extends Component {
                                  uid={request.uid}/>
                     )}
 
-                </div>
-                <div className="bottom-interface">
-                    <div className="pay-or-ask">
-                        <button className="pay-or-ask-button" onClick={toggleResults}>
-                            בקש
-                        </button>
-                    </div>
                 </div>
             </div>
 
