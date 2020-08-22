@@ -66,7 +66,8 @@ router.get('/totalRevenue/', middleware.isUserOwner, function (req, res) {
  * make a new purchase (only for child) 
  * @route post /purchase/new/
  * @group purchases api
- * @param {string} productFromStoreId.body.required - id of Store Product
+ * @param {string} storeId.body.required - id of Store 
+ * @param {string} productId.body.required - id of Product
  * @returns {object} 200 
  * @returns {Error} 406 - not enough blanace for child
  * @returns {Error} 404 - store product not found

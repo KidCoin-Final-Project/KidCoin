@@ -52,6 +52,28 @@ module.exports = {
             pendingChildrenArr.push({email:childEmail, childID: childID});
             return db.collection('parent').doc(parentID).update({pendingChildren: pendingChildrenArr})
         });
-    }
+    },
+    removeChild: function (parentId, childId){
+        return db.collection('parent').doc(parentId).get().then(doc => {
+            if(!doc.exists){
+                throw 404;
+            }
+            var children = doc.data().children;
+            var index = -1
+            if(!children){
+                children = [];
+            } else {
+                for (let i = 0; i < children.length; i++) {
+                    if(children[i].id == childId){
+                        index = i;
+                    }
+                } 
+            }
+            if (index > -1) {
+                children.splice(index, 1);
+            }
+            return db.collection('parent').doc(parentId).update({children:children})
+        })
+    },
     
 }

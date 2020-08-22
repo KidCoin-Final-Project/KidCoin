@@ -61,8 +61,8 @@ router.post('/restrict/:childID', middleware.isChildOfParent, function (req, res
  * @returns {object} 200 
  * @returns {Error}  default - Unexpected error
  */
-router.delete('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
-    //return childSRV.addRestriction(req, res);
+router.delete('/:childID', middleware.isChildOfParent, function (req, res) {
+    return childSRV.deleteChild(req, res);
 });
 
 /**
@@ -74,7 +74,7 @@ router.delete('/restrict/:childID', middleware.isChildOfParent, function (req, r
  * @returns {Error}  default - Unexpected error
  */
 router.delete('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
-    return childSRV.addRestriction(req, res);
+    return childSRV.removeRestriction(req, res);
 });
 
 module.exports = router;

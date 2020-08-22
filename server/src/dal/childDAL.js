@@ -51,14 +51,24 @@ module.exports = {
                 throw 404;
             }
             var restrictions = doc.data().restrictions;
+            var index = -1
             if(!restrictions){
                 restrictions = [];
+            } else {
+                for (let i = 0; i < restrictions.length; i++) {
+                    if(restrictions[i].id == productId){
+                        index = i;
+                    }
+                } 
             }
-            const index = restrictions.indexOf(productId);
             if (index > -1) {
                 restrictions.splice(index, 1);
             }
             return db.collection('child').doc(childId).update({restrictions:restrictions})
         })
+    },
+    deleteChild: function(childId){
+        db.collection('child').doc(childId).delete()
+        db.collection('user').doc(childId).delete()
     }
 }
