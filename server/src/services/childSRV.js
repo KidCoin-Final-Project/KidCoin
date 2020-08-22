@@ -21,10 +21,10 @@ module.exports = {
         });
     },
     addRestriction: async function (req, res) {
-        if(!req.body.productId){
+        if(!req.body.productIds){
             return res.status(400).send('missing params')
         }
-        return childDAL.addRestriction(req.params.childID, req.body.productId).then(async doc => {
+        return childDAL.addRestriction(req.params.childID, req.body.productIds).then(async doc => {
             if (!doc) {
                 console.log('couldnt find child.');
                 throw(404);
@@ -33,10 +33,10 @@ module.exports = {
         });
     },
     removeRestriction: async function (req, res) {
-        if(!req.body.productId){
+        if(!req.body.productIds){
             return res.status(400).send('missing params')
         }
-        return childDAL.removeRestriction(req.params.childID, req.body.productId).then(async doc => {
+        return childDAL.removeRestriction(req.params.childID, req.body.productIds).then(async doc => {
             if (!doc) {
                 console.log('couldnt find child.');
                 throw(404);
