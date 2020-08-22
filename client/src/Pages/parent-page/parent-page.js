@@ -23,7 +23,8 @@ class ParentHome extends Component {
             allTabsDOM: '',
             explain: '',
             token: '',
-            error: ''
+            error: '',
+            isNotificationAlready: false
         };
 
         this.enterReview = this.enterReview.bind(this);
@@ -47,7 +48,7 @@ class ParentHome extends Component {
 
         this.setState({ allTabsDOM : this.createAllTabsDOM(this.createTabsDOM(allChildrenInfo), this.convertLastActivitiesToDOM(allChildrenLastActivities)) });
 
-        this.handleNotifications(allChildrenInfo);
+        await this.handleNotifications(allChildrenInfo, parentToken);
     }
 
     async getParentInfoFromServer(uid,token){
@@ -126,7 +127,7 @@ class ParentHome extends Component {
     }
 
     mapActivities(activities){
-        if(Object.keys(activities).length === 0 && activities.constructor === Object){
+        if((Object.keys(activities).length === 0 && activities.constructor === Object) || activities == ''){
             return '';
         }
 
@@ -228,27 +229,44 @@ class ParentHome extends Component {
         var childrenMoneyRequests = [];
         var childObj;
 
-        // for (var i = 0; i < childrenInfo.length; i++) {
-        //     const response = await axios.get(
-        //         'http://localhost:8080/moneyRequest/getAll',
-        //         { headers: { 'authtoken': token},
-        //           params: {
-        //               daysBack: 10,
-        //               childId: childrenInfo[i].id
-        //           } }
-        //         );
+        for (var i = 0; i < childrenInfo.length; i++) {
+            const response = await axios.get(
+                'http://localhost:8080/moneyRequest/getAll',
+                { headers: { 'authtoken': token},
+                  params: {
+                      daysBack: 10,
+                      childID: childrenInfo[i].childId
+                  } }
+                );
 
-        //         childObj = {
-        //             numOfRequests :  childrenInfo[i].child.name + " ביקש כ - " + await response.data.length + " בקשות לכסף",
-        //             childId: childrenInfo[i].id
-        //         };
-        //         childrenMoneyRequests.push(childObj);
-        // }
+                childObj = {
+                    numOfRequests :  childrenInfo[i].child.firstName + " ביקש כ - " + await response.data.length + " בקשות לכסף",
+                    childId: childrenInfo[i].childId
+                };
+                childrenMoneyRequests.push(childObj);
+        }
         this.notificationsDOM(childrenMoneyRequests);
     }
 
 
     notificationsDOM(moneyRequests){
+
+        for (var i = 0; i < moneyRequests.length; i++) {
+            store.addNotification({
+                title: "שלום רב",
+                message: moneyRequests[i].numOfRequests,
+                type: "info",
+                insert: "bottom",
+                container: "bottom-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true,
+                  pauseOnHover: true
+                }
+              });
+        }
         store.addNotification({
             title: "שלום ז'אק",
             message: "שלום שקד",
@@ -263,18 +281,6 @@ class ParentHome extends Component {
               pauseOnHover: true
             }
           });
-        //this.NotificationManager.info('Info message',"שלום רב");
-
-    //     return moneyRequests.map((moneyRequest) => 
-    //     <ReactNotifications
-    //     onRef={ref => (this.n = ref)} // Required
-    //     title="שלום" // Required
-    //     body={moneyRequest.numOfRequests}
-    //     icon="icon.png"
-    //     tag={moneyRequest.childId}
-    //     onClick={event => this.handleClick(event)}
-    //   />
-        //)
     }
 
 
