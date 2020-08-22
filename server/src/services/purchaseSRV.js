@@ -79,8 +79,8 @@ module.exports = {
         let productFromStoreId = productFromStore.id;
         let userID = await utils.getIdByToken(req.headers.authtoken);
         let child = await childDAL.getByID(userID);
-        let storeBankAccount = productFromStore.store_id.get().than(doc =>{
-            return docs.data().bankAccount;
+        let storeBankAccount = await productFromStore.store_id.get().then(doc =>{
+            return doc.data().bankAccount;
         })
         if(child.balance < productFromStore.price){
             return res.status(406).send('not enough blanace for child');

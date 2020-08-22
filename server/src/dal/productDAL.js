@@ -27,15 +27,13 @@ module.exports = {
         })
     },
 
-    addProduct: function (name, category, ingredients, description, money, picture, productID) {
+    addProduct: function (name, category, ingredients, description, picture) {
         return db.collection('product').add({
             name: name,
             category: category,
             ingredients: ingredients,
             description: description,
-            money: money,
-            picture: picture,
-            productID
+            picture: picture, 
         });
     },
     getProductInStore: function (productId, storeId) {
