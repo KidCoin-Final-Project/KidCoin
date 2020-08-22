@@ -54,7 +54,7 @@ router.get('/byId/:productID', function (req, res) {
  * @returns {Error}  default - Unexpected error
  */
 router.get('/byCategory/:category', function (req, res) {
-    productsSRV.getByCategory(req.params.category).then(doc => {
+    productsSRV.getByCategory(req).then(doc => {
        return res.send(doc);
     });
 });

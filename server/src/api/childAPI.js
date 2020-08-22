@@ -29,7 +29,7 @@ router.get('/:childID', function (req, res) {
 
 /**
  * approve a child by Email
- * @route post /approve/:childEmail
+ * @route post /child/approve/:childEmail
  * @group child api
  * @param {string} childEmail.url.required - child's Email 
  * @returns {object} 200 
@@ -37,6 +37,19 @@ router.get('/:childID', function (req, res) {
  */
 router.post('/approve/:childEmail', middleware.isUserParent, function (req, res) {
     return parentSRV.approveChild(req, res);
+});
+
+/**
+ * approve a child by Email
+ * @route post /child/restrict/:childId
+ * @group child api
+ * @param {string} childID.url.required - child's ID 
+ * @param {string} productId.body.required - productId to restrict 
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
+    return childSRV.addRestriction(req, res);
 });
 
 module.exports = router;
