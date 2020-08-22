@@ -18,7 +18,6 @@ module.exports = {
         });
     },
     addRestriction: async function (req, res) {
-        var userId = await utils.getIdByToken(req.headers.authtoken);
         if(!req.body.productId){
             return res.status(400).send('missing params')
         }
@@ -29,5 +28,20 @@ module.exports = {
             }
             return res.send('ok!')
         });
+    },
+    removeRestriction: async function (req, res) {
+        if(!req.body.productId){
+            return res.status(400).send('missing params')
+        }
+        return childDAL.removeRestriction(req.params.childID, req.body.productId).then(async doc => {
+            if (!doc) {
+                console.log('couldnt find child.');
+                throw(404);
+            }
+            return res.send('ok!')
+        });
+    },
+    deleteChild:function(childId){
+
     }
 }

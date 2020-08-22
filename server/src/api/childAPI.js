@@ -40,7 +40,7 @@ router.post('/approve/:childEmail', middleware.isUserParent, function (req, res)
 });
 
 /**
- * approve a child by Email
+ * restrict product to child
  * @route post /child/restrict/:childId
  * @group child api
  * @param {string} childID.url.required - child's ID 
@@ -49,6 +49,31 @@ router.post('/approve/:childEmail', middleware.isUserParent, function (req, res)
  * @returns {Error}  default - Unexpected error
  */
 router.post('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
+    return childSRV.addRestriction(req, res);
+});
+
+/**
+ * delete restriction for child
+ * @route post /child/restrict/:childId
+ * @group child api
+ * @param {string} childID.url.required - child's ID 
+ * @param {string} productId.body.required - restrict productId to delete
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.delete('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
+    //return childSRV.addRestriction(req, res);
+});
+
+/**
+ * delete child
+ * @route post /child/restrict/:childId
+ * @group child api
+ * @param {string} childID.url.required - child's ID 
+ * @returns {object} 200 
+ * @returns {Error}  default - Unexpected error
+ */
+router.delete('/restrict/:childID', middleware.isChildOfParent, function (req, res) {
     return childSRV.addRestriction(req, res);
 });
 
