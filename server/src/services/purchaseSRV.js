@@ -67,6 +67,10 @@ module.exports = {
         })
         return purchaseDAL.getStorePurchases(store).then(getDataFromRes);
     },
+    getIdByToken: async function (token) {
+        let decodedToken = await auth.verifyIdToken(token);
+        return decodedToken.uid;
+    },
     createNewPurchase: async function (req, res) {
         const {
             storeId,

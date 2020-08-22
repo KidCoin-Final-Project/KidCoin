@@ -81,18 +81,34 @@ class Product extends Component {
         });
         return response.data;
     }
+    async getProductInStoreFromServer(productId, token) {
+        const response = await axios.get(
+            'http://localhost:8080/productsInStore/getPricebyID/',
+            {
+                headers: { 'authtoken': token },
+                params: {
+                    productId: productId,
+                    storeId: sessionStorage.getItem('storeId')
+                }
+            }
+        ).catch(error => {
+            alert(error);
+        });
+        return response.data[0];
+    }
 
     async componentDidMount() {
         this.setState({productID: sessionStorage.getItem('productID')})
         const productByIDFromServer = await this.getProductsByIDFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
         const productReviews = await this.getProductReviewFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
+        const productInStore = await this.getProductInStoreFromServer(sessionStorage.getItem('productID'), sessionStorage.getItem('userToken'));
         this.setState({
             name: productByIDFromServer.name,
             category: productByIDFromServer.category,
             ingredients: productByIDFromServer.ingredients,
-            picture: "http://localhost:8080/images/" + productByIDFromServer.picture,
+            picture: "/new-images/" + productByIDFromServer.picture,
             description: productByIDFromServer.description,
-            money: productByIDFromServer.money,
+            money: productInStore.price,
             productID: productByIDFromServer.productID,
             reviews: productReviews
         })
@@ -136,10 +152,10 @@ class Product extends Component {
                     <span id="last-activity-span-product">
                         ביקורת אחרונה על המוצר
         </span>
-                    {this.state.reviews.map((review,index) =>
+                    {this.state.reviews? this.state.reviews.map((review,index) =>
                         <Review key={index}
                                   place={review.place} dateString={review.dateString} rating={review.rating} comment={review.comment} />
-                    )}
+                    ): ''}
                 </div>
             </div>
         );

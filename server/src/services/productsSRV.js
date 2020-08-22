@@ -64,7 +64,7 @@ module.exports = {
 
     addProduct: async function (req, res) {
         const {
-            name, category, ingredients, description, picture, productID
+            name, category, ingredients, description, picture
         } = req.body.params;
         try {
             let product = await productDAL.addProduct(name, category, ingredients, description, picture.split('\\')[picture.split('\\').length-1]);

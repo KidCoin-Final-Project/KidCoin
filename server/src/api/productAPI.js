@@ -5,7 +5,7 @@ const multer = require("multer");
 const middleware = require('../misc/middleware')
 
 const storage = multer.diskStorage({
-    destination: "/src/public/images/",
+    destination: "../../client/public/new-images/",
     filename: function(req, file, cb){
         cb(null,file.originalname);
     }
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits:{fileSize: 100000000},
+    limits:{fileSize: 10000000000},
 }).single("myImage");
 
 /**
@@ -79,8 +79,11 @@ router.post('/addProduct', function (req, res) {
 router.post('/addImage', function (req, res) {
     upload(req, res, (err) => {
         /*Now do where ever you want to do*/
-        if(err)
+        if(err) {
             console.log(err);
+        } else {
+            return res.send(200).end()
+        }
     });
 });
 

@@ -251,6 +251,7 @@
 }
 
 .modal-inner {
+    direction: rtl;
     position: static;
     left: 0%;
     top: auto;
