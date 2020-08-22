@@ -23,7 +23,8 @@ class ParentHome extends Component {
             allTabsDOM: '',
             explain: '',
             token: '',
-            error: ''
+            error: '',
+            isNotificationAlready: false
         };
 
         this.enterReview = this.enterReview.bind(this);
@@ -47,7 +48,7 @@ class ParentHome extends Component {
 
         this.setState({ allTabsDOM : this.createAllTabsDOM(this.createTabsDOM(allChildrenInfo), this.convertLastActivitiesToDOM(allChildrenLastActivities)) });
 
-        this.handleNotifications(allChildrenInfo, parentToken);
+        await this.handleNotifications(allChildrenInfo, parentToken);
     }
 
     async getParentInfoFromServer(uid,token){
@@ -246,7 +247,7 @@ class ParentHome extends Component {
 
                 childObj = {
                     numOfRequests :  childrenInfo[i].child.firstName + " ביקש כ - " + await response.data.length + " בקשות לכסף",
-                    childId: childrenInfo[i].id
+                    childId: childrenInfo[i].childId
                 };
                 childrenMoneyRequests.push(childObj);
         }

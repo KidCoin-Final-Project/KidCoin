@@ -80,6 +80,9 @@ class KidHome extends Component {
     }
 
     mapLastActivities(lastActivities) {
+        if(lastActivities === ''){
+            return <div className="activity-kid-page">אין פעילויות אחרונות</div>
+        }
         return lastActivities.map((activity, index) =>
             <div className="activity-kid-page" key={index} >
                 <div className="product-kid-page">
