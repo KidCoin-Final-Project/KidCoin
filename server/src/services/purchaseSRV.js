@@ -80,10 +80,10 @@ module.exports = {
             return res.status(400).send('productFromStoreId is required');
         }
         let productFromStore = await productDal.getProductInStore(storeId, productId);
-        let productFromStoreId = productFromStore.id;
         if(!productFromStore){
             return res.status(400).send('didnt find product in store!'); 
         }
+        let productFromStoreId = productFromStore.id;
         let userID = await utils.getIdByToken(req.headers.authtoken);
         let child = await childDAL.getByID(userID);
         let storeBankAccount = await productFromStore.store_id.get().then(doc =>{
