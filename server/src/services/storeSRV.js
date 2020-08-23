@@ -18,6 +18,8 @@ module.exports = {
         if (req.query.maxDistanceInMeters) {
             maxDistanceInMeters = req.query.maxDistanceInMeters;
         }
+        location.latitude = Number(location.latitude)
+        location.longitude = Number(location.longitude)
         return await storeDAL.getBylocation(location, maxDistanceInMeters);
     },
 

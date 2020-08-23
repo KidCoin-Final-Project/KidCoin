@@ -40,22 +40,15 @@ module.exports = {
             .get()
             .then((docs) => {
                 var stores = [];
-                docs.docs.forEach(store => {
-                    var storeData = {}
-                    storeData.name = store.data().name
-                    storeData.address = store.data().address
-                    if (!store.data().location) {
-                        return;
-                    }
-                    storeData.location = {}
-                    storeData.location.longitude = store.data().location._longitude
-                    storeData.location.latitude = store.data().location._latitude
-
+                for (let i = 0; i < docs.docs.length; i++) {
+                    var store = docs.docs[i];
+                    var storeData = {...store.data()}
+                    storeData.owner = storeData.owner.id
                     storeData.distance = geoLib.getDistance(location, storeData.location)
                     if (storeData.distance && storeData.distance < maxDistanceInMeters) {
                         stores.push(storeData)
                     }
-                })
+                }
                 stores = stores.sort((store1, store2) => {
                     if (store1.distance < store2.distance) {
                         return store1;
