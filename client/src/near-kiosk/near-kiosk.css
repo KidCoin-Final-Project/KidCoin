@@ -31,7 +31,7 @@
 }
 
 #near-kiosk-span {
-    color:white;
+    color: #00be92;
     margin-bottom: 3vh;
     margin-top: 2vh;
 }
@@ -104,7 +104,7 @@
     font-weight: bold;
 }
 
-.more-details {
+.near-kiosk-more-details {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

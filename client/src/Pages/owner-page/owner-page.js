@@ -75,7 +75,6 @@ class OwnerHome extends Component {
                         <span>עסקאות בוצעו</span>
                     </div>
                 </div>
-                <button className="btn btn-light option-button"><span>פירוט עסקאות</span></button>
                 <div id="outer-products-list-owner">
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Bread' } }}>
@@ -108,7 +107,7 @@ class OwnerHome extends Component {
 
                     <NavLink to={{ pathname: "Products", state: { category: 'Drinks' } }}>
                     <button className="btn btn-light food-btn" onClick={this.setCategory.bind(this, 'Drinks')}>
-                        <img className="product-image-owner" src="images/papers.png" alt="מוצר"/>
+                        <img className="product-image-owner" src="images/drink.png" alt="מוצר"/>
                         <span className="product-name-owner">שתייה</span>
                     </button>
                 </NavLink>

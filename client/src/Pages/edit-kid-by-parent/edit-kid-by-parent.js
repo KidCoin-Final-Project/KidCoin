@@ -186,7 +186,7 @@ class EditKidByParent extends Component {
             </div>
 
             { this.state.isKioskSelected &&
-            <div className="item" onClick={this.saveRestrictions}><Button>שמור הגבלות</Button></div>
+            <div className="item" onClick={this.saveRestrictions} style={{'width':'100%', 'textAlign':'center'}}><Button>שמור הגבלות</Button></div>
             }
         </div>
         </div>

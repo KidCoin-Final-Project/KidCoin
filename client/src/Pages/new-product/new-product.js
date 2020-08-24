@@ -74,7 +74,7 @@ class NewProduct extends Component {
         };
         await axios.post('http://localhost:8080/product/addImage', formData, config)
             .then((response) => {
-                alert("The file is successfully uploaded");
+                // alert("The file is successfully uploaded");
             }).catch((error) => {
         });
 

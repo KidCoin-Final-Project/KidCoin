@@ -95,13 +95,14 @@ class ParentHome extends Component {
         return children.map((child) =>
         <div className="kid-box" key={child.childId}>
         <div className="kid-info">
-            <a className="fa fa-envelope" onClick={this.redirectToChat.bind(this, child.childId)}></a>
+            <a className="fa fa-envelope" onClick={this.redirectToChat.bind(this, child.childId)} style={{'position': 'relative',
+                'bottom': '2px'}}></a>
             <NavLink to={{ pathname: "EditKidByParent", state: { kid: child } }}>
                 <div className='fa fa-edit' style={{'color':'black'}}></div>
             </NavLink>
             <div className="kid-specific">
                 <span style={{ fontWeight: "bold", "fontSize": "3vh" }}>{child.child.firstName}</span>
-                <span style={{ "fontSize": "2vh" }}>הגבלות: בוטנים, חלב, סויה</span>
+                {/*<span style={{ "fontSize": "2vh" }}>הגבלות: בוטנים, חלב, סויה</span>*/}
             </div>
             <div className="kid-image">
                 <img src={"/new-images/" + child.child.picture} style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />

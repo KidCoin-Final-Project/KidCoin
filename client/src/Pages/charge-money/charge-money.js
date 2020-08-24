@@ -97,28 +97,28 @@ class Request extends Component {
                                 'alignItems': 'flex-start'
                             }}>
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-                                    <input type="text" onChange={this.handleNameChange} value={this.state.name}/>
+                                    <input style={{'marginRight': '2vh'}} type="text" onChange={this.handleNameChange} value={this.state.name}/>
                                     <span>שם בעל האשראי</span>
                                 </div>
 
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-                                    <input type="text" onChange={this.handleIDChange}  value={this.state.id}/>
+                                    <input style={{'marginRight': '2vh'}} type="text" onChange={this.handleIDChange}  value={this.state.id}/>
                                     <span>מספר ת.ז </span>
                                 </div>
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-                                    <input placeholder=""
+                                    <input style={{'marginRight': '2vh'}} placeholder=""
                                            type="text" onChange={this.handleCardNumberChange}  value={this.state.cardNumber}/>
                                     <span>מספר אשראי</span>
                                 </div>
 
 
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-                                    <input type="text" onChange={this.handleExpirationChange} value={this.state.expiration}/>
+                                    <input style={{'marginRight': '2vh'}} type="text" onChange={this.handleExpirationChange} value={this.state.expiration}/>
                                     <span>תאריך תפוגה</span>
                                 </div>
 
                                 <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-                                    <input type="text" onChange={this.handleBackNumbersChange} value={this.state.backNumbers}/>
+                                    <input style={{'marginRight': '2vh'}} type="text" onChange={this.handleBackNumbersChange} value={this.state.backNumbers}/>
                                     <span>ספרות בגב הכרטיס</span>
                                 </div>
                             </div>

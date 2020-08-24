@@ -80,8 +80,8 @@ class NearKiosk extends Component {
                     <span className="cost"><a href={`https://www.google.com/maps/dir/?api=1&origin=${this.state.currentCords.latitude},${this.state.currentCords.longitude}&destination=${kiosk.location.latitude},${kiosk.location.longitude}`} target="_blank">נווט/י לשם</a></span>
                     <span className="product-name">{kiosk.storeName}</span>
                 </div>
-                <div className="more-details">
-                    <span>{kiosk.distance} מטר</span>
+                <div className="near-kiosk-more-details">
+                    {/*<span>{kiosk.distance} מטר</span>*/}
                     <span>{kiosk.address}</span>
                 </div>
             </div>
