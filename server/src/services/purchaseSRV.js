@@ -98,7 +98,7 @@ module.exports = {
             return res.status(500).send('bank transaction not successful');
         }
         childDAL.addBalance(userID, (productFromStore.price * -1));
-        return purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
+        req.send(purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
             var data = doc.data();
             return {
                 'childId': data.child.id,
@@ -114,7 +114,7 @@ module.exports = {
             } else{
                 return res.status(500).send('internal server error');
             }
-        });
+        }));
     },
 
     totalRevenue: async function (req) {
