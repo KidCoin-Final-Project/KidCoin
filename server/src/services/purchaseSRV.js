@@ -79,7 +79,7 @@ module.exports = {
         if(!storeId || !productId){
             return res.status(400).send('productFromStoreId is required');
         }
-        let productFromStore = await productDal.getProductInStore(storeId, productId);
+        let productFromStore = await productDal.getProductInStore(productId, storeId);
         if(!productFromStore){
             return res.status(400).send('didnt find product in store!'); 
         }
