@@ -86,7 +86,7 @@ class KidHome extends Component {
         return lastActivities.map((activity, index) =>
             <div className="activity-kid-page" key={index} >
                 <div className="product-kid-page">
-                    <span className="cost-kid-page">{activity.price}$</span>
+                    <span className="cost-kid-page">{activity.price} </span>
                     <span className="product-name-kid-page">{activity.name}</span>
                 </div>
                 <div className="more-details-kid-page">
@@ -134,7 +134,7 @@ class KidHome extends Component {
                                 <div id="remain-cash-kid-page">
                                     <div id="cash-kid-page">
                                         <span id="amount-kid-page">{this.state.remainCash}</span>
-                                        <span id="coin">$</span>
+                                        <span id="coin"> </span>
                                     </div>
                                     <span>היתרה שלי</span>
                                 </div>
