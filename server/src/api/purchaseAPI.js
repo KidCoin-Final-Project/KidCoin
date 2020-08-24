@@ -73,9 +73,7 @@ router.get('/totalRevenue/', middleware.isUserOwner, function (req, res) {
  * @returns {Error} 404 - store product not found
  */
 router.post('/new/', middleware.isUserChild, function (req, res) {
-    purchaseSRV.createNewPurchase(req, res).then(purchase => {
-        return res.send(purchase);
-    });
+    purchaseSRV.createNewPurchase(req, res);
 });
 
 
