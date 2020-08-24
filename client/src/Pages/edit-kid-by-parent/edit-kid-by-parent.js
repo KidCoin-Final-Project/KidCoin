@@ -12,6 +12,7 @@ class EditKidByParent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            child: '',
             result: 'No result',
             barcode: '',
             allKiosks: [],
@@ -21,11 +22,13 @@ class EditKidByParent extends Component {
             show: false,
             restrictions:[]
         };
-        this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.saveRestrictions = this.saveRestrictions.bind(this);
+        this.deleteChild = this.deleteChild.bind(this);
     }
 
     componentDidMount() {
-        this.setState({kids: this.props.location.state.kid});
+        this.setState({child: this.props.location.state.kid});
         const token = sessionStorage.getItem('userToken');
         this.getAllProduct(token).then(value=>{
             console.log(value);
@@ -82,17 +85,27 @@ class EditKidByParent extends Component {
         return response.data;
     }
 
-    async deleteProduct(productId) {
-        let childId = sessionStorage.getItem('userUID');
+    async saveRestrictions() {
+        let childId = this.state.child.childId;
         let token = sessionStorage.getItem('userToken');
         const chargeResponse = await axios.post(
-            'http://localhost:8080/child/restrict/' + childId,
+            'http://localhost:8080/child/restrict/' + childId,{productId: this.state.kioskSelected},
             {
-                headers: { 'authtoken': token },
-                params: {
-                    productId: productId
-                }}
+                headers: { 'authtoken': token }
+            }
         );
+    }
+
+    deleteChild(){
+        let childId = this.state.child.childId;
+        let token = sessionStorage.getItem('userToken');
+        axios.delete(
+            'http://localhost:8080/child/' + childId,
+            {
+                headers: { 'authtoken': token }
+            }
+        ).then(res => 
+            this.props.history.push("/Parent"));
     }
 
     handleChange(evt,e){
@@ -155,7 +168,7 @@ class EditKidByParent extends Component {
 
 
             <div className="switch-button-kidAlergic">
-                <button className="btn btn-light upper-btn-kidAlergic delete-chile-butto-kidAlergicn">מחק ילד/ה</button>
+                <button className="btn btn-light upper-btn-kidAlergic delete-chile-butto-kidAlergicn" onClick={this.deleteChild}>מחק ילד/ה</button>
                 <button className="btn btn-light upper-btn-kidAlergic"><span>תזונה</span></button>
             </div>
 
@@ -164,14 +177,16 @@ class EditKidByParent extends Component {
                 <Dropdown placeholder='הוסף מוצרים'
                           fluid
                           multiple
+                          search
                           selection
+                          scrolling
                           options={this.state.allKiosks}
                           value={this.state.kioskSelected}
                           onChange={this.handleChange} />
             </div>
 
             { this.state.isKioskSelected &&
-            <div className="item"><Button>הוסף להגבלות</Button></div>
+            <div className="item" onClick={this.saveRestrictions}><Button>שמור הגבלות</Button></div>
             }
         </div>
         </div>

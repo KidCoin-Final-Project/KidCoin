@@ -19,7 +19,9 @@ class BarcodeScanner extends Component {
       kioskSelected: '',
       isKioskSelected: false,
       isBarcodeSelected : false,
-      error: ''
+      error: '',
+      new: 'NOHq14CDfmo3kBeSRT3N',
+      newer: 'Fdj4dVSV77LkClPP8TcE'
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -84,7 +86,8 @@ class BarcodeScanner extends Component {
   }
 
   handlePurchase(){
-    axios.post('http://localhost:8080/purchase/new/', { productId: this.state.barcode, storeId: this.state.kioskSelected },
+
+    axios.post('http://localhost:8080/purchase/new/', { productId: this.state.new, storeId: this.state.newer },
         { headers: { 'authtoken': sessionStorage.getItem("userToken") } })
       .then(res => {
         alert("success");

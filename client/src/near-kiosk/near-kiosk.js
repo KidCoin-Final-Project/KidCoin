@@ -17,16 +17,16 @@ class NearKiosk extends Component {
         this.handleNameChange = this.handleNameChange.bind(this);
     }
     
-    componentDidMount() {
+    async componentDidMount() {
         this.context.isLoggedInFunc();
         var that = this;
         this.setState({ userToken: sessionStorage.getItem('userToken') });
-        this.getAllKiosks(sessionStorage.getItem('userToken'));
+        await this.getAllKiosks(sessionStorage.getItem('userToken'));
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
-                function (position) {
+                async function (position) {
                     that.setState({currentCords: position.coords});
-                    that.getNearKiosksFromServer(position.coords, that.state.userToken);
+                    await that.getNearKiosksFromServer(position.coords, that.state.userToken);
                 },
                 function (error) {
                     // default coordinates in center tlv
@@ -67,11 +67,18 @@ class NearKiosk extends Component {
     }
 
     convertKiosksToDOM(nearKiosks) {
+        if( nearKiosks === undefined ){
+            return  <div className="activity">
+            <div className="product">
+                <span className="product-name">אין קיוסקים קרובים</span>
+            </div>
+        </div>;
+        }
         return nearKiosks.map((kiosk) =>
             <div className="activity" key={kiosk.address}>
                 <div className="product">
                     <span className="cost"><a href={`https://www.google.com/maps/dir/?api=1&origin=${this.state.currentCords.latitude},${this.state.currentCords.longitude}&destination=${kiosk.location.latitude},${kiosk.location.longitude}`} target="_blank">נווט/י לשם</a></span>
-                    <span className="product-name">{kiosk.name}</span>
+                    <span className="product-name">{kiosk.storeName}</span>
                 </div>
                 <div className="more-details">
                     <span>{kiosk.distance} מטר</span>
@@ -87,7 +94,7 @@ class NearKiosk extends Component {
         if(KioskToSearch !== '')
         {
             // TODO : check if ther are any kiosks
-            let matches = this.state.allKiosks.filter(kiosk => kiosk.name.includes(KioskToSearch));
+            let matches = this.state.allKiosks.filter(kiosk => kiosk.storeName.includes(KioskToSearch));
 
             this.setState({ kiosksDOM: this.convertKiosksToDOM(matches)});
         } else{
