@@ -83,6 +83,8 @@ router.post('/addImage', function (req, res) {
         if(err) {
             console.log(err);
         } else {
+            console.log("WORKED");
+
             return res.send(200).end()
         }
     });
