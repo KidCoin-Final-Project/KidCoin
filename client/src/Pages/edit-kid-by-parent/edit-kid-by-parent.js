@@ -121,7 +121,7 @@ class EditKidByParent extends Component {
                     <div className="cash-kidAlergic">
                         {/*<img src={"http://localhost:8080/images/" + {this:props.location.state.kid.child.picture}} style={{ "borderRadius": "100%", "height": "7vh", "width": "7vh" }} />*/}
                         {/*<img className="g-kidAlergic" src={"http://localhost:8080/images/" + this.props.location.state.kid.child.picture}  />*/}
-                        <img className="g-kidAlergic" src="images/the-beautiful-girl-2.jpg"/>
+                        <img className="g-kidAlergic" src={"/new-images/" + this.props.location.state.kid.child.picture}/>
                     </div>
                     <div>
                         <span className="child-name-text-kidAlergic">{this.props.location.state.kid.child.firstName}</span>
