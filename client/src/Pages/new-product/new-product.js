@@ -118,7 +118,7 @@ class NewProduct extends Component {
     render() {
         return (
             <div className="signup-outer-register-page hide-element" id="kid-section">
-                <form onSubmit={this.mySubmitHandler} id='form' data-name="form" enctype="multipart/form-data"
+                <form onSubmit={this.mySubmitHandler} id='form' data-name="form" encType="multipart/form-data"
                       name="form" className="register-form" action="http://localhost:8080/product/addProduct"
                       method="post">
                     <input onChange={this.handleNameChange} id="name" name="name" data-name="name"

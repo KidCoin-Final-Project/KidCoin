@@ -63,7 +63,7 @@ class OwnerHome extends Component {
                     <div id="remain-cash-owner-page">
                         <div className="cash">
                             <span id="amount">{this.state.remainCash}</span>
-                            <span id="coin">$</span>
+                            <span id="coin"> שקלים </span>
                         </div>
                         <span>סך ההכנסות</span>
                     </div>

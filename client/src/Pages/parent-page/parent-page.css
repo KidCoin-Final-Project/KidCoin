@@ -96,8 +96,9 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    width: 80%;
+    width: 100%;
     margin-bottom: 2vh;
 }
 
@@ -197,6 +198,7 @@
     flex-direction: column;
     justify-content: space-around;
     height: 15vh;
+    margin-bottom: 2vh;
 }
 
 .kid-element {
@@ -315,4 +317,10 @@
 
 ::placeholder {
     color: white;
+}
+
+.react-tabs__tab--selected {
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 5px 8px lightgrey;
 }

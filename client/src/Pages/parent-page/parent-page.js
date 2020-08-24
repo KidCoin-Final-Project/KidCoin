@@ -134,7 +134,7 @@ class ParentHome extends Component {
         return activities? activities.map((activity) =>
         <div className="activity" key={activity.date}>
                         <div className="product">
-    <span className="cost">{activity.price}$</span>
+    <span className="cost">{activity.price} שקלים </span>
     <span className="product-name">{activity.name}</span>
                         </div>
                         <div className="more-details">
@@ -171,7 +171,7 @@ class ParentHome extends Component {
     createTabsDOM(childrenInfo){
 
         const tabs = childrenInfo.map((child) =>
-    <Tab key={child.childId}> {child.child.firstName} {child.child.lastName}</Tab>
+    <Tab key={child.childId}> {child.child.firstName} {child.child.lastName} </Tab>
         )
 
 
