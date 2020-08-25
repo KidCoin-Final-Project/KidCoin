@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import pandas as pd
 import numpy as np
 
@@ -9,10 +9,11 @@ from scipy import sparse
 # LOAD THE DATASET
 #------------------
 
-data = pd.read_csv('./csvs/child-purchase.csv')
+data = pd.read_csv(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "csvs", "child-purchase.csv")))
 
 # Create a new dataframe without the user ids.
 data_items = data.drop('child', 1)
+data_items = data_items.fillna(0)
 
 #------------------------
 # ITEM-ITEM CALCULATIONS
@@ -49,7 +50,7 @@ data_neighbours = pd.DataFrame(index=data_matrix.columns, columns=range(1,11))
 for i in xrange(0, len(data_matrix.columns)):
     data_neighbours.ix[i,:10] = data_matrix.ix[0:,i].sort_values(ascending=False)[:10].index
 
-user = sys.argv[0]
+user = sys.argv[1]
 user_index = data[data.child == user].index.tolist()[0]
 
 known_user_likes = data_items.ix[user_index]
@@ -72,5 +73,7 @@ score = neighbourhood.dot(user_vector).div(neighbourhood.sum(axis=1))
 # Drop the known likes.
 score = score.drop(known_user_likes)
 
+results = score.nlargest(20)
 #print known_user_likes
-print score.nlargest(20)
+#print results
+print results.keys().tolist()

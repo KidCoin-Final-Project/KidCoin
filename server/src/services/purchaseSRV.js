@@ -98,7 +98,7 @@ module.exports = {
             return res.status(500).send('bank transaction not successful');
         }
         childDAL.addBalance(userID, (productFromStore.price * -1));
-        res.send(purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
+        res.send(await purchaseDAL.newPurchase(productFromStoreId, userID).then(async doc=>{
             var data = doc.data();
             return {
                 'childId': data.child.id,

@@ -68,8 +68,7 @@ router.get('/byCategory/:category', function (req, res) {
 * @returns {Error}  default - Unexpected error
 */
 router.get('/recommended', middleware.isUserChild, function (req, res) {
-    productsSRV.getTopTenRecommended(req);
-    return res.send("ok");
+    productsSRV.getTopTenRecommended(req, res);
 });
 
 

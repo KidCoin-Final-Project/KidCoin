@@ -6,8 +6,18 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const utils = require('../misc/utils')
 const fs = require('fs');
 const middleware = require('../misc/middleware');
+const util = require('util');
+let {PythonShell} = require('python-shell')
 const csvDir = './server/csvs';
+const RECOMMEND_SCRIPT_FILE = "item_item_collaborative_filtering.py"
+const CSV_MAX_UPDATE_TIME = 60000;
+var csvLastUpdate = new Date() - CSV_MAX_UPDATE_TIME;
+const options = {
+    pythonPath: 'C:/Python27-32/python.exe',
+    scriptPath: __dirname + '/..'
+  };
 
+const runPythonPromise = util.promisify(PythonShell.run);
 
 
 module.exports = {
@@ -84,8 +94,7 @@ module.exports = {
         }
     },
 
-    getTopTenRecommended: async function (req){
-        let userID = await utils.getIdByToken(req.headers.authtoken);
+    generateCsv: async function (){
         var data = await purchaseDAL.allPuchaseIdAndChildId();
         var children = Object.keys(data);
         var header = {}
@@ -116,6 +125,27 @@ module.exports = {
             .then(() => {
                 console.log('...Done');
             });
+    },
+    getTopTenRecommended: async function(req, res){
+        let userID = await utils.getIdByToken(req.headers.authtoken);
+        if(new Date() - csvLastUpdate){
+            this.generateCsv();
+            csvLastUpdate = new Date();
+        }
+        runPythonPromise(RECOMMEND_SCRIPT_FILE, {...options , args: [userID]}).then(async data =>{
+            var recommendedItemsIds = data[0].replace(/'/g, '').replace('[','').replace(']','').split(', ');
+            console.log(recommendedItemsIds);
+            var recommendedItems = [];
+            for (let i = 0; i < recommendedItemsIds.length; i++) {
+                recommendedItems.push(await this.getByID(recommendedItemsIds[i]));
+            }
+            res.send(recommendedItems)
+        })
+        .catch(e =>{
+            console.log(e);
+            res.status(500).send(e);
+        });
+        
     }
 
 

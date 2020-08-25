@@ -69,8 +69,8 @@ module.exports = {
                 purchase = docs[i].data()
                 if(!res[purchase.child.id]){
                     res[purchase.child.id] = {};
-                    res[purchase.child.id][purchase.product.id] = 1;
                 }
+                res[purchase.child.id][purchase.product.id] = 1;
                 
             }
             return res;
